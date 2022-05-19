@@ -1,0 +1,22 @@
+.container{
+    display: flex;
+    justify-content: center;
+    background-color: rgb(236, 243, 247);
+}
+
+.newTicket{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    z-index: 10;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    min-width: 10rem;
+    height: 100%;
+    min-height: 100vh;
+    margin: 0 auto 2rem auto;
+    background-color: #000a;
+
+}
