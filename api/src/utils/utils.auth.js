@@ -46,9 +46,7 @@ const createTicket = async ({
   feedback,
   business
 }) => {
-  console.log(email)
   const user = await User.findOne({email})
-  console.log(user)
   if(!user) return { error: "Error, this user does not exits" };
   const newTicket = await Ticket.create({
     email,

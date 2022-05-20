@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import AdminTables from "../../../Components/Admin/Table/AdminTable";
+import { allTickets } from "../../../Redux/Actions/Ticket";
 
-import { allTickets } from "../../Redux/Actions/Ticket";
+import styles from "./AdminHome.module.css";
 
-import styles from "./Home.module.css";
-import NewTicket from "../../Components/Ticket/NewTicket";
-import TicketDetails from "../../Components/Ticket/TicketDetails";
+import AdminTicketEdit from "../../../Components/Admin/Ticket/AdminTicketEdit";
 
-import Table from "../../Components/Table/Tables";
-export default function Home() {
+export default function AdminHome() {
   const dispatch = useDispatch();
   const [newTicket, setNewTicket] = useState(false);
-  const [detailTicket, setDetailTicket] = useState(false);
+  const [editTicket, setDetailTicket] = useState(false);
   const tickets = useSelector((state) => state.tickets.tickets);
   const [ticketId, setTicketId] = useState("");
 
@@ -20,13 +19,15 @@ export default function Home() {
   }, [newTicket]);
 
   const isTicket = () => {
-    setNewTicket((old) => !old);
+    // setNewTicket((old) => !old);
+    dispatch(allTickets());
+
   };
 
   return (
     <div className={styles.container}>
       <div className={styles.containerNewUser}>
-        {newTicket ? (
+        {editTicket ? (
           <div
             className={styles.newTicket}
             id="close"
@@ -34,26 +35,14 @@ export default function Home() {
               e.target.id === "close" ? setNewTicket((old) => false) : ""
             }
           >
-            <NewTicket isTicket={setNewTicket} />
-          </div>
-        ) : (
-          ""
-        )}
-        {detailTicket ? (
-          <div
-            className={styles.newTicket}
-            id="close"
-            onClick={(e) =>
-              e.target.id === "close" ? setDetailTicket((old) => false) : ""
-            }
-          >
-            <TicketDetails data={tickets[ticketId]} />
+            <AdminTicketEdit data={tickets[ticketId]} isTicket={isTicket} />
           </div>
         ) : (
           ""
         )}
       </div>
-      <Table
+
+      <AdminTables
         tickets={tickets}
         setTicketId={setTicketId}
         setDetailTicket={setDetailTicket}

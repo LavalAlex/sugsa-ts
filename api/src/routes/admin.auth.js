@@ -2,16 +2,16 @@ const { Router } = require("express");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET, JWT_EXPIRE_TIME, JWT_COOKIE_EXPIRE } = process.env;
 
-const { createUser, findAll, findUser } = require("../utils/utils.auth");
+const { createAdmin, findAll, findAdmin,  } = require("../utils/utils.authAdmin");
 
 const router = Router();
 
 router.post("/signup", async (req, res) => {
   try {
     var { name, email, password, empresa } = req.body;
-    const newUser = await createUser(name, email, password, empresa);
-    if (newUser.error) res.status(404).send(newUser);
-    else res.status(200).send(newUser);
+    const newAdmin = await createAdmin(name, email, password, empresa);
+    if (newAdmin.error) res.status(404).send(newAdmin);
+    else res.status(200).send(newAdmin);
   } catch (e) {
     console.log("Error on signup:", e);
     res.status(404).send("Error on the user register");
@@ -20,9 +20,9 @@ router.post("/signup", async (req, res) => {
 
 router.get("/allUser", async (req, res) => {
   try {
-    const allUser = await findAll();
-    if (allUser.error) res.status(404).send(allUser.error);
-    else res.status(200).send(allUser);
+    const allAdmin = await findAll();
+    if (allAdmin.error) res.status(404).send(allAdmin.error);
+    else res.status(200).send(allAdmin);
   } catch (e) {
     console.log("Error on alluser:", e);
     res.status(404).send(e);
@@ -32,10 +32,10 @@ router.get("/allUser", async (req, res) => {
 router.post("/login", async (req, res) => {
   try {
     const { name, password, email } = req.body;
-    const userAuth = await findUser(email, password);
-    if (!userAuth || userAuth.error) return res.status(404).send(userAuth);
+    const adminAuth = await findAdmin(email, password);
+    if (!adminAuth || adminAuth.error) return res.status(404).send(adminAuth);
 
-    const id = userAuth.id;
+    const id = adminAuth.id;
     const token = jwt.sign({ id: id }, JWT_SECRET, {
       expiresIn: JWT_EXPIRE_TIME,
     });

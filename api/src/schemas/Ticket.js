@@ -4,6 +4,7 @@ const schemaTicket = new Schema({
   id: Number,
   email: String,
   name: String,
+  business:String,
   description: String,
   classification: String,
   assigned_technician: {
@@ -24,4 +25,4 @@ const schemaTicket = new Schema({
   }
 });
 
-module.exports = model("tikets", schemaTicket);
+module.exports = model("tickets", schemaTicket);

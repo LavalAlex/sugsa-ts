@@ -9,7 +9,7 @@ import { validateNewTicket } from "../../Utils/validate";
 
 
 
-import style from "./Ticket.module.css";
+import style from "./NewTicket.module.css";
 
 
 export default function NewTicket({ isTicket}) {
@@ -77,7 +77,6 @@ export default function NewTicket({ isTicket}) {
     }
   };
 
-console.log(user.email)
   return (
     <form className={style.container} onSubmit={(e) => handleSubmit(e)}>
       <div className={style.title}>
@@ -158,6 +157,8 @@ console.log(user.email)
             type="text"
             placeholder="Description..."
             autoComplete="off"
+            rows={5}
+            cols={40}
           />
         </div>
         {errors.description ? (

@@ -1,4 +1,8 @@
-import { ALL_TICKETS, NEW_TICKET } from "../Actions/ActionsTypes";
+import {
+  ALL_TICKETS,
+  FILTER_TICKET_ADMIN,
+  NEW_TICKET,
+} from "../Actions/ActionsTypes";
 
 const initialState = {
   tickets: [],
@@ -12,6 +16,12 @@ export default function root(state = initialState, action) {
       };
 
     case ALL_TICKETS:
+      return {
+        ...state,
+        tickets: action.payload.data,
+      };
+
+    case FILTER_TICKET_ADMIN:
       return {
         ...state,
         tickets: action.payload.data,

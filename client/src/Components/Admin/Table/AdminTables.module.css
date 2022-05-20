@@ -1,0 +1,119 @@
+.container {
+    margin-top: 2.5rem;
+    background-color: beige;
+}
+
+.cardContainer {
+    /* background-color: blue; */
+    border-top: .1rem black solid;
+    gap: 20rem;
+}
+
+.cardBody {
+    width: 350px;
+    display: flex;
+    margin: 1rem;
+}
+
+.title{
+    display: flex;
+    justify-content:start;
+    margin-left: 2rem;
+    margin-bottom: 1rem;
+}
+.headerTable {
+    display: flex;
+
+    justify-content: space-evenly;
+    
+}
+
+.avatar{
+    border-radius: 50%;
+}
+.headerStatus {
+    padding-left: 8rem;
+    margin-left: 12rem;
+    margin-right: 5rem;
+}
+
+.headerDate {
+    margin-left: 3rem;
+
+}
+
+.infoUser {
+    width: auto;
+    /* background-color: blueviolet; */
+    gap: 0;
+    cursor: pointer;
+}
+
+.infoUser h5 {
+    margin: 0 0 .5rem 1.5rem;
+}
+
+.infoUser span {
+    margin: 0 0 0 0.5rem;
+}
+
+.status {
+
+    width: 200px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.date {
+    width: 150px;
+    height: 100%;
+    position: relative;
+    display: flex;
+    justify-content: end;
+    padding-right: 1rem;
+}
+
+.btn{
+
+    width: 30px;
+    cursor: pointer;
+    border: none;
+    padding-right: 1rem;
+    position: relative;
+    padding-left: 20rem;
+    margin-top: .5rem;
+}
+
+
+
+.btn :hover{
+    color: hsl(226deg, 100%, 70%);
+}
+
+.selectStatus{
+    position: relative;
+    left: 15rem;
+    top: 1rem;
+    border: none;
+
+}
+
+/* .selectStatus:active{
+    border: 1px solid hsl(226deg, 100%, 70%);
+} */
+.selectStatus select{
+    border: none;
+}
+
+.selectStatus select:focus{
+    border: 1px solid hsl(226deg, 100%, 70%);
+}
+
+.selectStatus section::after{
+    border: 1px solid hsl(226deg, 100%, 70%);
+
+}
+.selectStatus option{
+    border: none;
+}

@@ -23,21 +23,32 @@
     /* align-items: center; */
 }
 
-.container h5 {
-    margin-left: .5rem;
+.container h4 {
+    margin-left: 0rem;
     margin-top: 1rem;
 }
 
 .data div {
     align-content: center;
+    align-items: center;
     width: 15rem;
     font-size: medium;
     padding-left: 1rem;
+    margin-left: 5rem;
     margin-bottom: 1rem;
+    display: flex;
+    justify-content: center;
     /* border-bottom: 2px solid hsl(226deg, 100%, 70%); */
-    border-bottom: 2px solid rgb(131, 58, 180);
+    border-bottom: 2px solid hsl(226deg, 100%, 70%);
 }
 
+.data button{
+    border: none;
+    position: relative;
+    left: 20rem;
+    display: flex;
+
+}
 .wrapper {
     margin-bottom: .5rem;
     align-items: center;
@@ -210,3 +221,24 @@
 .keyEye:hover {
     color: hsl(226deg, 100%, 70%);
 }
+
+
+.buttonContainer button[type="submit"] {
+    border-radius: 5em;
+    border: none;
+    color: #fff;
+    background-color: hsl(226deg, 100%, 70%);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 1em;
+    text-align: center;
+    font-size: 1rem;
+    /* margin: 2em 0 0 0; */
+  
+  }
+  
+  .buttonContainer  button[type="submit"]:hover{
+    color: black;
+  
+  }

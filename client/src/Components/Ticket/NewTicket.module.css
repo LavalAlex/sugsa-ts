@@ -17,9 +17,18 @@
   border: none;
 }
 
+.wrapper h5{
+  margin-top: 0;
+}
 .wrapper input {
   border: none;
   outline: 0;
+}
+
+.wrapper textarea {
+  border: none;
+  outline: 0;
+  height: 5rem;
 }
 
 .submit {
@@ -51,7 +60,7 @@
 }
 
 .inputGroup:focus-within {
-  border-bottom: 2px solid rgb(131, 58, 180);
+  border-bottom: 2px solid hsl(226deg, 100%, 70%);
 }
 
 .inputGroup:focus-within.error {
@@ -68,14 +77,15 @@
 form button[type="submit"] {
   border-radius: 5em;
   border: none;
-  background-color: rgb(131, 58, 180);
-  background: linear-gradient(90deg, #c084fc 0%, #ec4899 50%, #ef4444 100%);
+  background-color: hsl(226deg, 100%, 70%);
+  /* background: linear-gradient(90deg, #668aff 0%, #003cff 50%, blue 100%); */
   transition: all 0.3s ease-in-out;
-  color: black;
+  color: white;
+  cursor: pointer;
 }
 
 form button[type="submit"]:hover {
-  color: #fff;
+  color: black;
   outline: 2px solid #1e1e1e !important;
 
 }
@@ -123,7 +133,7 @@ form button[type="submit"]:hover {
 }
 
 .inputGroupPass:focus-within {
-  border-bottom: 2px solid rgb(131, 58, 180);
+  border-bottom: 2px solid hsl(226deg, 100%, 70%);
 }
 
 .inputGroupPass:focus-within .keyEye {

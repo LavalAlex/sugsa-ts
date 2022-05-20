@@ -7,10 +7,13 @@ import { validateLogin } from "../../Utils/validate";
 import { statusMsg } from "../../Utils/status";
 
 import style from "./LoginCard.module.css";
+import { useLocation } from "react-router-dom";
 
 export default function LoginCard() {
   const dispatch = useDispatch();
   const [keyOn, setKeyOn] = useState(false);
+  const path = useLocation().pathname
+
   const [errors, setErrors] = useState({
     email: "",
     password: "",
@@ -57,7 +60,7 @@ export default function LoginCard() {
   return (
     <div className={style.container}>
       <form onSubmit={(e) => handleSubmit(e)}>
-        <h1>- LOGIN -</h1>
+        <h1>{path=== "/login"? "- LOGIN -": "- LOGIN ADMIN -"}</h1>
         <label>
           <h5>Email</h5>
           <div

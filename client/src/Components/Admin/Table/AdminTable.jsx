@@ -1,16 +1,16 @@
 import { Card, CardBody, CardTitle, CardSubtitle, Table } from "reactstrap";
 
 import { BiCommentAdd, BiAddToQueue } from "react-icons/bi";
-import styles from "./Tables.module.css";
-import { avatarUser, utilDate } from "../../Utils/tableUtils";
+import styles from "./AdminTables.module.css";
+import { avatarUser, utilDate } from "../../../Utils/tableUtils";
 import { useDispatch } from "react-redux";
+import { filterTicketAdmin } from "../../../Redux/Actions/Admin";
+import { allTickets } from "../../../Redux/Actions/Ticket";
 
-
-export default function Tables({
+export default function AdminTables({
   tickets,
   setTicketId,
   setDetailTicket,
-  isTicket,
 }) {
   const dispatch = useDispatch();
 
@@ -19,18 +19,25 @@ export default function Tables({
     setDetailTicket(true);
   };
 
-  const handleNewTicket = () => {
-    isTicket();
-  };
+  const handleNewTicket = () => {};
 
+  const handleFilter = ({ target: { name, value } }) => {
+    if (value === "Pending Feedback") {
+      dispatch(filterTicketAdmin("Pending_Feedback"));
+    } else {
+      dispatch(filterTicketAdmin(value));
+    }
+  };
   return (
     <div className={styles.container}>
       <Card>
         <CardBody>
           <CardTitle>
             <div className={styles.title}>
-              <h3>TIKETS</h3>
-              <div
+              <div>
+                <h3>TIKETS</h3>
+              </div>
+              {/* <div
                 title="New Ticket"
                 className={styles.btn}
                 onClick={handleNewTicket}
@@ -41,6 +48,15 @@ export default function Tables({
                     height: "2em",
                   }}
                 />
+              </div> */}
+              <div className={styles.selectStatus}>
+                <select onChange={(e) => handleFilter(e)}>
+                  <option>Status</option>
+                  <option>Active</option>
+                  <option>Pending</option>
+                  <option>Pending Feedback</option>
+                  <option>Close</option>
+                </select>
               </div>
             </div>
           </CardTitle>
