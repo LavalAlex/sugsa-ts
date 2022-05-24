@@ -1,0 +1,43 @@
+[
+  {
+    "id": 0,
+    "business": "Workday, Inc."
+  },
+  {
+    "id": 1,
+    "business": "Solar Capital Ltd."
+  },
+  {
+    "id": 2,
+    "business": "Aon plc"
+  },
+  {
+    "id": 3,
+    "business": "Bunge Limited"
+  },
+  {
+    "id": 4,
+    "business": "TEGNA Inc."
+  },
+  {
+    "id": 5,
+    "business": "SPS Commerce, Inc."
+  },
+  {
+    "id": 6,
+    "business": "SPX FLOW, Inc."
+  },
+  {
+    "id": 7,
+    "business": "ClearOne, Inc."
+  },
+  {
+    "id": 8,
+    "business": "Toll Brothers Inc."
+  },
+  {
+    "id": 9,
+    "business": "S&T Bancorp, Inc."
+  },
+  { "id": 10, "business": "Aegon NV" }
+]

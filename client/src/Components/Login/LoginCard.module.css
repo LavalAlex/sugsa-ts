@@ -2,7 +2,7 @@
   --p: 5em;
   position: relative;
   top: 25%;
-  left: 18%;
+  left: 16%;
   transform: translate(-50%, -50%);
   display: flex;
   align-items: center;
@@ -10,14 +10,18 @@
   border-radius: 1em;
   /* margin: 0 0 0 auto; */
   background-color: #fff;
-  margin: 0 auto;
+  /* margin: 0px auto; */
   overflow: hidden;
   box-shadow: 0.3em 0.25em 0.5em 0em #0005;
   max-width: 450px;
+  /* max-height: 650px; */
+  margin-top: 7rem;
 }
 
 
 .container>form {
+  margin: 0;
+
   padding: 2.5em 5em;
 }
 
@@ -28,6 +32,7 @@
   justify-content: center;
   border-bottom: 1px solid #1e1e1e;
   margin: 0;
+  /* margin-top: 0; */
 }
 
 .inputGroup {
@@ -40,6 +45,8 @@
   padding: 0 0 0 1em;
   border-radius: 4px;
   overflow: hidden;
+  /* margin-top: 0; */
+  margin-bottom: 0;
 }
 
 .inputGroup:focus-within {
@@ -65,13 +72,14 @@ form label {
   width: 100%;
   background-color: #fff;
   font-family: "Roboto";
-  padding: 0.75em;
+  /* padding: 0.75em; */
   border: none;
+  margin: 0;
   width: 100%;
   font-size: 0.9rem;
   border: none;
   resize: none;
-  margin: 0;
+  /* margin: 0; */
 }
 
 .inputGroup input {
@@ -96,7 +104,7 @@ form label {
   display: flex;
   flex-direction: column;
   margin: 2em 0 0 0;
-  padding-bottom: 1rem;
+  /* padding-bottom: 1rem; */
   /* border-bottom: 1px solid #1e1e1e; */
 }
 

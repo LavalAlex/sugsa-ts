@@ -5,6 +5,7 @@ const schemaTicket = new Schema({
   email: String,
   name: String,
   business:String,
+  departament:String,
   description: String,
   classification: String,
   assigned_technician: {
