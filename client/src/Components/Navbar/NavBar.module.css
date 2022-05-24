@@ -10,7 +10,7 @@
   width: 100%;
   /* z-index: 10; */
   /* top: 0; */
-  margin-top: 0;
+  /* margin-top: 0; */
 
 }
 
@@ -78,6 +78,7 @@
 .menu {
   display: flex;
   position: relative;
+  cursor: pointer;
 }
 
 .right {
@@ -89,7 +90,7 @@
 .nav__link {
   border: none;
   background-color: transparent;
-  
+  cursor: pointer;
   position: relative;
   display: flex;
   align-items: center;
@@ -124,10 +125,12 @@
 .nav__link:hover::after {
   display: block;
   bottom: -0.5em;
-  background-color: rgb(255, 20, 150)
+  background-color: rgb(255, 20, 150);
+  
 }
 
 .icon {
+  color: white;
   width: 1.5rem;
   height: 1.5rem;
 }
@@ -163,7 +166,7 @@
 .profile__menu {
   box-shadow: 0 0.25rem 0.5rem #0001;
   position: absolute;
- 
+  
   top: 110%;
   right: 0%;
   width: 100%;
@@ -202,15 +205,15 @@
   .menu {
     display: none;
   }
-
+  
   .profile__menu__res {
     display: block;
   }
-
+  
   .nav {
     gap: 1em;
   }
-
+  
   .left,
   .right {
     width: max-content;
@@ -239,6 +242,7 @@
 .active {
   border-bottom: 2px solid rgb(255, 20, 150)
 }
+
 
 .active:not(.signup),
 .active * {

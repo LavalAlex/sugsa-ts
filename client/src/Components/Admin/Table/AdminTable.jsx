@@ -56,6 +56,7 @@ export default function AdminTables({
                   <option>Pending</option>
                   <option>Pending Feedback</option>
                   <option>Close</option>
+                  <option>Cancel</option>
                 </select>
               </div>
             </div>

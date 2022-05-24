@@ -2,27 +2,30 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { FaUserCircle, FaKey, FaEye } from "react-icons/fa";
 
-import { login } from "../../Redux/Actions/Auth";
+import { login, signup } from "../../Redux/Actions/Auth";
 import { validateLogin } from "../../Utils/validate";
 import { statusMsg } from "../../Utils/status";
 
-import style from "./LoginCard.module.css";
-import { useLocation, useNavigate } from "react-router-dom";
+import style from "./SignupCard.module.css";
+import { useLocation } from "react-router-dom";
 
 export default function LoginCard() {
   const dispatch = useDispatch();
   const [keyOn, setKeyOn] = useState(false);
   const path = useLocation().pathname
-  const navigate = useNavigate()
 
   const [errors, setErrors] = useState({
+    name:"",
     email: "",
     password: "",
-    code: "",
+    business: "",
+    code:""
   });
   const [input, setInput] = useState({
+    name:"",
     email: "",
     password: "",
+    business:""
   });
 
   const handleChange = (e) => {
@@ -49,8 +52,8 @@ export default function LoginCard() {
             password: "",
           }));
     } else {
-      const code = await dispatch(login(input));
-      console.log(code);
+      const code = await dispatch(signup(input));
+      console.log('code',code);
       // setErrors((old) => ({
       //   ...old,
       //   code: code.error ? code.error : "",
@@ -61,9 +64,59 @@ export default function LoginCard() {
   return (
     <div className={style.container}>
       <form onSubmit={(e) => handleSubmit(e)}>
-        <h1>{path=== "/login"? "- LOGIN -": "- LOGIN ADMIN -"}</h1>
+        <h1>{path=== "/signup"? "- SIGN UP -": "- LOGIN ADMIN -"}</h1>
         <label>
-          <h3>Email</h3>
+          <h5>Name</h5>
+          <div
+            className={`${style.inputGroup} ${
+              errors.name ? style.error : ""
+            } `}
+          >
+            <FaUserCircle />
+            <input
+              type="text"
+              value={input.name}
+              name="name"
+              onChange={(e) => handleChange(e)}
+              placeholder="Enter name"
+              autoComplete="off"
+            />
+          </div>
+        </label>
+        <div>
+          {errors.name ? (
+            <span className={style.errorSpan}>{errors.name}</span>
+          ) : (
+            ""
+          )}
+        </div>
+        <label>
+          <h5>Business</h5>
+          <div
+            className={`${style.inputGroup} ${
+              errors.business ? style.error : ""
+            } `}
+          >
+            <FaUserCircle />
+            <input
+              type="text"
+              value={input.business}
+              name="business"
+              onChange={(e) => handleChange(e)}
+              placeholder="Enter business"
+              autoComplete="off"
+            />
+          </div>
+        </label>
+        <div>
+          {errors.business ? (
+            <span className={style.errorSpan}>{errors.business}</span>
+          ) : (
+            ""
+          )}
+        </div>
+        <label>
+          <h5>Email</h5>
           <div
             className={`${style.inputGroup} ${
               errors.email ? style.error : ""
@@ -88,7 +141,7 @@ export default function LoginCard() {
           )}
         </div>
         <label>
-          <h3>Password</h3>
+          <h5>Password</h5>
           <div
             className={`${style.inputGroupPass} ${
               errors.password ? style.error : ""
@@ -125,19 +178,8 @@ export default function LoginCard() {
           )}
         </div>
         <div className={style.buttonContainer}>
-          <button type="submit">Login</button>
+          <button type="submit">SigUp</button>
         </div>
-        {/* { path=== "/login"?
-        <div>
-          <button onClick={()=> navigate('/admin/login')}>Admin</button>
-        </div>
-        :  <div>
-        <button onClick={()=> navigate('/login')}>User</button>
-      </div>} */}
-      <div>OR</div>
-       <div className={style.buttonContainer}>
-          <button type="submit" onClick={()=> navigate('/signup')}>SignUp</button>
-        </div> 
       </form>
     </div>
   );

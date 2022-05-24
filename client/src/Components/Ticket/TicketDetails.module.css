@@ -8,7 +8,7 @@
     flex-direction: column;
     width: 25em;
     max-width: 25em;
-    margin: 0 auto ;
+    margin: 0 auto;
     margin-bottom: 1rem;
     padding: 1em 1.5em;
     background-color: #fff;
@@ -24,49 +24,28 @@
 
 .container h4 {
     margin-left: 0rem;
-    margin-top: 1rem;
+    /* margin-top: 1rem; */
 }
 
 .data div {
-    /* align-content: center;
-    */
+
     align-items: center;
-     display: flex;
-     justify-content: center;
+    display: flex;
+    justify-content: center;
     width: 15rem;
     font-size: medium;
     padding-left: 1rem;
-    margin-bottom: 1rem;
+    /* margin-bottom: 1rem; */
     margin-left: 4rem;
     /* border-bottom: 2px solid hsl(226deg, 100%, 70%); */
     border-bottom: 2px solid hsl(226deg, 100%, 70%);
 }
 
-.wrapper {
-    margin-bottom: .5rem;
-    align-items: center;
-    display: flex;
-    justify-content: center;
-    margin-top: 1rem;
-}
 
-.submit {
-    border: none;
-    border: 2px solid #aaa;
-    margin: 1em 0 0 0;
-    padding: 1em;
-}
 
 .container {
     resize: none;
     border: none;
-}
-
-.uploadImage {
-    object-fit: cover;
-    object-position: center;
-    width: 100%;
-    max-height: 10rem;
 }
 
 .flex {
@@ -76,124 +55,7 @@
     align-items: center;
 }
 
-.dark {
-    background-color: #333;
-}
 
-.dark textarea {
-    background-color: #444;
-}
-
-.inputGroup {
-    display: flex;
-    align-items: center;
-    font-size: 0.9rem;
-    width: 100%;
-    border-bottom: 1px solid #ccc;
-    background-color: #fff;
-    padding: 0.2rem 0 0.2rem 1.3em;
-    overflow: hidden;
-    gap: 2rem;
-    margin-top: .3rem;
-    width: 15rem;
-    margin-bottom: 1rem;
-}
-
-.inputGroup input {
-    border: 0;
-    outline: none;
-}
-
-.inputGroup:focus-within {
-    width: 15rem;
-    border-bottom: 2px solid rgb(131, 58, 180);
-
-}
-
-.inputGroup:focus-within.error {
-    color: #f33;
-    border-bottom: 2px solid red;
-}
-
-.error {
-    color: #f33;
-    border-bottom: 2px solid red;
-}
-
-.containerBtn {
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-    margin-top: 10px;
-}
-
-.save {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0 1rem;
-    text-align: left;
-    gap: 0.5em;
-    border-radius: 5em;
-    background-color: transparent;
-    border: none;
-    outline: 2px solid #aaa !important;
-    font-size: 1rem;
-    height: 2.5rem;
-    width: 50%;
-    background: rgb(131, 58, 180);
-    background: linear-gradient(90deg, #c084fc 0%, #ec4899 50%, #ef4444 100%);
-    transition: all 0.3s ease-in-out;
-}
-
-.save span {
-    color: white;
-}
-
-.save:hover {
-    outline: 2px solid #1e1e1e !important;
-}
-
-.save:hover span {
-    color: #1e1e1e;
-}
-
-.save:hover .Isave {
-    color: #1e1e1e;
-}
-
-.Isave {
-    width: 1.1em;
-    height: 1.1em;
-    color: white
-}
-
-
-.containerCancel {
-    display: flex;
-    justify-content: end;
-}
-
-.close {
-    display: flex;
-    background-color: transparent;
-    border: none;
-    width: 1.5rem;
-    height: 1.5rem;
-    cursor: pointer;
-    justify-content: center;
-}
-
-.close:hover {
-    color: red;
-    width: 1.51rem;
-    height: 1.51rem;
-}
-
-.errorSpan {
-    margin-top: 0.5rem;
-    color: #f33;
-}
 
 .title {
     display: flex;
@@ -203,14 +65,36 @@
     margin-bottom: 1rem;
 }
 
-.keyEye {
-    position: absolute;
-    color: #1e1e1e;
-    margin-left: 12rem;
-    width: 2rem;
-    cursor: pointer;
+.buttonContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin: 2em 0 0 0;
+  transition: all 0.3s ease-in-out;
+
 }
 
-.keyEye:hover {
-    color: hsl(226deg, 100%, 70%);
+
+.buttonContainer button[type="submit"] {
+    border-radius: 5em;
+    border: none;
+    color: #fff;
+    background-color: red;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 1em;
+    text-align: center;
+    font-size: 1rem;
+    cursor: pointer;
+  transition: all 0.3s ease-in-out;
+
+    /* margin: 2em 0 0 0; */
+
+}
+
+.buttonContainer button[type="submit"]:hover {
+    color: black;
+    outline: 2px solid black;
+    ;
 }

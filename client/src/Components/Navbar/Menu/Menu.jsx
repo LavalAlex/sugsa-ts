@@ -4,9 +4,11 @@ import { BiHomeAlt, BiUserPin } from "react-icons/bi";
 import { FaToolbox } from "react-icons/fa";
 
 import styles from "./Menu.module.css";
+import { useSelector } from "react-redux";
 
 export default function Menu({ column, home, tool, notification }) {
   const path = useLocation().pathname;
+  const admin = useSelector((state)=> state.admin)
 
   return (
     <ul className={`${styles.menu} ${column ? styles.column : ""}`}>
@@ -15,9 +17,9 @@ export default function Menu({ column, home, tool, notification }) {
           <NavLink
             title="Home"
             className={`${styles.menu__link} ${
-              path === "/home" ? styles.active : ""
+              path === "/home" || path=== "/admin/home"? styles.active : ""
             }`}
-            to="/home"
+            to={admin? '/admin/home': '/home'}
           >
             <BiHomeAlt className={styles.icon} />
           </NavLink>

@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AdminTables from "../../../Components/Admin/Table/AdminTable";
-import { allTickets } from "../../../Redux/Actions/Ticket";
+
 
 import styles from "./AdminHome.module.css";
 
 import AdminTicketEdit from "../../../Components/Admin/Ticket/AdminTicketEdit";
+import { allTicketsAdmin } from "../../../Redux/Actions/Admin";
 
 export default function AdminHome() {
   const dispatch = useDispatch();
@@ -15,13 +16,12 @@ export default function AdminHome() {
   const [ticketId, setTicketId] = useState("");
 
   useEffect(() => {
-    dispatch(allTickets());
+    dispatch(allTicketsAdmin());
   }, [newTicket]);
 
   const isTicket = () => {
-    // setNewTicket((old) => !old);
-    dispatch(allTickets());
-
+    dispatch(allTicketsAdmin());
+    setDetailTicket((old) => false)
   };
 
   return (
@@ -32,7 +32,7 @@ export default function AdminHome() {
             className={styles.newTicket}
             id="close"
             onClick={(e) =>
-              e.target.id === "close" ? setNewTicket((old) => false) : ""
+              e.target.id === "close" ? setDetailTicket((old) => false) : ""
             }
           >
             <AdminTicketEdit data={tickets[ticketId]} isTicket={isTicket} />

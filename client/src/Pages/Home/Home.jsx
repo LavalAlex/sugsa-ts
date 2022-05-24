@@ -14,15 +14,20 @@ export default function Home() {
   const [detailTicket, setDetailTicket] = useState(false);
   const tickets = useSelector((state) => state.tickets.tickets);
   const [ticketId, setTicketId] = useState("");
+  const email = useSelector((state) => state.auth.email);
 
   useEffect(() => {
-    dispatch(allTickets());
+    dispatch(allTickets(email));
   }, [newTicket]);
 
   const isTicket = () => {
     setNewTicket((old) => !old);
   };
 
+  const isDeteail = ()=>{
+    setDetailTicket((old)=> !old)
+    dispatch(allTickets(email));
+  }
   return (
     <div className={styles.container}>
       <div className={styles.containerNewUser}>
@@ -47,7 +52,7 @@ export default function Home() {
               e.target.id === "close" ? setDetailTicket((old) => false) : ""
             }
           >
-            <TicketDetails data={tickets[ticketId]} />
+            <TicketDetails data={tickets[ticketId]} isTicket={isDeteail } />
           </div>
         ) : (
           ""

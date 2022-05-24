@@ -1,5 +1,8 @@
 import {
   ALL_TICKETS,
+  ALL_TICKETS_ADMIN,
+  DELETE_TICKET_ADMIN,
+  EDIT_TICKET,
   FILTER_TICKET_ADMIN,
   NEW_TICKET,
 } from "../Actions/ActionsTypes";
@@ -21,11 +24,27 @@ export default function root(state = initialState, action) {
         tickets: action.payload.data,
       };
 
+    case ALL_TICKETS_ADMIN:
+      return {
+        ...state,
+        tickets: action.payload.data,
+      };
+
+    case EDIT_TICKET:
+      return {
+        ...state,
+      };
+      
     case FILTER_TICKET_ADMIN:
       return {
         ...state,
         tickets: action.payload.data,
       };
+
+    case DELETE_TICKET_ADMIN:
+      return{
+        ...state
+      }
     default:
       return state;
   }

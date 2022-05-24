@@ -1,18 +1,21 @@
 .container {
   --p: 5em;
   position: relative;
-  top: 25%;
+  top: 33%;
   left: 18%;
   transform: translate(-50%, -50%);
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 1em;
-  /* margin: 0 0 0 auto; */
+  margin: 0 0 0 auto;
   background-color: #fff;
   margin: 0 auto;
   overflow: hidden;
   box-shadow: 0.3em 0.25em 0.5em 0em #0005;
+
+  /* box-shadow: 0.9rem 0.1rem 0.5rem 0.5rem #0002; */
+  /* border: 0.2px solid #0008; */
   max-width: 450px;
 }
 
@@ -24,10 +27,11 @@
 
 .container>form>h1 {
   /* align-self: center; */
-  display: flex;
+ display: flex;
   justify-content: center;
+ 
   border-bottom: 1px solid #1e1e1e;
-  margin: 0;
+
 }
 
 .inputGroup {
@@ -44,10 +48,10 @@
 
 .inputGroup:focus-within {
   outline: 2px solid hsl(226deg, 100%, 70%);
-  
+  ;
 }
 
-.inputGroup:focus-within.error {
+.inputGroup:focus-within.error{
   margin-top: 0.2rem;
   color: #f33;
   outline: 2px solid red;
@@ -59,8 +63,8 @@
   outline: 2px solid red;
 }
 
-form label {
-  /* margin: 1em 0 0 0; */
+form label{
+  margin: 1em 0 0 0;
   font-size: 0.9rem;
   width: 100%;
   background-color: #fff;
@@ -71,9 +75,7 @@ form label {
   font-size: 0.9rem;
   border: none;
   resize: none;
-  margin: 0;
 }
-
 .inputGroup input {
   font-family: "Roboto";
   padding: 0.75em;
@@ -84,20 +86,16 @@ form label {
   resize: none;
   outline: 0;
 }
-
-.inputGroup :focus input {
+.inputGroup :focus input{
   border: none;
   font-family: "Roboto";
 
 }
-
 .buttonContainer {
   width: 100%;
   display: flex;
   flex-direction: column;
   margin: 2em 0 0 0;
-  padding-bottom: 1rem;
-  /* border-bottom: 1px solid #1e1e1e; */
 }
 
 
@@ -116,7 +114,7 @@ form label {
 
 }
 
-.buttonContainer button[type="submit"]:hover {
+.buttonContainer  button[type="submit"]:hover{
   color: black;
 
 }
@@ -148,6 +146,10 @@ form label {
   }
 }
 
+
+
+
+
 .inputGroupPass {
   display: flex;
   align-items: center;
@@ -160,7 +162,7 @@ form label {
   overflow: hidden;
 }
 
-.inputGroupPass .keyEye {
+.inputGroupPass .keyEye{
   margin-right: 1rem;
   width: 2rem;
   cursor: pointer;
@@ -172,17 +174,16 @@ form label {
   outline: 2px solid hsl(226deg, 100%, 70%);
   ;
 }
-
-.inputGroupPass:focus-within .keyEye {
+.inputGroupPass:focus-within .keyEye{
   color: black;
 }
 
-.inputGroupPass:focus-within .keyEye :hover {
+.inputGroupPass:focus-within .keyEye :hover{
   color: hsl(226deg, 100%, 70%);
 }
 
 
-.inputGroupPass:focus-within.error {
+.inputGroupPass:focus-within.error{
   margin-top: 0.2rem;
   color: #f33;
   outline: 2px solid red;
@@ -198,12 +199,8 @@ form label {
   resize: none;
   outline: 0;
 }
-
-.inputGroupPass :focus input {
+.inputGroupPass :focus input{
   border: none;
   font-family: "Roboto";
-}
 
-label h3{
-  margin-top: 0;
 }

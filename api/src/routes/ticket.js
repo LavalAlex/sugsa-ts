@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const Ticket = require("../schemas/Ticket");
-const { createTicket } = require("../utils/utils.auth");
+const { createTicket, findAllTicket } = require("../utils/ticket.utils");
 const router = Router();
 
 router.post("/create", async (req, res) => {
@@ -14,9 +14,10 @@ router.post("/create", async (req, res) => {
   }
 });
 
-router.get("/allticket", async (req, res) => {
+router.post("/allticket", async (req, res) => {
   try {
-    const allTicket = await Ticket.find({});
+    const {email} = req.body
+    const allTicket = await  findAllTicket(email);
     if (!allTicket)
       res.status(404).send({ error: "this tickets does not exist" });
     res.status(200).send(allTicket);
@@ -40,18 +41,7 @@ router.put("/update/:id", async (req, res) => {
   }
 });
 
-router.delete("/delete/:id", async (req, res) => {
-  try {
-    const ticketId = req.params.id;
-    const ticketDeleted = await Ticket.findByIdAndDelete(ticketId);
-    if (ticketDeleted)
-      res.status(200).send({ msg: "Deleted ticket successfully" });
-    res.status(404).send({ error: "Error on delete ticket" });
-  } catch (e) {
-    console.log("Error on delete ticket", e);
-    res.status(404).send({ error: "Error on delete ticket" });
-  }
-});
+
 
 
 

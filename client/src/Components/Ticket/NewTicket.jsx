@@ -53,7 +53,7 @@ export default function NewTicket({ isTicket}) {
         
       }));
     else {
-      var conf = window.confirm("Do you want to create the user?");
+      var conf = window.confirm("Do you want to create the ticket?");
 
       if (conf) {
         

@@ -10,7 +10,7 @@ export default function AdminLogin() {
   const navitage = useNavigate();
   
   return admin.email ? (
-    navitage("/adminHome")
+    navitage("/admin/home")
   ) : (
     
       <div className={styles.container}>

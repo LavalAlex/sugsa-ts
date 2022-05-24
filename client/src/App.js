@@ -1,7 +1,9 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 
-import Login from "./Pages/Login/Login";
+import Login from "./Pages/Auth/Login/Login";
+import Signup from "./Pages/Auth/Sigup/Signup";
+
 import Home from "./Pages/Home/Home";
 import Notification from "./Pages/Notification/Notification";
 
@@ -17,9 +19,13 @@ function App() {
       <Routes>
         <Route path="home" element={<Home />} />
         <Route path="login" element={<Login />} />
+        <Route path="signup" element={<Signup />} />
+
         <Route path="notification" element={<Notification />} />
-        <Route path="adminlogin" element={<AdminLogin />} />
-        <Route path="adminhome" element={<AdminHome />} />
+        <Route path="admin" >
+          <Route path="login" element={<AdminLogin />} />
+          <Route path="home" element={<AdminHome />} />
+        </Route>
       </Routes>
     </div>
   );

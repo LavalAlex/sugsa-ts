@@ -15,13 +15,13 @@ export default function Navbar() {
   const navigate = useNavigate();
   const session = useSelector((store) => store.auth.success);
   const [showMenu, setShowMenu] = useState(false);
+  const admin = useSelector((state) => state.admin);
 
   const logoutNav = () => {
     dispatch(logout());
-    navigate("/login");
+    admin ? navigate("/admin/home") : navigate("/login");
   };
 
-  console.log(session)
   return (
     <header className={`${styles.navbar}  `}>
       <nav className={styles.nav}>
@@ -33,7 +33,7 @@ export default function Navbar() {
         </div>
 
         <ul className={styles.menu}>
-          <Menu  home tool notification/>
+          <Menu home tool notification />
         </ul>
 
         <div className={styles.right}>
@@ -45,8 +45,7 @@ export default function Navbar() {
                   styles.profile__menu
                 }
               >
-                
-                <Menu column home tool notification/>
+                <Menu column home tool notification />
               </div>
             </div>
           ) : (

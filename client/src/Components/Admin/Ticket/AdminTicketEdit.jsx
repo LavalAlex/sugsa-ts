@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import { BiEditAlt } from "react-icons/bi";
 import { useDispatch } from "react-redux";
-import { editTicketAdmin } from "../../../Redux/Actions/Admin";
+import {
+  deleteTicketAdmin,
+  editTicketAdmin,
+} from "../../../Redux/Actions/Admin";
 
 import { utilDate } from "../../../Utils/tableUtils";
 import { inputTicketEdit } from "../../../Utils/validateTicket";
 import style from "./AdminTicketEdit.module.css";
 
-export default function AdminTicketEdit({ data }) {
+export default function AdminTicketEdit({ data, isTicket }) {
   const dispatch = useDispatch();
   const [editClass, setEditClass] = useState(true);
   const [editAssig, setEditAssig] = useState(true);
@@ -27,13 +30,18 @@ export default function AdminTicketEdit({ data }) {
   };
 
   const handleUpdate = async () => {
-    console.log(data)
+    dispatch(editTicketAdmin(data._id, dataEdit));
+    alert("Thi the ticket Updated");
+    isTicket();
+  };
 
-        console.log(data._id);
-        dispatch(editTicketAdmin(data._id, dataEdit));
-        alert("Thi the ticket Updated");
-   
-   
+  const handleDelete = async () => {
+    var conf = window.confirm("Do you want to deleted the user?");
+    if (conf) {
+      dispatch(deleteTicketAdmin(data._id));
+      alert("Deleted Successfully");
+    }
+    isTicket();
   };
 
   // const handleEdit = (name) => {
@@ -50,22 +58,31 @@ export default function AdminTicketEdit({ data }) {
   //     }));
   //   }
   // };
-  console.log(data)
+
   return (
     <div className={style.container} key={data._id}>
       <div className={style.title}>
         <h1>Ticket</h1>
       </div>
       <div className={style.data}>
-        <h4>Name:</h4>
-        <div>{data.name}</div>
-        <h4>Date:</h4>
-        <div>{utilDate(data.createdAt)}</div>
-        <h4>Business</h4>
-        <div>{data.business}</div>
+        <div>
+          <h4>Name:</h4>
+          <span>{data.name}</span>
+        </div>
+        <div>
+          <h4>Business:</h4>
+          <span>{data.business}</span>
+        </div>
+        <div>
+          <h4>Date:</h4>
+          <span>{utilDate(data.createdAt)}</span>
+        </div>
+      </div>
+      <div className={style.edit}>
         <h4>Description:</h4>
         <div>{data.description}</div>
         <h4>
+          Classification:
           <button
             title="Edit Ticket"
             className={style.btn}
@@ -78,7 +95,6 @@ export default function AdminTicketEdit({ data }) {
               }}
             />
           </button>
-          Classification:
         </h4>
         {editClass ? (
           <div>{data.classification}</div>
@@ -106,6 +122,7 @@ export default function AdminTicketEdit({ data }) {
           </label>
         )}
         <h4>
+          Assigned Technician:
           <button
             title="Edit Ticket"
             className={style.btn}
@@ -118,7 +135,6 @@ export default function AdminTicketEdit({ data }) {
               }}
             />
           </button>{" "}
-          Assigned Technician:
         </h4>
 
         {editAssig ? (
@@ -151,10 +167,18 @@ export default function AdminTicketEdit({ data }) {
           </label>
         )}
       </div>
+
       <div className={style.buttonContainer}>
-        <button type="submit" onClick={handleUpdate}>
-          SAVE
-        </button>
+        <div className={`${style.btn} + ${style.save}`}>
+          <button type="submit"  onClick={handleUpdate}>
+            SAVE
+          </button>
+        </div>
+        <div className={`${style.btn} + ${style.delete}`}>
+          <button type="submit"  onClick={handleDelete}>
+            DELETE
+          </button>
+        </div>
       </div>
     </div>
   );

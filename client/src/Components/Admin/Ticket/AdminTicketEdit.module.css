@@ -4,92 +4,40 @@
 
 .container {
     --pX: 1.5em;
-    display: flex;
-    flex-direction: column;
-    width: 25em;
-    max-width: 25em;
-    margin: 0 auto ;
+    --p: 5em;
+    position: relative;
+    top: 48%;
+    left: 32%;
+    transform: translate(-50%, -50%);
+    width: 50em;
+    max-width: 50em;
+    /* margin: 0 auto; */
+    /* margin-top: 5rem; */
     margin-bottom: 1rem;
     padding: 1em 1.5em;
     background-color: #fff;
     border-radius: 1em;
     box-shadow: 0 0.25em 0.5em #0005;
+    /* transform: translate(-50%, -50%); */
+
 }
 
 .data {
     display: flex;
-    flex-direction: column;
+    width: 100%;
+    /* flex-direction: column; */
     /* justify-content: center; */
     /* align-items: center; */
+    justify-content: space-evenly;
+    color: #1e1e1e;
+    border-bottom: 1px solid #1e1e1e;
+    padding-bottom: 1rem;
 }
 
-.container h4 {
-    margin-left: 0rem;
-    margin-top: 1rem;
+.data span {
+    padding-left: 4rem;
 }
 
-.data div {
-    align-content: center;
-    align-items: center;
-    width: 15rem;
-    font-size: medium;
-    padding-left: 1rem;
-    margin-left: 5rem;
-    margin-bottom: 1rem;
-    display: flex;
-    justify-content: center;
-    /* border-bottom: 2px solid hsl(226deg, 100%, 70%); */
-    border-bottom: 2px solid hsl(226deg, 100%, 70%);
-}
-
-.data button{
-    border: none;
-    position: relative;
-    left: 20rem;
-    display: flex;
-
-}
-.wrapper {
-    margin-bottom: .5rem;
-    align-items: center;
-    display: flex;
-    justify-content: center;
-    margin-top: 1rem;
-}
-
-.submit {
-    border: none;
-    border: 2px solid #aaa;
-    margin: 1em 0 0 0;
-    padding: 1em;
-}
-
-.container {
-    resize: none;
-    border: none;
-}
-
-.uploadImage {
-    object-fit: cover;
-    object-position: center;
-    width: 100%;
-    max-height: 10rem;
-}
-
-.flex {
-    width: 100%;
-    display: flex;
-    gap: 1em;
-    align-items: center;
-}
-
-.dark {
-    background-color: #333;
-}
-
-.dark textarea {
-    background-color: #444;
-}
 
 .inputGroup {
     display: flex;
@@ -113,7 +61,7 @@
 
 .inputGroup:focus-within {
     width: 15rem;
-    border-bottom: 2px solid rgb(131, 58, 180);
+    border-bottom: 2px solid hsl(226deg, 100%, 70%);
 
 }
 
@@ -125,76 +73,6 @@
 .error {
     color: #f33;
     border-bottom: 2px solid red;
-}
-
-.containerBtn {
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-    margin-top: 10px;
-}
-
-.save {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0 1rem;
-    text-align: left;
-    gap: 0.5em;
-    border-radius: 5em;
-    background-color: transparent;
-    border: none;
-    outline: 2px solid #aaa !important;
-    font-size: 1rem;
-    height: 2.5rem;
-    width: 50%;
-    background: rgb(131, 58, 180);
-    background: linear-gradient(90deg, #c084fc 0%, #ec4899 50%, #ef4444 100%);
-    transition: all 0.3s ease-in-out;
-}
-
-.save span {
-    color: white;
-}
-
-.save:hover {
-    outline: 2px solid #1e1e1e !important;
-}
-
-.save:hover span {
-    color: #1e1e1e;
-}
-
-.save:hover .Isave {
-    color: #1e1e1e;
-}
-
-.Isave {
-    width: 1.1em;
-    height: 1.1em;
-    color: white
-}
-
-
-.containerCancel {
-    display: flex;
-    justify-content: end;
-}
-
-.close {
-    display: flex;
-    background-color: transparent;
-    border: none;
-    width: 1.5rem;
-    height: 1.5rem;
-    cursor: pointer;
-    justify-content: center;
-}
-
-.close:hover {
-    color: red;
-    width: 1.51rem;
-    height: 1.51rem;
 }
 
 .errorSpan {
@@ -210,35 +88,54 @@
     margin-bottom: 1rem;
 }
 
-.keyEye {
-    position: absolute;
-    color: #1e1e1e;
-    margin-left: 12rem;
-    width: 2rem;
-    cursor: pointer;
+.buttonContainer{
+    
+    display: flex;
+    justify-content:space-evenly;
+    padding: 1em;
+    text-align: center;
+    font-size: 1rem;
+    border-top: 1px solid #1e1e1e;
+    margin-top: 1rem;
 }
 
-.keyEye:hover {
-    color: hsl(226deg, 100%, 70%);
-}
-
-
-.buttonContainer button[type="submit"] {
+.btn button[type="submit"] {
     border-radius: 5em;
     border: none;
     color: #fff;
-    background-color: hsl(226deg, 100%, 70%);
-    width: 100%;
+    width: 8rem;
     display: flex;
     justify-content: center;
     padding: 1em;
     text-align: center;
     font-size: 1rem;
     /* margin: 2em 0 0 0; */
-  
-  }
-  
-  .buttonContainer  button[type="submit"]:hover{
+    cursor: pointer;
+}
+
+.save button{
+    background-color: hsl(226deg, 100%, 70%);
+}
+
+.delete button{
+    background-color: red;
+}
+
+.btn button[type="submit"]:hover {
     color: black;
-  
-  }
+    outline: 1px solid black;
+}
+
+.btn{
+    border: none;
+    margin-left: 1rem;
+    cursor: pointer;
+}
+
+.btn :hover{
+    color: hsl(226deg, 100%, 70%);
+
+}
+.edit div{
+    margin-left: 1rem;
+}
