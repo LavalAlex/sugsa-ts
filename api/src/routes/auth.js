@@ -8,8 +8,8 @@ const router = Router();
 
 router.post("/signup", async (req, res) => {
   try {
-    var { name, email, password, business } = req.body;
-    const newUser = await createUser(name, email, password, business);
+    var { name, email, password, business, departament } = req.body;
+    const newUser = await createUser(name, email, password, business, departament);
     if (newUser.error) res.status(404).send(newUser);
     else res.status(200).send(newUser);
   } catch (e) {
@@ -33,7 +33,8 @@ router.post("/login", async (req, res) => {
   try {
     const { name, password, email } = req.body;
     const userAuth = await findUser(email, password);
-    if (!userAuth || userAuth.error) return res.status(404).send(userAuth);
+  
+    if (!userAuth || userAuth.error) return res.status(404).send({user:userAuth, success: false});
 
     const id = userAuth.id;
     const token = jwt.sign({ id: id }, JWT_SECRET, {
@@ -45,8 +46,15 @@ router.post("/login", async (req, res) => {
       Secure: true,
     };
 
+    let sanitized = {
+      email:userAuth.email,
+      business: userAuth.business,
+      departament: userAuth.departament
+      
+    }
+
     res.cookie("sugsa", token, cookiesOptions);
-    res.status(200).send({ email: email, success: true });
+    res.status(200).send({ user: sanitized, success: true });
   } catch (e) {
     console.log("Error on login:", e);
     res.status(404).send(e);

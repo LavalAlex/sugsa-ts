@@ -6,7 +6,7 @@ const User = require("../schemas/User");
 const Ticket = require("../schemas/Ticket");
 const { now } = require("mongoose");
 
-const createUser = async (name, email, password, business) => {
+const createUser = async (name, email, password, business, departament) => {
   password = bcrypt.hashSync(password, saltRounds);
   const user = await User.findOne({ email });
   if (user) return { error: "Error, this user does exits" };
@@ -15,6 +15,7 @@ const createUser = async (name, email, password, business) => {
     email,
     password,
     business,
+    departament
   });
   newUser.save();
   return { msg: "Create Successfully" };
@@ -34,7 +35,8 @@ const findUser = async (email, password) => {
   if (!userAuth) return { error: "Error, this user does not exist" };
   const validate = await bcrypt.compare(password, userAuth.password);
   if (!validate) return { error: "Error, this user does not exist" };
-  return { id: userAuth._id, email: userAuth.email, name: userAuth };
+  return { id: userAuth._id, email: userAuth.email, name: userAuth,  business: userAuth.business,
+    departament: userAuth.departament };
 };
 
 module.exports = { createUser, findAll, findUser };

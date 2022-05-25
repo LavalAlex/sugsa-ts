@@ -14,8 +14,9 @@ export default function Home() {
   const [detailTicket, setDetailTicket] = useState(false);
   const tickets = useSelector((state) => state.tickets.tickets);
   const [ticketId, setTicketId] = useState("");
-  const email = useSelector((state) => state.auth.email);
+  const email = useSelector((state) => state.auth.user.email);
 
+  
   useEffect(() => {
     dispatch(allTickets(email));
   }, [newTicket]);

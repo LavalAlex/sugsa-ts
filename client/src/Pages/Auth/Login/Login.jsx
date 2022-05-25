@@ -6,11 +6,10 @@ import LoginCard from "../../../Components/Login/LoginCard";
 import styles from "./Login.module.css";
 
 export default function Login() {
-  const user = useSelector((state) => state.auth);
+  const auth = useSelector((state) => state.auth.success);
   const navitage = useNavigate();
   
-
-  return user.email ? (
+  return auth ? (
     navitage("/home")
   ) : (
     

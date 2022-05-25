@@ -30,6 +30,7 @@ export default function LoginCard() {
     business: "",
     departament:""
   });
+
   const [input, setInput] = useState({
     name: "",
     email: "",
@@ -83,7 +84,7 @@ export default function LoginCard() {
           }));
     } else {
       const code = await dispatch(signup(input));
-      console.log("code", code);
+
       // setErrors((old) => ({
       //   ...old,
       //   code: code.error ? code.error : "",
@@ -104,7 +105,7 @@ export default function LoginCard() {
   };
 
   const handleSelectDepartament = async (e) => {
-    setInput((old) => ({ ...old, business: e.value }));
+    setInput((old) => ({ ...old, departament: e.value }));
     setErrors({
       name: "",
       email: "",
@@ -114,7 +115,6 @@ export default function LoginCard() {
     });
   };
 
-  console.log(departament);
   return (
     <div className={style.container}>
       <form onSubmit={(e) => handleSubmit(e)}>
