@@ -9,6 +9,7 @@ import {
 } from "./ActionsTypes";
 
 export function newTicket(data) {
+  console.log(URL_NEWTICKET)
   return async (dispatch) => {
     try {
       const response = await axios.post(URL_NEWTICKET, data);

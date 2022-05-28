@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { FaEye } from "react-icons/fa";
 
 import { allTickets, newTicket } from "../../Redux/Actions/Ticket";
-import { validateNewTicket } from "../../Utils/validate";
+import { validateNewTicket } from "../../Utils/validateTicket";
 
 
 
@@ -14,50 +14,54 @@ import style from "./NewTicket.module.css";
 
 export default function NewTicket({ isTicket}) {
   const dispatch = useDispatch();
-  const user = useSelector((state) =>  state.auth)
+  const user = useSelector((state) =>  state.auth.user)
 
+  console.log(user)
   const [errors, setErrors] = useState({
-    name: "",
     description: "",
     classification: "",
-    business:""
   });
   const [data, setData] = useState({
-    name: "",
-    email: user.email,
+  
     description: "",
     classification: "",
-    business:""
+    
   });
 
   const handleChange = ({ target: { name, value } }) => {
     setData((old) => ({ ...old, [name]: value }));
     setErrors({
-        name: "",
+      
         description: "",
         classification: "",
-        business:""
+       
     });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { name,  description, classification, business } = validateNewTicket(data);
-    if (name ||  description || classification, business )
+    const {description, classification, } = validateNewTicket(data);
+    if (  description || classification )
       setErrors((old) => ({
         ...old,
-        name: name ? name : "",
         description: description ? description : "",
-        classification: classification ? classification : "",
-        business: business? business:""
-        
+        classification: classification ? classification : "",       
       }));
     else {
       var conf = window.confirm("Do you want to create the ticket?");
 
       if (conf) {
+
+        let ticket ={
+          name: user.name,
+          email:user.email,
+          business:user.business,
+          departament: user.departament,
+          description:data.description,
+          classification:data.classification
+        }
         
-        const error = await dispatch(newTicket(data));
+        const error = await dispatch(newTicket(ticket));
         if (error) {
           alert(error.data.msg);
         } else {
@@ -68,10 +72,10 @@ export default function NewTicket({ isTicket}) {
       }
       isTicket()
       setData({
-        name: "",
+     
         description: "",
         classification: "",
-        business:""
+       
       });
  
     }
@@ -87,62 +91,28 @@ export default function NewTicket({ isTicket}) {
         <div
           className={`${style.inputGroup} ${errors.name ? style.error : ""} `}
         >
-          <input
-            value={data.name}
-            onChange={handleChange}
-            name="name"
-            type="text"
-            placeholder="Name user..."
-            autoComplete="off"
-          />
+          {user.name}
         </div>
-        {errors.name ? (
-          <span className={style.errorSpan}>{errors.name}</span>
-        ) : (
-          ""
-        )}
       </label>
-{/* 
-      <label className={style.wrapper}>
-        <h5>Email</h5>
-        <div
-          className={`${style.inputGroup} ${errors.email ? style.error : ""} `}
-        >
-          <input
-            value={data.email}
-            onChange={handleChange}
-            name="email"
-            type="text"
-            placeholder="Email..."
-            autoComplete="off"
-          />
-        </div>
-        {errors.email ? (
-          <span className={style.errorSpan}>{errors.email}</span>
-        ) : (
-          ""
-        )}
-      </label> */}
+
 
       <label className={style.wrapper}>
         <h5>Business</h5>
         <div
           className={`${style.inputGroup} ${errors.email ? style.error : ""} `}
         >
-          <input
-            value={data.business}
-            onChange={handleChange}
-            name="business"
-            type="text"
-            placeholder="Business..."
-            autoComplete="off"
-          />
+         {user.business}
         </div>
-        {errors.email ? (
-          <span className={style.errorSpan}>{errors.email}</span>
-        ) : (
-          ""
-        )}
+ 
+      </label>
+      <label className={style.wrapper}>
+        <h5>Departament</h5>
+        <div
+          className={`${style.inputGroup} ${errors.email ? style.error : ""} `}
+        >
+         {user.departament}
+        </div>
+ 
       </label>
 
       <label className={style.wrapper}>

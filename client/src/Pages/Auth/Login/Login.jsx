@@ -15,9 +15,9 @@ export default function Login() {
     
       <div className={styles.container}>
 
-      <div className={styles.loginCard}>
+      
         <LoginCard />
-      </div>
+     
       </div>
     
   );

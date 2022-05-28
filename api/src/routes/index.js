@@ -7,6 +7,7 @@ const Ticket = require("./ticket");
 const Admin = require("./admin.auth");
 const AdminTicket = require("./admin.ticket");
 const Business = require("./business");
+const Technical = require("./technical");
 
 const mock = require("./mock.utils");
 
@@ -16,6 +17,7 @@ router.use("/ticket", Ticket);
 router.use("/admin", Admin);
 router.use("/admin", AdminTicket);
 router.use("/business", Business);
+router.use("/technical", Technical);
 
 router.use("/mock", mock);
 module.exports = router;

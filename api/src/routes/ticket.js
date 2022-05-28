@@ -5,6 +5,8 @@ const router = Router();
 
 router.post("/create", async (req, res) => {
   try {
+    console.log('entra')
+    console.log(req.body)
     const newTicket = await createTicket(req.body);
     if (newTicket.msg) res.status(200).send(newTicket);
     res.status(404).send(newTicket);

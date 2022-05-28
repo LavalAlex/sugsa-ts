@@ -17,21 +17,7 @@ export default function Notification() {
     <div>
       <div>Notification</div>
 
-      {tickets
-        ? tickets?.map((e) => {
-            return (
-              <TicketDetails
-                key={e._id}
-                name={e.name}
-                email={e.email}
-                description={e.description}
-                classification={e.classification}
-                assigned={e.assigned_technician}
-                createdAt={e.createdAt}
-              />
-            );
-          })
-        : "Cargando..."}
+    
     </div>
   );
 }

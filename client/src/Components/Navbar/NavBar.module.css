@@ -2,15 +2,15 @@
   text-decoration: none;
   color: #1e1e1e;
   list-style: none;
+  
 }
 
 .navbar {
+  margin-top: 0rem;
+  margin-left: 0rem;
   background: hsl(28, 80%, 52%);
   position: sticky;
   width: 100%;
-  /* z-index: 10; */
-  /* top: 0; */
-  /* margin-top: 0; */
 
 }
 
@@ -19,6 +19,7 @@
 }
 
 .nav {
+
   width: 95vw;
   margin: 0 auto;
   display: flex;
@@ -101,16 +102,17 @@
   border-bottom: 2px solid transparent;
   transform: translateY(0);
   transition: all 0.25s ease;
+  
 }
 
 .nav__link:hover {
   transition: all 0.25s;
   transform: translateY(-7px);
+  
 }
 
 .nav__link::after {
   display: none;
-  content: "";
   position: absolute;
   bottom: -1em;
   left: 50%;
@@ -124,6 +126,7 @@
 
 .nav__link:hover::after {
   display: block;
+  color: white;
   bottom: -0.5em;
   background-color: rgb(255, 20, 150);
   

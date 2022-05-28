@@ -11,23 +11,16 @@
     transform: translate(-50%, -50%);
     width: 50em;
     max-width: 50em;
-    /* margin: 0 auto; */
-    /* margin-top: 5rem; */
     margin-bottom: 1rem;
     padding: 1em 1.5em;
     background-color: #fff;
     border-radius: 1em;
     box-shadow: 0 0.25em 0.5em #0005;
-    /* transform: translate(-50%, -50%); */
-
 }
 
 .data {
     display: flex;
     width: 100%;
-    /* flex-direction: column; */
-    /* justify-content: center; */
-    /* align-items: center; */
     justify-content: space-evenly;
     color: #1e1e1e;
     border-bottom: 1px solid #1e1e1e;
@@ -97,6 +90,7 @@
     font-size: 1rem;
     border-top: 1px solid #1e1e1e;
     margin-top: 1rem;
+    padding-top: 2rem;
 }
 
 .btn button[type="submit"] {
@@ -109,7 +103,6 @@
     padding: 1em;
     text-align: center;
     font-size: 1rem;
-    /* margin: 2em 0 0 0; */
     cursor: pointer;
 }
 
@@ -126,6 +119,9 @@
     outline: 1px solid black;
 }
 
+.close button{
+    background-color:orange;
+}
 .btn{
     border: none;
     margin-left: 1rem;
@@ -138,4 +134,9 @@
 }
 .edit div{
     margin-left: 1rem;
+}
+
+.wrapper{
+    width: 20rem;
+    cursor: pointer;
 }

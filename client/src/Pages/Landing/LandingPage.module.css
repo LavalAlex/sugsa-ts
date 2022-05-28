@@ -1,0 +1,9 @@
+.container {
+    display:block;
+    border-style: none;
+    outline-style: none;
+    width: 1354px;
+    height: 550px;
+    margin-top: 1rem;
+    background-image: url('../../Img/LandingPage.png');
+}

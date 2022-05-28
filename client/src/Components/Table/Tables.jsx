@@ -75,6 +75,7 @@ export default function Tables({
                             <div
                               className={styles.infoUser}
                               onClick={() => handleSubmit(index)}
+                              title="Details Ticket"
                             >
                               <h5>{e.name}</h5>
                               <span>{e.email}</span>

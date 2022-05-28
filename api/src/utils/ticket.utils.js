@@ -3,19 +3,15 @@ const Ticket = require("../schemas/Ticket");
 
 const createTicket = async ({
   email,
-  name,
   description,
   classification,
-  assigned_technician,
-  feedback,
-  business,
 }) => {
   const user = await User.findOne({ email });
   if (!user) return { error: "Error, this user does not exits" };
 
   const newTicket = await Ticket.create({
     email,
-    name,
+    name:user.name,
     description,
     classification,
     business: user.business,
@@ -27,8 +23,8 @@ const createTicket = async ({
 
 const findAllTicket = async (email) => {
   const allTicket = await Ticket.find({ email });
-  const tickets = allTicket.filter((e) => e.status != "Cancel");
-  return tickets;
+    const tickets = allTicket.filter((e) => (e.status != "Cancel" ) && (e.status != "Close"));
+    return tickets;
 };
 
 module.exports = { createTicket, findAllTicket };

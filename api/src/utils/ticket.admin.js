@@ -3,12 +3,25 @@ const Ticket = require("../schemas/Ticket");
 const Status = {
   Active: "Active",
   Pending: "Pending",
-  Pending_Feedback: "Pending_Feedback",
+  Pending_Feedback: "Pending Feedback",
   Close: "Close",
   Cancel: "Cancel",
 };
 
 const editTicketAdmin = async (ticketId, data) => {
+  if(data.close){
+    const update = {
+      status: "Pending Feedback",
+      feedback:true,
+      createdAt: Date.now()
+
+    }
+    const ticketUpdate = await Ticket.findByIdAndUpdate(ticketId, update, {
+      new: true,
+    });
+    return ticketUpdate;
+
+  }
   if (data.assigned) {
     const update = {
       status: "Active",

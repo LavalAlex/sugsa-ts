@@ -16,25 +16,32 @@ export default function Navbar() {
   const session = useSelector((store) => store.auth.success);
   const [showMenu, setShowMenu] = useState(false);
   const admin = useSelector((state) => state.admin);
+  const path = useLocation().pathname;
+
 
   const logoutNav = () => {
     dispatch(logout());
-    admin ? navigate("/admin/home") : navigate("/login");
+    navigate("/login");
   };
 
   return (
-    <header className={`${styles.navbar}  `}>
+    <header className={styles.navbar}>
       <nav className={styles.nav}>
         <div className={styles.left}>
-          <Link className={styles.brand} to="/">
+          <Link className={styles.brand} to={`${path === "/login" ? "/admin/login" : "/login"}`}>
             <span>SUGSA</span>
             <img src={logo} className={styles.logo} alt="" />
           </Link>
         </div>
 
+        {path === "/admin/home"?
         <ul className={styles.menu}>
-          <Menu home tool notification />
-        </ul>
+          <Menu home />
+        </ul>:
+         <ul className={styles.menu}>
+         <Menu home tool notification />
+       </ul>
+        } 
 
         <div className={styles.right}>
           {session ? (
@@ -45,7 +52,10 @@ export default function Navbar() {
                   styles.profile__menu
                 }
               >
-                <Menu column home tool notification />
+              
+                <Menu column home tool notification />:
+              
+              
               </div>
             </div>
           ) : (

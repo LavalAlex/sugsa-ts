@@ -3,12 +3,14 @@ import authReducer from "./Auth";
 import ticketReducer from "./Ticket";
 import adminReducer from "./Admin";
 import businessReducer from "./Business";
+import technicalReducer from "./Technicals";
 
 const reducers = combineReducers({
   auth: authReducer,
   tickets: ticketReducer,
   admin: adminReducer,
   business: businessReducer,
+  technical: technicalReducer,
 });
 
 export default reducers;

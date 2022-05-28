@@ -1,5 +1,6 @@
 import axios from "axios";
 import {
+  ALL_TECHNICALS,
   ALL_TICKETS_ADMIN,
   DELETE_TICKET_ADMIN,
   EDIT_TICKET_ADMIN,
@@ -7,6 +8,7 @@ import {
   LOGIN_ADMIN,
   LOGOUT,
   URL_ALLTICKETS_ADMIN,
+  URL_ALL_TECHNICALS,
   URL_DELETE_TICKET_ADMIN,
   URL_EDIT_TICKET_ADMIN,
   URL_FILTER_TICKET_ADMIN,
@@ -80,4 +82,17 @@ export function deleteTicketAdmin(id) {
     console.log(e.response.data);
     return e.response.data;
   }
+}
+
+
+export function allTechnicals() {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(URL_ALL_TECHNICALS);
+      dispatch({ type: ALL_TECHNICALS, payload: response });
+    } catch (e) {
+      console.log(e.response.data);
+      return e.response.status;
+    }
+  };
 }

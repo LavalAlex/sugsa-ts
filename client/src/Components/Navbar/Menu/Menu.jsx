@@ -19,7 +19,7 @@ export default function Menu({ column, home, tool, notification }) {
             className={`${styles.menu__link} ${
               path === "/home" || path=== "/admin/home"? styles.active : ""
             }`}
-            to={admin? '/admin/home': '/home'}
+            to='/home'
           >
             <BiHomeAlt className={styles.icon} />
           </NavLink>

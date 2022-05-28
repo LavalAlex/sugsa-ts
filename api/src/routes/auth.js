@@ -46,15 +46,8 @@ router.post("/login", async (req, res) => {
       Secure: true,
     };
 
-    let sanitized = {
-      email:userAuth.email,
-      business: userAuth.business,
-      departament: userAuth.departament
-      
-    }
-
     res.cookie("sugsa", token, cookiesOptions);
-    res.status(200).send({ user: sanitized, success: true });
+    res.status(200).send({ user: userAuth, success: true });
   } catch (e) {
     console.log("Error on login:", e);
     res.status(404).send(e);

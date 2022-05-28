@@ -1,9 +1,6 @@
 .container {
-  --p: 5em;
-  position: relative;
-  top: 25%;
-  left: 16%;
-  transform: translate(-50%, -50%);
+  /* --p: 5em; */
+  /* transform: translate(-50%, -50%); */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -13,17 +10,19 @@
   /* margin: 0px auto; */
   overflow: hidden;
   box-shadow: 0.3em 0.25em 0.5em 0em #0005;
-  max-width: 450px;
-  /* max-height: 650px; */
-  margin-top: 7rem;
+  /* width: 650px; */
+  
+  height: 520px;
+  margin-top: 0rem;
 }
 
 
 .container>form {
   margin: 0;
-
   padding: 2.5em 5em;
 }
+
+
 
 
 .container>form>h1 {
@@ -39,7 +38,7 @@
   display: flex;
   align-items: center;
   font-size: 0.9rem;
-  width: 100%;
+
   border: 1px solid #ccc;
   background-color: #fff;
   padding: 0 0 0 1em;
@@ -47,6 +46,10 @@
   overflow: hidden;
   /* margin-top: 0; */
   margin-bottom: 0;
+  width: 90%;
+  margin-left: 1rem;
+  margin-top: 0.5rem;
+  
 }
 
 .inputGroup:focus-within {
@@ -91,6 +94,7 @@ form label {
   border: none;
   resize: none;
   outline: 0;
+
 }
 
 .inputGroup :focus input {
@@ -103,11 +107,19 @@ form label {
   width: 100%;
   display: flex;
   flex-direction: column;
-  margin: 2em 0 0 0;
+  margin-top: 0;
   /* padding-bottom: 1rem; */
   /* border-bottom: 1px solid #1e1e1e; */
 }
 
+.buttonContainer div{
+  display: flex;
+  justify-content: center;
+  border-bottom: 1px solid #1e1e1e;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+
+}
 
 .buttonContainer button[type="submit"] {
   border-radius: 5em;
@@ -120,6 +132,7 @@ form label {
   padding: 1em;
   text-align: center;
   font-size: 1rem;
+  margin-top: 1rem;
   /* margin: 2em 0 0 0; */
 
 }
@@ -160,12 +173,14 @@ form label {
   display: flex;
   align-items: center;
   font-size: 0.9rem;
-  width: 100%;
   border: 1px solid #ccc;
   background-color: #fff;
   padding: 0 0 0 1em;
   border-radius: 4px;
   overflow: hidden;
+  width: 90%;
+  margin-left: 1rem;
+  margin-top: 0.5rem;
 }
 
 .inputGroupPass .keyEye {
@@ -214,4 +229,63 @@ form label {
 
 label h3{
   margin-top: 0;
+}
+
+.path{
+  position: absolute;
+  left: 0;
+  bottom: 0;
+}
+.path button {
+  border-radius: 5em;
+  border: none;
+  color: #fff;
+  background-color: hsl(226deg, 100%, 70%);
+  
+  display: flex;
+  justify-content: center;
+  padding: 0.5em;
+  margin-bottom: .4em;
+  margin-left: 0.5em;
+  text-align: center;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.path button:hover{
+  color: black;
+  border: 1px solid #1e1e1e;
+
+}
+
+.left {
+  width: 25vw;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  font-size: 1rem !important;
+}
+
+.brand>img {
+  border: 1px solid #1e1e1e;
+  margin: 0 1em 0 0;
+  background: rgb(224, 217, 217);
+  border-radius: 50%;
+
+}
+
+.logo {
+  background: rgb(224, 217, 217);
+  color: rgb(224, 217, 217);
+  width: 30px;
 }

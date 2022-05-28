@@ -35,7 +35,7 @@ const findUser = async (email, password) => {
   if (!userAuth) return { error: "Error, this user does not exist" };
   const validate = await bcrypt.compare(password, userAuth.password);
   if (!validate) return { error: "Error, this user does not exist" };
-  return { id: userAuth._id, email: userAuth.email, name: userAuth,  business: userAuth.business,
+  return { id: userAuth._id, email: userAuth.email, name: userAuth.name,  business: userAuth.business,
     departament: userAuth.departament };
 };
 

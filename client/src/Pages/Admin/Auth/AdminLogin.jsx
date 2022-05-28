@@ -8,17 +8,14 @@ import styles from "./LoginAdmin.module.css";
 export default function AdminLogin() {
   const admin = useSelector((state) => state.auth);
   const navitage = useNavigate();
-  
-  return admin.email ? (
+
+  return admin.success ? (
     navitage("/admin/home")
   ) : (
-    
-      <div className={styles.container}>
-
-      <div className={styles.loginCard}>
+    <div className={styles.container}>
+      
         <LoginCard />
-      </div>
-      </div>
-    
+      
+    </div>
   );
 }

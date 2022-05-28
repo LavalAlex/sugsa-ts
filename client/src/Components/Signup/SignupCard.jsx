@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { FaUserCircle, FaKey, FaEye } from "react-icons/fa";
 
 import { login, signup } from "../../Redux/Actions/Auth";
-import { validateLogin } from "../../Utils/validate";
+import { validateLogin, validateSignup } from "../../Utils/validate";
 import { statusMsg } from "../../Utils/status";
 
 import style from "./SignupCard.module.css";
@@ -28,7 +28,7 @@ export default function LoginCard() {
     email: "",
     password: "",
     business: "",
-    departament:""
+    departament: "",
   });
 
   const [input, setInput] = useState({
@@ -36,7 +36,7 @@ export default function LoginCard() {
     email: "",
     password: "",
     business: "",
-    departament:""
+    departament: "",
   });
 
   useEffect(() => {
@@ -47,6 +47,7 @@ export default function LoginCard() {
     if (business[0]) {
       setOptionBusines(optionSelect(business));
     } else {
+      dispatch(allBusiness());
       setOptionBusines([]);
     }
   }, []);
@@ -55,9 +56,13 @@ export default function LoginCard() {
     if (departament[0]) {
       setoptionDepartament(selectDepartament(departament));
     } else {
-      setoptionDepartament([]);
+      if(input.business){
+        dispatch(departamentBusiness(input.business));
+        setoptionDepartament([]);
+      }
+      // dispatch(departamentBusiness(e.value));
     }
-  },[]);
+  }, [input.business]);
 
   const handleChange = (e) => {
     setInput({
@@ -69,12 +74,16 @@ export default function LoginCard() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { email, password } = validateLogin(input);
-    if (email || password) {
+    const { name, email, password, business, departament } =
+      validateSignup(input);
+    if (email || password || business || departament || name) {
       setErrors((old) => ({
         ...old,
+        name: name ? name : "",
         email: email ? email : "",
         password: password ? password : "",
+        business: business ? business : "",
+        departament: departament ? departament : "",
       }));
       email
         ? setInput({ email: "", password: "" })
@@ -84,23 +93,19 @@ export default function LoginCard() {
           }));
     } else {
       const code = await dispatch(signup(input));
-
-      // setErrors((old) => ({
-      //   ...old,
-      //   code: code.error ? code.error : "",
-      // }));
+      alert("User created successfully!");
     }
   };
 
   const handleSelectBusiness = async (e) => {
     setInput((old) => ({ ...old, business: e.value }));
-    await dispatch(departamentBusiness(e.value));
+    dispatch(departamentBusiness(e.value));
     setErrors({
       name: "",
       email: "",
       password: "",
       business: "",
-      departament:""
+      departament: "",
     });
   };
 
@@ -111,7 +116,7 @@ export default function LoginCard() {
       email: "",
       password: "",
       business: "",
-      departament:""
+      departament: "",
     });
   };
 
@@ -146,6 +151,9 @@ export default function LoginCard() {
           <h5>Business</h5>
           <label className={style.wrapper}>
             <Select
+              className={`${style.wrapper} ${
+                errors.business ? style.errorSelect : ""
+              }`}
               onChange={(e) => handleSelectBusiness(e)}
               options={optionBusiness}
               placeholder="Business..."
@@ -159,11 +167,14 @@ export default function LoginCard() {
             ""
           )}
         </div>
-        
+
         <label>
           <h5>Departament</h5>
           <label className={style.wrapper}>
             <Select
+              className={`${style.wrapper} ${
+                errors.departament ? style.errorSelect : ""
+              }`}
               onChange={(e) => handleSelectDepartament(e)}
               options={optionDepartament}
               placeholder="Departament..."
@@ -171,8 +182,8 @@ export default function LoginCard() {
           </label>
         </label>
         <div>
-          {errors.business ? (
-            <span className={style.errorSpan}>{errors.business}</span>
+          {errors.departament ? (
+            <span className={style.errorSpan}>{errors.departament}</span>
           ) : (
             ""
           )}
