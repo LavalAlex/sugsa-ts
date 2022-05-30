@@ -4,13 +4,19 @@ const schemaTicket = new Schema({
   id: Number,
   email: String,
   name: String,
-  business:String,
-  departament:String,
+  business: String,
+  departament: String,
   description: String,
-  classification: String,
-  assigned_technician: {
+  classification: {
     type: String,
-    default: false,
+    default: "Menor a 48hs",
+  },
+  assigned_technical: {
+    type: {
+      name: String,
+      last_name: String,
+      email: String,
+    },
   },
   feedback: {
     type: String,
@@ -20,10 +26,24 @@ const schemaTicket = new Schema({
     type: Date,
     default: Date.now,
   },
-  status:{
+  status: {
     type: String,
-    default: "Pending"
-  }
+    default: "Activo",
+  },
+  register: [{
+    type: {
+      date_register: {
+        type: Date,
+        default: Date.now,
+      },
+      description: {
+        type: String,
+      },
+    },
+    default: {
+      description: "Registro de nuevo caso",
+    },
+  }],
 });
 
 module.exports = model("tickets", schemaTicket);

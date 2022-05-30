@@ -8,8 +8,8 @@ const router = Router();
 
 router.post("/signup", async (req, res) => {
   try {
-    var { name, email, password, business, departament } = req.body;
-    const newUser = await createUser(name, email, password, business, departament);
+    var { name, email, password, business, departament, last_name } = req.body;
+    const newUser = await createUser(name, email, password, business, departament, last_name);
     if (newUser.error) res.status(404).send(newUser);
     else res.status(200).send(newUser);
   } catch (e) {

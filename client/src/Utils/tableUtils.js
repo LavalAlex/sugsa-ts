@@ -31,5 +31,12 @@ export function avatarUser(i) {
 
 export function utilDate(date) {
   const newDate = new Date(date);
-  return `${newDate.getDate()} / ${newDate.getMonth()} /${newDate.getFullYear()}`;
+  return `${newDate.getDate()} / ${newDate.getMonth()} /${newDate.getUTCFullYear() - 2000} - ${newDate.getHours()} : ${newDate.getMinutes()} `;
+}
+
+
+export function registerUtil(register){
+  console.log(register)
+  const data = register[register.length-1]
+  return 'hola'
 }

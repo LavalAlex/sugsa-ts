@@ -2,15 +2,20 @@ import { Card, CardBody, CardTitle, CardSubtitle, Table } from "reactstrap";
 
 import { BiCommentAdd, BiAddToQueue } from "react-icons/bi";
 import styles from "./AdminTables.module.css";
-import { avatarUser, utilDate } from "../../../Utils/tableUtils";
+import { avatarUser, registerUtil, utilDate } from "../../../Utils/tableUtils";
 import { useDispatch } from "react-redux";
 import { filterTicketAdmin } from "../../../Redux/Actions/Admin";
 import { allTickets } from "../../../Redux/Actions/Ticket";
+
+import { RiAlignJustify } from "react-icons/ri";
+
 
 export default function AdminTables({
   tickets,
   setTicketId,
   setDetailTicket,
+  setFollowingTicket,
+  setNewAdminTicket
 }) {
   const dispatch = useDispatch();
 
@@ -19,7 +24,14 @@ export default function AdminTables({
     setDetailTicket(true);
   };
 
-  const handleNewTicket = () => {};
+  const handleFollowing = (id) => {
+    setTicketId(id);
+    setFollowingTicket(true)
+  };
+
+  const handleNewTicket = ()=>{
+    setNewAdminTicket(true)
+  }
 
   const handleFilter = ({ target: { name, value } }) => {
     if (value === "Pending Feedback") {
@@ -28,14 +40,27 @@ export default function AdminTables({
       dispatch(filterTicketAdmin(value));
     }
   };
+
+ 
   return (
     <div className={styles.container}>
       <Card>
         <CardBody>
           <CardTitle>
             <div className={styles.title}>
-              <div>
+        
                 <h3>TIKETS</h3>
+                <div
+                title="New Ticket"
+                className={styles.btn}
+                onClick={handleNewTicket}
+              >
+                <BiAddToQueue
+                  style={{
+                    width: "2em",
+                    height: "2em",
+                  }}
+                />
               </div>
               {/* <div
                 title="New Ticket"
@@ -100,16 +125,47 @@ export default function AdminTables({
                         </td>
 
                         <td>
+                          <div className={styles.date}>
+                            <span>{utilDate(e.createdAt)}</span>
+                          </div>
+                        </td>
+
+
+                        <td>
+                          <div className={styles.status}>
+                            <span>{e.description}</span>
+                          </div>
+                        </td>
+
+                        <td>
+                          <div className={styles.status}>
+                            <span>{e.classification}</span>
+                          </div>
+                        </td>
+                        <td>
                           <div className={styles.status}>
                             <span>{e.status}</span>
                           </div>
                         </td>
 
                         <td>
-                          <div className={styles.date}>
-                            <span>{utilDate(e.createdAt)}</span>
+                          <div className={styles.status}>
+                            <span>{e.register[e.register.length-1].description}</span>
                           </div>
                         </td>
+
+                        <td>
+                          <div className={styles.status}>
+                            <span>{utilDate(e.register[e.register.length-1].date_register)}</span>
+                          </div>
+                        </td>
+
+                        <td>
+                          <div  onClick={() => handleFollowing(index)}>
+                            <RiAlignJustify />
+                          </div>
+                        </td>
+                     
                       </div>
                     </tr>
                   ))

@@ -2,6 +2,8 @@ import axios from "axios";
 import {
   ALL_TECHNICALS,
   ALL_TICKETS_ADMIN,
+  ALL_USERS,
+  CREATE_TICKET_ADMIN,
   DELETE_TICKET_ADMIN,
   EDIT_TICKET_ADMIN,
   FILTER_TICKET_ADMIN,
@@ -9,6 +11,8 @@ import {
   LOGOUT,
   URL_ALLTICKETS_ADMIN,
   URL_ALL_TECHNICALS,
+  URL_ALL_USERS,
+  URL_CREATE_TICKET_ADMIN,
   URL_DELETE_TICKET_ADMIN,
   URL_EDIT_TICKET_ADMIN,
   URL_FILTER_TICKET_ADMIN,
@@ -95,4 +99,28 @@ export function allTechnicals() {
       return e.response.status;
     }
   };
+}
+
+export function allUsers(){
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(URL_ALL_USERS);
+      dispatch({ type: ALL_USERS, payload: response });
+    } catch (e) {
+      console.log(e.response.data);
+      return e.response.status;
+    }
+  };
+}
+
+export function adminNewTicket(data) {
+  return async (dispatch) => {
+  try {
+    const response = await axios.post(URL_CREATE_TICKET_ADMIN, data);
+    dispatch({ type: CREATE_TICKET_ADMIN, payload: response });
+  } catch (e) {
+    console.log(e.response.data);
+    return e.response.status;
+  }
+};
 }

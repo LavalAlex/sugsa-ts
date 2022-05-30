@@ -3,12 +3,9 @@
 }
 
 .container {
-    --pX: 1.5em;
-    --p: 5em;
+
     position: relative;
-    top: 48%;
-    left: 32%;
-    transform: translate(-50%, -50%);
+ 
     width: 50em;
     max-width: 50em;
     margin-bottom: 1rem;
@@ -139,4 +136,11 @@
 .wrapper{
     width: 20rem;
     cursor: pointer;
+}
+
+.containerEdit{
+    display:flex;
+    justify-content: space-evenly;
+    /* flex-direction:row; */
+    
 }

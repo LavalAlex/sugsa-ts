@@ -24,4 +24,6 @@ router.post("/departament", async (req, res) => {
   }
 });
 
+
+
 module.exports = router;

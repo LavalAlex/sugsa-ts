@@ -12,6 +12,7 @@ import { optionSelectTechnical } from "../../../Utils/optionTechnical";
 
 import { utilDate } from "../../../Utils/tableUtils";
 import style from "./AdminTicketEdit.module.css";
+import { inputTicketEdit } from "../../../Utils/validateTicket";
 
 export default function AdminTicketEdit({ data, isTicket }) {
   const dispatch = useDispatch();
@@ -19,6 +20,7 @@ export default function AdminTicketEdit({ data, isTicket }) {
   const [editAssig, setEditAssig] = useState(true);
   const technicals = useSelector((state) => state.technical.technical);
   const [optionTechnical, setOptionTecnical] = useState([]);
+  const [editRegister, setEditRegister] = useState(false);
 
   useEffect(() => {
     dispatch(allTechnicals());
@@ -36,7 +38,7 @@ export default function AdminTicketEdit({ data, isTicket }) {
   const [dataEdit, setDataEdit] = useState({
     classification: "",
     assigned: "",
-    close: "",
+    tech_descrip: "",
   });
   const [errors, setErrors] = useState({ classification: "", assigned: "" });
 
@@ -45,23 +47,21 @@ export default function AdminTicketEdit({ data, isTicket }) {
     setErrors({
       classification: "",
       assigned: "",
+      error: "",
     });
   };
 
   const handleUpdate = async () => {
-    if (!dataEdit.assigned) {
-      const update = { classification: dataEdit.classification };
-      dispatch(editTicketAdmin(data._id, update));
+    const update = inputTicketEdit(dataEdit);
+    if (update.error) {
+      setErrors((old) => ({
+        error: update.error
+      }));
     } else {
-      if (!dataEdit.classification) {
-        const update = { assigned: dataEdit.assigned };
-        dispatch(editTicketAdmin(data._id, update));
-      } else {
-        dispatch(editTicketAdmin(data._id, dataEdit));
-      }
+      dispatch(editTicketAdmin(data._id, update));
+      alert("The ticket has been updated!");
+      isTicket();
     }
-    alert("The ticket has been updated!");
-    isTicket();
   };
 
   const handleDelete = async () => {
@@ -82,9 +82,9 @@ export default function AdminTicketEdit({ data, isTicket }) {
     isTicket();
   };
 
-  const handleTechnical = (e)=>{
-    setDataEdit((old)=>({...old, assigned: e.value }))
-  }
+  const handleTechnical = (e) => {
+    setDataEdit((old) => ({ ...old, assigned: e.value }));
+  };
 
   return (
     <div className={style.container} key={data._id}>
@@ -110,103 +110,142 @@ export default function AdminTicketEdit({ data, isTicket }) {
         </div>
       </div>
 
-      {data.feedback === "false" ? (
-        <div className={style.edit}>
-          <h4>Description:</h4>
-          <div>{data.description}</div>
-          <h4>
-            Classification:
-            <button
-              title="Edit Ticket"
-              className={style.btn}
-              onClick={() => setEditClass((old) => !old)}
-            >
-              <BiEditAlt
-                style={{
-                  width: "2em",
-                  height: "2em",
-                }}
-              />
-            </button>
-          </h4>
+      <div className={style.edit}>
+        <h4>Description:</h4>
+        <div>{data.description}</div>
 
-          {editClass ? (
-            <div>{data.classification.toUpperCase()}</div>
-          ) : (
-            <label className={style.wrapper}>
-              <div
-                className={`${style.inputGroup} ${
-                  errors.classification ? style.error : ""
-                } `}
+        <div className={style.containerEdit}>
+        {errors.error ? (
+                  <span className={style.errorSpan}>
+                    {errors.error}
+                  </span>
+                ) : (
+                  ""
+                )}
+          <div>
+            <h4>
+              Classification:
+              <button
+                title="Edit Ticket"
+                className={style.btn}
+                onClick={() => setEditClass((old) => !old)}
               >
-                <input
-                  value={dataEdit.classification}
-                  onChange={handleChange}
-                  name="classification"
-                  type="text"
-                  placeholder="Classification..."
-                  autoComplete="off"
+                <BiEditAlt
+                  style={{
+                    width: "2em",
+                    height: "2em",
+                  }}
                 />
-              </div>
-              {errors.classification ? (
-                <span className={style.errorSpan}>{errors.classification}</span>
-              ) : (
-                ""
-              )}
-            </label>
-          )}
-          <h4>
-            Assigned Technician:
-            <button
-              title="Edit Ticket"
-              className={style.btn}
-              onClick={() => setEditAssig((old) => !old)}
-            >
-              <BiEditAlt
-                style={{
-                  width: "2em",
-                  height: "2em",
-                }}
-              />
-            </button>{" "}
-          </h4>
+              </button>
+            </h4>
 
-          {editAssig ? (
-            <div>
-              {!data.assigned_technician || data.assigned_technician == "false"
-                ? "Unassigned at the moment"
-                : data.assigned_technician.toUpperCase()}
-            </div>
-          ) : (
-            <label className={style.wrapper}>
+            {editClass ? (
+              <div>{data.classification.toUpperCase()}</div>
+            ) : (
               <label className={style.wrapper}>
-                <Select
-                  className={`${style.wrapper} ${
-                    errors.departament ? style.errorSelect : ""
-                  }`}
-                  onChange={(e) => handleTechnical(e)}
-                  options={optionTechnical}
-                  placeholder="Technical..."
-                />
+                <div
+                  className={`${style.inputGroup} ${
+                    errors.classification ? style.error : ""
+                  } `}
+                >
+                  <input
+                    value={dataEdit.classification}
+                    onChange={handleChange}
+                    name="classification"
+                    type="text"
+                    placeholder="Classification..."
+                    autoComplete="off"
+                  />
+                </div>
+                {errors.classification ? (
+                  <span className={style.errorSpan}>
+                    {errors.classification}
+                  </span>
+                ) : (
+                  ""
+                )}
               </label>
+            )}
+          </div>
 
-              {errors.assigned ? (
-                <span className={style.errorSpan}>{errors.assigned}</span>
-              ) : (
-                ""
-              )}
-            </label>
+          <div>
+            <h4>
+              Assigned Technical:
+              <button
+                title="Edit Ticket"
+                className={style.btn}
+                onClick={() => setEditAssig((old) => !old)}
+              >
+                <BiEditAlt
+                  style={{
+                    width: "2em",
+                    height: "2em",
+                  }}
+                />
+              </button>{" "}
+            </h4>
+
+            {editAssig ? (
+              <div>
+                {!data.assigned_technical || data.assigned_technical == "false"
+                  ? "Unassigned at the moment"
+                  : `${data.assigned_technical.name.toUpperCase()} ${data.assigned_technical.last_name.toUpperCase()}`}
+              </div>
+            ) : (
+              <label className={style.wrapper}>
+                <label className={style.wrapper}>
+                  <Select
+                    className={`${style.wrapper} ${
+                      errors.departament ? style.errorSelect : ""
+                    }`}
+                    onChange={(e) => handleTechnical(e)}
+                    options={optionTechnical}
+                    placeholder="Technical..."
+                  />
+                </label>
+
+                {errors.assigned ? (
+                  <span className={style.errorSpan}>{errors.assigned}</span>
+                ) : (
+                  ""
+                )}
+              </label>
+            )}
+          </div>
+        </div>
+      </div>
+
+      <h5>Description</h5>
+
+      {editRegister ? (
+        <label className={style.wrapper}>
+          <div
+            className={`${style.inputGroup} ${
+              errors.description ? style.error : ""
+            } `}
+          >
+            <textarea
+              value={dataEdit.tech_descrip}
+              onChange={handleChange}
+              name="tech_descrip"
+              type="text"
+              placeholder="Description..."
+              autoComplete="off"
+              rows={5}
+              cols={40}
+            />
+          </div>
+          {errors.description ? (
+            <span className={style.errorSpan}>{errors.description}</span>
+          ) : (
+            ""
           )}
-        </div>
+        </label>
       ) : (
-        <div className={style.edit}>
-          <h4>Description:</h4>
-          <div>{data.description}</div>
-          <h4>Assigned Technician:</h4>
-          <div>{data.assigned_technician}</div>
-          <h4>Feedback</h4>
-          <div>{data.feedback}</div>
-        </div>
+        <label>
+          Agregar avance del ticket?
+          <button onClick={(old) => setEditRegister(true)}>Agregar</button>
+        </label>
       )}
 
       <div className={style.buttonContainer}>

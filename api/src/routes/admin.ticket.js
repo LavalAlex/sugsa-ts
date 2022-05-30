@@ -6,6 +6,7 @@ const { JWT_SECRET, JWT_EXPIRE_TIME, JWT_COOKIE_EXPIRE } = process.env;
 const {
   editTicketAdmin,
   filterTicketStatus,
+  adminCreateTicket,
 } = require("../utils/ticket.admin");
 
 const router = Router();
@@ -57,5 +58,16 @@ router.delete("/delete/:id", async (req, res) => {
     res.status(404).send({ error: "Error on delete ticket" });
   }
 });
+
+router.post("/ticket/create", async (req, res) => {
+  try {
+    const newTicket = await adminCreateTicket(req.body);
+    if (newTicket.msg) res.status(200).send(newTicket);
+    else res.status(404).send(newTicket);
+  } catch (e) {
+    console.log("Error on create", e);
+    res.status(404).send(newTicket);
+  }
+})
 
 module.exports = router;

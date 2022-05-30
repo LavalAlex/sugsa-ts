@@ -1,6 +1,7 @@
 import {
   ALL_TICKETS,
   ALL_TICKETS_ADMIN,
+  CREATE_TICKET_ADMIN,
   DELETE_TICKET_ADMIN,
   EDIT_TICKET,
   FILTER_TICKET_ADMIN,
@@ -42,6 +43,11 @@ export default function root(state = initialState, action) {
       };
 
     case DELETE_TICKET_ADMIN:
+      return{
+        ...state
+      }
+
+    case CREATE_TICKET_ADMIN:
       return{
         ...state
       }

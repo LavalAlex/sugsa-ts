@@ -5,6 +5,7 @@ const schemaTechnical = new Schema({
   name: String,
   last_name: String,
   email: String,
+  business: String
 });
 
 module.exports = model("technicals", schemaTechnical);
