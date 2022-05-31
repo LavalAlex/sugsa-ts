@@ -43,6 +43,7 @@ export function logout() {
 export function editTicketAdmin(id, data) {
   return async (dispatch) => {
     try {
+      console.log(data)
       const response = await axios.put(`${URL_EDIT_TICKET_ADMIN}/${id}`, data);
       dispatch({ type: EDIT_TICKET_ADMIN, payload: {} });
     } catch (e) {

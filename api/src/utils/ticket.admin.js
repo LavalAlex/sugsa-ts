@@ -1,7 +1,7 @@
 const Business = require("../schemas/Business");
 const Ticket = require("../schemas/Ticket");
 const User = require("../schemas/User");
-
+const transporter = require("../Conf/Mailer");
 const Status = {
   Active: "Active",
   Pending: "Pending",
@@ -11,13 +11,30 @@ const Status = {
 };
 
 const editTicketAdmin = async (ticketId, data) => {
+  if (data.feedback) {
+    let ticket = await Ticket.findOne({ id: ticketId });
+    let update ={
+      feedback: data.feedback,
+      status: "Close"
+    }
+    if (ticket.feedback === "true") {
+      const ticketUpdate = await Ticket.findByIdAndUpdate(ticket._id, update, {
+        new: true,
+      });
+      return ticketUpdate;
+    } else return "";
+  }
   if (data.tech_descrip) {
     let ticket = await Ticket.findById(ticketId);
     let tech = ticket.register;
     tech.push({ description: data.tech_descrip });
-    const ticketUpdate = await Ticket.findByIdAndUpdate(ticketId, {register: tech}, {
-      new: true,
-    });
+    const ticketUpdate = await Ticket.findByIdAndUpdate(
+      ticketId,
+      { register: tech },
+      {
+        new: true,
+      }
+    );
     return ticketUpdate;
   }
   if (data.close) {
@@ -29,6 +46,8 @@ const editTicketAdmin = async (ticketId, data) => {
     const ticketUpdate = await Ticket.findByIdAndUpdate(ticketId, update, {
       new: true,
     });
+
+    feedbackTicket(ticketId, ticketUpdate);
     return ticketUpdate;
   }
   if (data.assigned) {
@@ -91,8 +110,30 @@ const assignedTechnical = async (user) => {
   return newTech;
 };
 
+const orderTickets = async () => {
+  const tickets = await Ticket.find({});
+  let orderTicket = [];
+  for (var i = tickets.length - 1; i >= 0; i--) {
+    orderTicket.push(tickets[i]);
+  }
+  orderTicket = orderTicket.filter((e) => e.status != "Pending Feedback");
+  return orderTicket;
+};
+
+const feedbackTicket = async (id, ticket) => {
+  let info = await transporter.sendMail({
+    from: '"Feedback  Ticket 👻" <lavalalexander@gmail.com>', // sender address
+    to: "lavalalexander@gmail.com", // list of receivers
+    subject: "Feedback ✔", // Subject line
+    // text: "Hello world?", // plain text body
+    html: `<b>Click en el siguiente link para realizar su devolución!</b>
+    <a href="http://localhost:3000/feedback/${ticket.id}> Feedback</a>`, // html body
+  });
+};
+
 module.exports = {
   editTicketAdmin,
   filterTicketStatus,
-  adminCreateTicket
+  adminCreateTicket,
+  orderTickets,
 };

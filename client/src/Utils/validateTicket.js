@@ -19,39 +19,29 @@ const validateNewTicket = ({ description, classification }) => {
   return {};
 };
 
-const inputTicketEdit = ({ assigned, classification, tech_descrip }) => {
-  console.log(tech_descrip)
+const inputTicketEdit = ({ assigned, classification}) => {
   if (
-    (assigned === "" && classification === "" && tech_descrip === "") ||
-    (!assigned && !classification && !tech_descrip)
+    (assigned === "" && classification) ||
+    (!assigned && !classification )
   ) {
     return {
       error:
         "Error, You must provider an Technician or Classification or Description",
     };
   }
-  if (!assigned && !classification) {
-    return { tech_descrip };
-  }
 
-  if (tech_descrip && assigned) {
-    return { assigned, tech_descrip, classification };
+  if  (assigned && classification) {
+    return { assigned ,classification };
   }
-  if (!tech_descrip && !assigned) {
+  if ( !assigned) {
+    if(classification)
     return { classification };
   }
-  if (!tech_descrip && assigned) {
-    return { assigned, classification };
-  }
-  if (!assigned && tech_descrip) {
-    return { tech_descrip, classification };
+  if (assigned) {
+    if(!classification)
+    return { assigned };
   }
 
-  if (classification.length < 8) {
-    return {
-      classification: "Error, The classification must be at least 8 characters",
-    };
-  }
   return {};
 };
 
@@ -62,4 +52,18 @@ const validateInputFeedback = (feedback) => {
   }
   return {};
 };
-module.exports = { inputTicketEdit, validateNewTicket, validateInputFeedback };
+
+const validateDescirption = ({ tech_descrip }) => {
+  if (!tech_descrip)
+    return {
+      error: "Error, You must provider an Description",
+    };
+  if (tech_descrip.length < 4) {
+    return {
+      error: "Error, The description must be at least 8 characters",
+    };
+  }
+
+  return {};
+};
+module.exports = { inputTicketEdit, validateNewTicket, validateInputFeedback, validateDescirption };

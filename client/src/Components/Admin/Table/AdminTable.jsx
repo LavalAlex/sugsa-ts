@@ -9,13 +9,12 @@ import { allTickets } from "../../../Redux/Actions/Ticket";
 
 import { RiAlignJustify } from "react-icons/ri";
 
-
 export default function AdminTables({
   tickets,
   setTicketId,
   setDetailTicket,
   setFollowingTicket,
-  setNewAdminTicket
+  setNewAdminTicket,
 }) {
   const dispatch = useDispatch();
 
@@ -26,12 +25,12 @@ export default function AdminTables({
 
   const handleFollowing = (id) => {
     setTicketId(id);
-    setFollowingTicket(true)
+    setFollowingTicket(true);
   };
 
-  const handleNewTicket = ()=>{
-    setNewAdminTicket(true)
-  }
+  const handleNewTicket = () => {
+    setNewAdminTicket(true);
+  };
 
   const handleFilter = ({ target: { name, value } }) => {
     if (value === "Pending Feedback") {
@@ -41,16 +40,16 @@ export default function AdminTables({
     }
   };
 
- 
+  
+
   return (
     <div className={styles.container}>
       <Card>
         <CardBody>
           <CardTitle>
             <div className={styles.title}>
-        
-                <h3>TIKETS</h3>
-                <div
+              <h3>TIKETS</h3>
+              <div
                 title="New Ticket"
                 className={styles.btn}
                 onClick={handleNewTicket}
@@ -74,7 +73,7 @@ export default function AdminTables({
                   }}
                 />
               </div> */}
-              <div className={styles.selectStatus}>
+              {/* <div className={styles.selectStatus}>
                 <select onChange={(e) => handleFilter(e)}>
                   <option>Status</option>
                   <option>Active</option>
@@ -83,7 +82,7 @@ export default function AdminTables({
                   <option>Close</option>
                   <option>Cancel</option>
                 </select>
-              </div>
+              </div> */}
             </div>
           </CardTitle>
 
@@ -102,6 +101,11 @@ export default function AdminTables({
                 ? tickets.map((e, index) => (
                     <tr key={index}>
                       <div className={styles.cardContainer}>
+                      <td>
+                          <div className={styles.date}>
+                            <span>{e.id}</span>
+                          </div>
+                        </td>
                         <td>
                           <div className={styles.cardBody}>
                             <div>
@@ -116,6 +120,7 @@ export default function AdminTables({
 
                             <div
                               className={styles.infoUser}
+                              title="Detalle del Ticktet"
                               onClick={() => handleSubmit(index)}
                             >
                               <h5>{e.name}</h5>
@@ -126,46 +131,53 @@ export default function AdminTables({
 
                         <td>
                           <div className={styles.date}>
-                            <span>{utilDate(e.createdAt)}</span>
-                          </div>
-                        </td>
-
-
-                        <td>
-                          <div className={styles.status}>
-                            <span>{e.description}</span>
+                            <span>{e.status!="Close"?utilDate(e.createdAt):"CERRADO"}</span>
                           </div>
                         </td>
 
                         <td>
                           <div className={styles.status}>
-                            <span>{e.classification}</span>
+                            <span>{e.status!="Close"?e.description:""}</span>
                           </div>
                         </td>
+
                         <td>
+                          <div className={styles.status}>
+                            <span>{e.status!="Close"?e.classification:""}</span>
+                          </div>
+                        </td>
+                        {/* <td>
                           <div className={styles.status}>
                             <span>{e.status}</span>
                           </div>
+                        </td> */}
+
+                        <td>
+                          <div className={styles.status}>
+                            <span>
+                              {e.status!="Close"?e.register[e.register.length - 1].description:""}
+                            </span>
+                          </div>
                         </td>
 
                         <td>
                           <div className={styles.status}>
-                            <span>{e.register[e.register.length-1].description}</span>
+                            <span>
+                              {e.status!="Close"?utilDate(
+                                e.register[e.register.length - 1].date_register
+                              ):""}
+                            </span>
                           </div>
                         </td>
 
                         <td>
-                          <div className={styles.status}>
-                            <span>{utilDate(e.register[e.register.length-1].date_register)}</span>
+                          <div onClick={() => handleFollowing(index)}    title="Seguimiento"
+                className={styles.btn}>
+                            <RiAlignJustify
+                              style={{ width: "2em", height: "2em" }}
+                            />
                           </div>
                         </td>
-
-                        <td>
-                          <div  onClick={() => handleFollowing(index)}>
-                            <RiAlignJustify />
-                          </div>
-                        </td>
-                     
                       </div>
                     </tr>
                   ))

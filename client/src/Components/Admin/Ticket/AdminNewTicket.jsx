@@ -43,17 +43,13 @@ export default function AdminNewTicket({ isTicket}) {
       dispatch(allUsers())
       setOptionUser([]);
     }
-  }, []);
-
-  console.log('user',userSearch)
-console.log(users)
+  }, [users]);
 
   const handleChange = ({ target: { name, value } }) => {
     setData((old) => ({ ...old, [name]: value }));
     setErrors({
       
-        description: "",
-      
+        description: "",      
        
     });
   };
@@ -101,7 +97,6 @@ console.log(users)
   };
 
   const handleSelectUser = ({id})=>{
-    console.log(users)
     setUserSearch(users[id])
   }
 

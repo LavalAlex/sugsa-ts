@@ -26,6 +26,8 @@ export default function AdminHome() {
   const isTicket = () => {
     dispatch(allTicketsAdmin());
     setDetailTicket((old) => false)
+    setFollowingTicket((old) => false)
+    setNewAdminTicket((old)=> false)
   };
 
   return (

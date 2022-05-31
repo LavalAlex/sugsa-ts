@@ -25,9 +25,14 @@
 }
 
 .data span {
-    padding-left: 4rem;
+    padding-left: 1rem;
 }
 
+.data h4{
+    margin-top: 0;
+    margin-bottom: .5rem;
+    padding-top: 0;
+}
 
 .inputGroup {
     display: flex;

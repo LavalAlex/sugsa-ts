@@ -1,12 +1,16 @@
 const { Document, Schema, model } = require("mongoose");
 
+
+let counter = 1;
+let CountedId = {type: Number, default: () => counter++};
+
 const schemaTicket = new Schema({
-  id: Number,
-  email: String,
-  name: String,
-  business: String,
-  departament: String,
-  description: String,
+  id: CountedId,
+  email: { type: String, required: true },
+  name: { type: String, required: true },
+  business: { type: String, required: true },
+  departament: { type: String, required: true },
+  description: { type: String, required: true },
   classification: {
     type: String,
     default: "Menor a 48hs",
@@ -30,20 +34,22 @@ const schemaTicket = new Schema({
     type: String,
     default: "Activo",
   },
-  register: [{
-    type: {
-      date_register: {
-        type: Date,
-        default: Date.now,
+  register: [
+    {
+      type: {
+        date_register: {
+          type: Date,
+          default: Date.now,
+        },
+        description: {
+          type: String,
+        },
       },
-      description: {
-        type: String,
+      default: {
+        description: "Registro de nuevo caso",
       },
     },
-    default: {
-      description: "Registro de nuevo caso",
-    },
-  }],
+  ],
 });
 
 module.exports = model("tickets", schemaTicket);

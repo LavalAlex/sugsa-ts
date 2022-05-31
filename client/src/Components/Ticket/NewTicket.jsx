@@ -16,7 +16,7 @@ export default function NewTicket({ isTicket}) {
   const dispatch = useDispatch();
   const user = useSelector((state) =>  state.auth.user)
 
-  console.log(user)
+ 
   const [errors, setErrors] = useState({
     description: "",
     classification: "",

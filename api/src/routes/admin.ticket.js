@@ -1,5 +1,6 @@
 const { Router } = require("express");
 const jwt = require("jsonwebtoken");
+const  transporter  = require("../Conf/Mailer");
 const Ticket = require("../schemas/Ticket");
 const { JWT_SECRET, JWT_EXPIRE_TIME, JWT_COOKIE_EXPIRE } = process.env;
 
@@ -7,6 +8,7 @@ const {
   editTicketAdmin,
   filterTicketStatus,
   adminCreateTicket,
+  orderTickets,
 } = require("../utils/ticket.admin");
 
 const router = Router();
@@ -36,7 +38,7 @@ router.get("/status/:status", async (req, res) => {
 
 router.get("/alltickets", async (req, res) => {
   try {
-    const allTicket = await Ticket.find({});
+    const allTicket = await orderTickets();
     if (!allTicket)
       res.status(404).send({ error: "this tickets does not exist" });
     res.status(200).send(allTicket);
@@ -68,6 +70,23 @@ router.post("/ticket/create", async (req, res) => {
     console.log("Error on create", e);
     res.status(404).send(newTicket);
   }
+})
+
+
+
+router.post('/feedback', async (req, res) => {
+
+  const {id} = req.body
+  let info = await transporter.sendMail({
+    from: '"Feedback  Ticket 👻" <lavalalexander@gmail.com>', // sender address
+    to: "lavalalexander@gmail.com", // list of receivers
+    subject: "Feedback ✔", // Subject line
+    // text: "Hello world?", // plain text body
+    html: `<b>Click en el siguiente link para realizar su devolución!</b>
+    <a href="http://localhost:3000/feedback/${id}> Feedback</a>`, // html body
+  });
+
+  res.send({msg: 'Readed email'}).status(200)
 })
 
 module.exports = router;

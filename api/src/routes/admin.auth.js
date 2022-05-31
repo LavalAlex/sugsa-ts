@@ -6,6 +6,9 @@ const { createAdmin, findAll, findAdmin,  } = require("../utils/utils.authAdmin"
 
 const router = Router();
 
+
+const transporter = require('../Conf/Mailer')
+
 router.post("/signup", async (req, res) => {
   try {
     var { name, email, password, empresa } = req.body;
@@ -52,5 +55,7 @@ router.post("/login", async (req, res) => {
     res.status(404).send(e);
   }
 });
+
+
 
 module.exports = router;
