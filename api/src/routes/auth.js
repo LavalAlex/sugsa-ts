@@ -8,10 +8,9 @@ const router = Router();
 
 router.post("/signup", async (req, res) => {
   try {
-    var { name, email, password, business, departament, last_name } = req.body;
-    const newUser = await createUser(name, email, password, business, departament, last_name);
+    const newUser = await createUser(req.body);
     if (newUser.error) res.status(404).send(newUser);
-    else res.status(200).send(newUser);
+    else res.status(200).send({msg:"User creado con éxitos!"});
   } catch (e) {
     console.log("Error on signup:", e);
     res.status(404).send("Error on the user register");
@@ -33,8 +32,9 @@ router.post("/login", async (req, res) => {
   try {
     const { name, password, email } = req.body;
     const userAuth = await findUser(email, password);
-  
-    if (!userAuth || userAuth.error) return res.status(404).send({user:userAuth, success: false});
+
+    if (!userAuth || userAuth.error)
+      return res.status(404).send({ user: userAuth, success: false });
 
     const id = userAuth.id;
     const token = jwt.sign({ id: id }, JWT_SECRET, {

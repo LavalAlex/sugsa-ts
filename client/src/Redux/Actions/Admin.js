@@ -26,7 +26,7 @@ export function adminLogin(admin) {
       dispatch({ type: LOGIN_ADMIN, payload: response });
     } catch (e) {
       console.log(e.response.data);
-      return e.response.status;
+      return e.response.data;
     }
   };
 }
@@ -97,7 +97,7 @@ export function allTechnicals() {
       dispatch({ type: ALL_TECHNICALS, payload: response });
     } catch (e) {
       console.log(e.response.data);
-      return e.response.status;
+      return e.response.data;
     }
   };
 }
@@ -109,7 +109,7 @@ export function allUsers(){
       dispatch({ type: ALL_USERS, payload: response });
     } catch (e) {
       console.log(e.response.data);
-      return e.response.status;
+      return e.response.data;
     }
   };
 }
@@ -121,7 +121,7 @@ export function adminNewTicket(data) {
     dispatch({ type: CREATE_TICKET_ADMIN, payload: response });
   } catch (e) {
     console.log(e.response.data);
-    return e.response.status;
+    return e.response.data;
   }
 };
 }

@@ -4,19 +4,18 @@ import Select from "react-select";
 import { useDispatch, useSelector } from "react-redux";
 import { FaUserCircle, FaKey, FaEye } from "react-icons/fa";
 
-import { login, signup } from "../../Redux/Actions/Auth";
-import { validateLogin, validateSignup } from "../../Utils/validate";
-import { statusMsg } from "../../Utils/status";
+import { signup } from "../../Redux/Actions/Auth";
+import { validateSignup } from "../../Utils/validate";
 
 import style from "./SignupCard.module.css";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { allBusiness, departamentBusiness } from "../../Redux/Actions/Business";
 import { optionSelect, selectDepartament } from "../../Utils/optionBusiness";
 
 export default function LoginCard() {
   const dispatch = useDispatch();
   const path = useLocation().pathname;
-
+  const navitage = useNavigate();
   const [keyOn, setKeyOn] = useState(false);
   const [optionBusiness, setOptionBusines] = useState([]);
   const business = useSelector((state) => state.business.business);
@@ -25,14 +24,17 @@ export default function LoginCard() {
 
   const [errors, setErrors] = useState({
     name: "",
+    last_name: "",
     email: "",
     password: "",
     business: "",
     departament: "",
+    code: "",
   });
 
   const [input, setInput] = useState({
     name: "",
+    last_name: "",
     email: "",
     password: "",
     business: "",
@@ -41,7 +43,7 @@ export default function LoginCard() {
 
   useEffect(() => {
     dispatch(allBusiness());
-  }, []);
+  }, [input.name]);
 
   useEffect(() => {
     if (business[0]) {
@@ -50,19 +52,18 @@ export default function LoginCard() {
       dispatch(allBusiness());
       setOptionBusines([]);
     }
-  }, []);
+  }, [input.name]);
 
   useEffect(() => {
     if (departament[0]) {
       setoptionDepartament(selectDepartament(departament));
     } else {
-      if(input.business){
+      if (input.business) {
         dispatch(departamentBusiness(input.business));
         setoptionDepartament([]);
       }
-      // dispatch(departamentBusiness(e.value));
     }
-  }, [input.business]);
+  }, [input.business, departament[0]]);
 
   const handleChange = (e) => {
     setInput({
@@ -72,14 +73,16 @@ export default function LoginCard() {
     setErrors("");
   };
 
+  console.log(errors)
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { name, email, password, business, departament } =
+    const { name, email, password, business, departament, last_name } =
       validateSignup(input);
-    if (email || password || business || departament || name) {
+    if (email || password || business || departament || name || last_name) {
       setErrors((old) => ({
         ...old,
         name: name ? name : "",
+        last_name: last_name ? last_name : "",
         email: email ? email : "",
         password: password ? password : "",
         business: business ? business : "",
@@ -93,15 +96,24 @@ export default function LoginCard() {
           }));
     } else {
       const code = await dispatch(signup(input));
-      alert("User created successfully!");
+      if (code.error) {
+        setErrors((old) => ({
+          ...old,
+          code: code.error,
+        }));
+      } else {
+        alert("Usuario creado con éxitos!");
+        navitage("/login");
+      }
     }
   };
 
   const handleSelectBusiness = async (e) => {
     setInput((old) => ({ ...old, business: e.value }));
-    dispatch(departamentBusiness(e.value));
+    await dispatch(departamentBusiness(e.value));
     setErrors({
       name: "",
+      last_name: "",
       email: "",
       password: "",
       business: "",
@@ -113,6 +125,7 @@ export default function LoginCard() {
     setInput((old) => ({ ...old, departament: e.value }));
     setErrors({
       name: "",
+      last_name: "",
       email: "",
       password: "",
       business: "",
@@ -125,7 +138,7 @@ export default function LoginCard() {
       <form onSubmit={(e) => handleSubmit(e)}>
         <h1>{path === "/signup" ? "- SIGN UP -" : "- LOGIN ADMIN -"}</h1>
         <label>
-          <h5>Name</h5>
+          <h5>Nombre:</h5>
           <div
             className={`${style.inputGroup} ${errors.name ? style.error : ""} `}
           >
@@ -135,7 +148,7 @@ export default function LoginCard() {
               value={input.name}
               name="name"
               onChange={(e) => handleChange(e)}
-              placeholder="Enter name"
+              placeholder="Nombre..."
               autoComplete="off"
             />
           </div>
@@ -148,7 +161,30 @@ export default function LoginCard() {
           )}
         </div>
         <label>
-          <h5>Business</h5>
+          <h5>Apellido:</h5>
+          <div
+            className={`${style.inputGroup} ${errors.last_name ? style.error : ""} `}
+          >
+            <FaUserCircle />
+            <input
+              type="text"
+              value={input.last_name}
+              name="last_name"
+              onChange={(e) => handleChange(e)}
+              placeholder="Apellido..."
+              autoComplete="off"
+            />
+          </div>
+        </label>
+        <div>
+          {errors.last_name ? (
+            <span className={style.errorSpan}>{errors.last_name}</span>
+          ) : (
+            ""
+          )}
+        </div>
+        <label>
+          <h5>Empresa:</h5>
           <label className={style.wrapper}>
             <Select
               className={`${style.wrapper} ${
@@ -156,7 +192,7 @@ export default function LoginCard() {
               }`}
               onChange={(e) => handleSelectBusiness(e)}
               options={optionBusiness}
-              placeholder="Business..."
+              placeholder="Empresa..."
             />
           </label>
         </label>
@@ -169,7 +205,7 @@ export default function LoginCard() {
         </div>
 
         <label>
-          <h5>Departament</h5>
+          <h5>Departamento:</h5>
           <label className={style.wrapper}>
             <Select
               className={`${style.wrapper} ${
@@ -190,7 +226,7 @@ export default function LoginCard() {
         </div>
 
         <label>
-          <h5>Email</h5>
+          <h5>Email:</h5>
           <div
             className={`${style.inputGroup} ${
               errors.email ? style.error : ""
@@ -202,7 +238,7 @@ export default function LoginCard() {
               value={input.email}
               name="email"
               onChange={(e) => handleChange(e)}
-              placeholder="Enter email"
+              placeholder="Email..."
               autoComplete="off"
             />
           </div>
@@ -215,7 +251,7 @@ export default function LoginCard() {
           )}
         </div>
         <label>
-          <h5>Password</h5>
+          <h5>Contraseña:</h5>
           <div
             className={`${style.inputGroupPass} ${
               errors.password ? style.error : ""
@@ -227,7 +263,7 @@ export default function LoginCard() {
               value={input.password}
               name="password"
               onChange={(e) => handleChange(e)}
-              placeholder="Enter password"
+              placeholder="Contraseña..."
             />
             <FaEye
               className={style.keyEye}

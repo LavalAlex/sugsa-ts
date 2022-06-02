@@ -6,10 +6,10 @@ const User = require("../schemas/User");
 const Ticket = require("../schemas/Ticket");
 const { now } = require("mongoose");
 
-const createUser = async (name, email, password, business, departament, last_name) => {
+const createUser = async ({name, email, password, business, departament, last_name}) => {
   password = bcrypt.hashSync(password, saltRounds);
   const user = await User.findOne({ email });
-  if (user) return { error: "Error, this user does exits" };
+  if (user) return { error: "Error, el usuario ya tiene una cuenta!" };
   let newUser = new User({
     name,
     email,

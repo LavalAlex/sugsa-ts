@@ -6,6 +6,7 @@ import style from './Feedback.module.css'
 
 export default function Feedback(){
     let { id } = useParams();
+    console.log(id)
     return(
         <div className={style.container}>
    

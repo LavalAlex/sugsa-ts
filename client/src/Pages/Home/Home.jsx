@@ -8,6 +8,7 @@ import NewTicket from "../../Components/Ticket/NewTicket";
 import TicketDetails from "../../Components/Ticket/TicketDetails";
 
 import Table from "../../Components/Table/Tables";
+import FollowingTicket from "../../Components/Ticket/FollowingTicket";
 export default function Home() {
   const dispatch = useDispatch();
   const [newTicket, setNewTicket] = useState(false);
@@ -15,8 +16,8 @@ export default function Home() {
   const tickets = useSelector((state) => state.tickets.tickets);
   const [ticketId, setTicketId] = useState("");
   const email = useSelector((state) => state.auth.user.email);
+  const [followTiket, setFollowTicket] = useState(false);
 
-  
   useEffect(() => {
     dispatch(allTickets(email));
   }, [newTicket]);
@@ -25,10 +26,16 @@ export default function Home() {
     setNewTicket((old) => !old);
   };
 
-  const isDeteail = ()=>{
-    setDetailTicket((old)=> !old)
+  const isDeteail = () => {
+    setDetailTicket((old) => !old);
     dispatch(allTickets(email));
-  }
+  };
+
+  const isFollowing = () => {
+    setFollowTicket((old) => !old)
+    dispatch(allTickets(email))
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.containerNewUser}>
@@ -53,7 +60,21 @@ export default function Home() {
               e.target.id === "close" ? setDetailTicket((old) => false) : ""
             }
           >
-            <TicketDetails data={tickets[ticketId]} isTicket={isDeteail } />
+            <TicketDetails data={tickets[ticketId]} isTicket={isDeteail} />
+          </div>
+        ) : (
+          ""
+        )}
+
+        {followTiket ? (
+          <div
+            className={styles.newTicket}
+            id="close"
+            onClick={(e) =>
+              e.target.id === "close" ? setFollowTicket((old) => false) : ""
+            }
+          >
+            <FollowingTicket data={tickets[ticketId]} isFollowing={isFollowing} />
           </div>
         ) : (
           ""
@@ -64,6 +85,7 @@ export default function Home() {
         setTicketId={setTicketId}
         setDetailTicket={setDetailTicket}
         isTicket={isTicket}
+        setFollowTicket={setFollowTicket}
       />
     </div>
   );

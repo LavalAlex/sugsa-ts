@@ -9,6 +9,7 @@ export default function AdminLogin() {
   const admin = useSelector((state) => state.auth);
   const navitage = useNavigate();
 
+  console.log(admin)
   return admin.success ? (
     navitage("/admin/home")
   ) : (

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { editTicketAdmin } from "../../Redux/Actions/Admin";
 import style from "./FeedbackCard.module.css";
 
@@ -7,6 +8,7 @@ export default function FeedbackCard({ id }) {
   const dispatch = useDispatch();
   const [input, setInput] = useState({ feedback: "" });
   const [errors, setErrors] = useState({ feedback: "" });
+  const navigate = useNavigate()
 
   const handleInput = ({ target: { name, value } }) => {
     setInput((old) => ({
@@ -29,6 +31,7 @@ export default function FeedbackCard({ id }) {
       const error = await dispatch(editTicketAdmin(id, input));
       //   var conf = window.confirm("Do you want to submit the poll?");
       alert("Gracias por su feedback, es muy importante para nosotros!");
+      navigate('/login')
     }
   };
 

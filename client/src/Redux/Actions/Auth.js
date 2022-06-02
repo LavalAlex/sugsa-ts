@@ -8,7 +8,7 @@ export function login(user) {
       dispatch({ type: LOGIN, payload: response });
     } catch (e){
       console.log(e.response.data)
-      return e.response.status
+      return e.response.data
     }
 };
 }
@@ -20,7 +20,7 @@ export function signup(user){
       dispatch({type: SIGNUP, payload: response})
     }catch(e){
       console.log(e.response.data)
-      return e.response.status
+      return e.response.data
     }
   }
 }

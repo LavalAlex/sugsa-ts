@@ -19,12 +19,12 @@ export default function NewTicket({ isTicket}) {
  
   const [errors, setErrors] = useState({
     description: "",
-    classification: "",
+
   });
   const [data, setData] = useState({
   
     description: "",
-    classification: "",
+
     
   });
 
@@ -33,22 +33,22 @@ export default function NewTicket({ isTicket}) {
     setErrors({
       
         description: "",
-        classification: "",
+     
        
     });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const {description, classification, } = validateNewTicket(data);
-    if (  description || classification )
+    const {description} = validateNewTicket(data);
+    if (  description )
       setErrors((old) => ({
         ...old,
         description: description ? description : "",
-        classification: classification ? classification : "",       
+           
       }));
     else {
-      var conf = window.confirm("Do you want to create the ticket?");
+      var conf = window.confirm("Esta seguro que quiere crear el ticket?");
 
       if (conf) {
 
@@ -58,26 +58,21 @@ export default function NewTicket({ isTicket}) {
           business:user.business,
           departament: user.departament,
           description:data.description,
-          classification:data.classification
+         
         }
         
         const error = await dispatch(newTicket(ticket));
         if (error) {
           alert(error.data.msg);
         } else {
-          alert("User create successfully");
+          alert("Ticket creado con éxitos!");
+          isTicket()
         }
       } else {
-        alert("The user is not created!");
+        alert("El ticket no se creo!");
+        isTicket()
       }
-      isTicket()
-      setData({
-     
-        description: "",
-        classification: "",
-       
-      });
- 
+  
     }
   };
 
@@ -129,34 +124,18 @@ export default function NewTicket({ isTicket}) {
             autoComplete="off"
             rows={5}
             cols={40}
+            maxLength={200}
           />
         </div>
         {errors.description ? (
           <span className={style.errorSpan}>{errors.description}</span>
         ) : (
-          ""
+          <span className={style.chart}>
+          {200 - data.description.length} Caracteres disponibles
+        </span>
         )}
       </label>
-      <label className={style.wrapper}>
-        <h5>Classification</h5>
-        <div
-          className={`${style.inputGroup} ${errors.classification ? style.error : ""} `}
-        >
-          <input
-            value={data.classification}
-            onChange={handleChange}
-            name="classification"
-            type="text"
-            placeholder="Classification..."
-            autoComplete="off"
-          />
-        </div>
-        {errors.classification ? (
-          <span className={style.errorSpan}>{errors.classification}</span>
-        ) : (
-          ""
-        )}
-      </label>
+
   
       <button className={style.submit} type="submit">
         Create

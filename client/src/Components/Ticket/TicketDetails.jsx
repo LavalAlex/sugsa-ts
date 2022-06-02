@@ -16,6 +16,7 @@ export default function TicketDetails({ data, isTicket }) {
     feedback: "",
   });
 
+
   const handleChange = ({ target: { name, value } }) => {
     setInput((old) => ({ ...old, [name]: value }));
     setErrors({
@@ -53,7 +54,7 @@ export default function TicketDetails({ data, isTicket }) {
     }
     isTicket();
   };
-  console.log(data.feedback);
+ 
   return (
     <div className={style.container} key={data.id}>
       <div className={style.title}>

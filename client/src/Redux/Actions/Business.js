@@ -8,7 +8,7 @@ export function allBusiness() {
       dispatch({ type: ALL_BUSINESS, payload: response });
     } catch (e) {
       console.log(e.response.data);
-      return e.response.status;
+      return e.response.data;
     }
   };
 }
@@ -21,7 +21,7 @@ export function departamentBusiness(name){
       dispatch({ type: DEPARTAMENT_BUSINESS, payload: response });
     } catch (e) {
       console.log(e.response.data);
-      return e.response.status;
+      return e.response.data;
     }
   };
 }

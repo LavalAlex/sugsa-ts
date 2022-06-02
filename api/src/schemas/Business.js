@@ -1,15 +1,18 @@
 const { Document, Schema, model } = require("mongoose");
 
+let counter = 1;
+let CountedId = {type: Number, default: () => counter++};
+
 const schemaBusiness = new Schema({
-  id: Number,
-  name: String,
+  id: CountedId,
+  name:  { type: String, required: true },
   departament: [String],
   technicals: {
     type: [{
       id:Number,
-      name: String,
-      last_name: String,
-      email: String,
+      name:  { type: String, required: true },
+      last_name:  { type: String, required: true },
+      email:  { type: String, required: true },
     }],
   },
 });

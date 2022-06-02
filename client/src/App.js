@@ -11,6 +11,7 @@ import Tool from "./Pages/Tools/Tools";
 
 import AdminLogin from "./Pages/Admin/Auth/AdminLogin";
 import AdminHome from "./Pages/Admin/Home/AdminHome";
+import AdminFollowing from "./Pages/Admin/Following/AdminFollowing";
 
 import Navbar from "./Components/Navbar/NavBar";
 import PrivateRoute from "./Components/TypeRoutes/PrivateRoute";
@@ -36,6 +37,7 @@ function App() {
           <Route path="tool" element={<Tool />} />
           <Route path="admin">
             <Route path="home" element={<AdminHome />} />
+            <Route path="following:id" element={<AdminFollowing />} />
           </Route>
         </Route>
       </Routes>

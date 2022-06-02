@@ -2,6 +2,9 @@ const User = require("../schemas/User");
 const Ticket = require("../schemas/Ticket");
 const Business = require("../schemas/Business");
 
+const transporter = require("../Conf/Mailer");
+
+
 const createTicket = async ({ email, description }) => {
   const user = await User.findOne({ email });
   if (!user) return { error: "Error, this user does not exits" };
@@ -9,6 +12,7 @@ const createTicket = async ({ email, description }) => {
   const newTicket = await Ticket.create({
     email,
     name: user.name,
+    last_name:user.last_name,
     description,
     business: user.business,
     departament: user.departament,
@@ -20,7 +24,16 @@ const createTicket = async ({ email, description }) => {
       },
     ],
   });
-  if (newTicket) return { msg: "Created ticket successfully" };
+  if (newTicket){
+    let info = await transporter.sendMail({
+      from: '"Asignacion de Nuevo Ticket 👻" <lavalalextest@gmail.com>', // sender address
+      to: "lavalalextest@gmail.com", // list of receivers
+      subject: "Nuevo-Ticket ✔", // Subject line
+      // text: "Hello world?", // plain text body
+      html: `<b>Se le acaba de asignar el ticket número: ${newTicket.id}</b>
+      `, // html body
+    });
+     return { msg: "Created ticket successfully" };}
   return { error: "Error on create the ticket" };
 };
 

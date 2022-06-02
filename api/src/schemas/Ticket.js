@@ -8,6 +8,7 @@ const schemaTicket = new Schema({
   id: CountedId,
   email: { type: String, required: true },
   name: { type: String, required: true },
+  last_name: { type: String, required: true },
   business: { type: String, required: true },
   departament: { type: String, required: true },
   description: { type: String, required: true },

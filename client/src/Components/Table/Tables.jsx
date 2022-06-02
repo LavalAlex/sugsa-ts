@@ -4,13 +4,14 @@ import { BiCommentAdd, BiAddToQueue } from "react-icons/bi";
 import styles from "./Tables.module.css";
 import { avatarUser, utilDate } from "../../Utils/tableUtils";
 import { useDispatch } from "react-redux";
-
+import { RiAlignJustify } from "react-icons/ri";
 
 export default function Tables({
   tickets,
   setTicketId,
   setDetailTicket,
   isTicket,
+  setFollowTicket,
 }) {
   const dispatch = useDispatch();
 
@@ -21,6 +22,11 @@ export default function Tables({
 
   const handleNewTicket = () => {
     isTicket();
+  };
+
+  const handleFollowing = (id) => {
+    setTicketId(id);
+    setFollowTicket(true);
   };
 
   return (
@@ -62,6 +68,7 @@ export default function Tables({
                       <div className={styles.cardContainer}>
                         <td>
                           <div className={styles.cardBody}>
+                            <h5>{e.id}</h5>
                             <div>
                               <img
                                 src={avatarUser(index)}
@@ -74,8 +81,8 @@ export default function Tables({
 
                             <div
                               className={styles.infoUser}
-                              onClick={() => handleSubmit(index)}
-                              title="Details Ticket"
+                              // onClick={() => handleSubmit(index)}
+                              // title="Details Ticket"
                             >
                               <h5>{e.name}</h5>
                               <span>{e.email}</span>
@@ -88,10 +95,27 @@ export default function Tables({
                             <span>{e.status}</span>
                           </div>
                         </td>
+                        <td>
+                          <div className={styles.status}>
+                            <span>{e.classification}</span>
+                          </div>
+                        </td>
 
                         <td>
                           <div className={styles.date}>
                             <span>{utilDate(e.createdAt)}</span>
+                          </div>
+                        </td>
+
+                        <td>
+                          <div
+                            onClick={() => handleFollowing(index)}
+                            title="Seguimiento"
+                            className={styles.btn}
+                          >
+                            <RiAlignJustify
+                              style={{ width: "2em", height: "2em" }}
+                            />
                           </div>
                         </td>
                       </div>

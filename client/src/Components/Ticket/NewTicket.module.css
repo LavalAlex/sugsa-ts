@@ -15,6 +15,7 @@
   box-shadow: 0 0.25em 0.5em #0005;
   resize: none;
   border: none;
+  margin-bottom: 3rem;
 }
 
 .wrapper h5{
@@ -104,48 +105,9 @@ form button[type="submit"]:hover {
   color: #f33;
 }
 
-.keyEye {
-  position: absolute;
-  color: white;
-  margin-left: 12rem;
-  width: 2rem;
-  cursor: pointer;
-}
-
-
-.inputGroupPass {
-  display: flex;
-  align-items: center;
-  font-size: 0.9rem;
-  width: 15rem;
-  border-bottom: 1px solid #ccc;
-  background-color: #fff;
-  padding: 0 0 0 1em;
-  overflow: hidden;
-  gap: 2rem;
-}
-
-.inputGroupPass input {
-  font-family: "Roboto";
-  padding-left: 0.75em;
-  width: 15rem;
-  font-size: 0.9rem;
-  resize: none;
-}
-
-.inputGroupPass:focus-within {
-  border-bottom: 2px solid hsl(226deg, 100%, 70%);
-}
-
-.inputGroupPass:focus-within .keyEye {
-  color: #1e1e1e;
-}
-
-.inputGroupPass:focus-within .keyEye:hover {
-  color: hsl(226deg, 100%, 70%);
-}
-
-.inputGroupPass:focus-within.error {
-  color: #f33;
-  border-bottom: 2px solid red;
+.chart {
+  font-size: .8rem;
+  margin-left: 1rem;
+  /* margin-top: 8rem; */
+  padding-top: 2rem;
 }

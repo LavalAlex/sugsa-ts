@@ -10,6 +10,7 @@ import style from "./LoginCard.module.css";
 
 import logo from "../../Img/logo.jpeg";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { adminLogin } from "../../Redux/Actions/Admin";
 
 export default function LoginCard() {
   const dispatch = useDispatch();
@@ -51,7 +52,7 @@ export default function LoginCard() {
             password: "",
           }));
     } else {
-      await dispatch(login(input));
+      await dispatch(adminLogin(input));
     }
   };
 

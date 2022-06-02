@@ -1,11 +1,5 @@
-const validateNewTicket = ({ description, classification }) => {
-  if (!classification)
-    return { classification: "Error, You must provider a classification" };
-  if (classification.length < 3) {
-    return {
-      classification: "Error, The classification must be at least 3 characters",
-    };
-  }
+const validateNewTicket = ({ description}) => {
+
 
   if (!description) {
     return { description: "Error, You must provider a description" };
@@ -21,7 +15,7 @@ const validateNewTicket = ({ description, classification }) => {
 
 const inputTicketEdit = ({ assigned, classification}) => {
   if (
-    (assigned === "" && classification) ||
+    (assigned === "" && classification === "") ||
     (!assigned && !classification )
   ) {
     return {

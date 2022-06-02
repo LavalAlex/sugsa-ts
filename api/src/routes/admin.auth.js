@@ -35,6 +35,7 @@ router.get("/allUser", async (req, res) => {
 router.post("/login", async (req, res) => {
   try {
     const { name, password, email } = req.body;
+    console.log(req.body)
     const adminAuth = await findAdmin(email, password);
     if (!adminAuth || adminAuth.error) return res.status(404).send(adminAuth);
 

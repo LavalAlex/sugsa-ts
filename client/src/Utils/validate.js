@@ -1,5 +1,3 @@
-
-
 const validateNewPassword = ({ password }) => {
   if (!password) return { error: "Error, You must provider a password" };
   if (password.length < 6)
@@ -28,15 +26,29 @@ const validateLogin = ({ email, password }) => {
   return {};
 };
 
-const validateSignup = (  {name, email, password, business, departament }) =>{
+const validateSignup = ({
+  name,
+  email,
+  password,
+  business,
+  departament,
+  last_name,
+}) => {
   if (!name) return { name: "Error, You must provider a name" };
   if (name.length < 3)
     return {
       password: "Error, The name must be at least 6 characters",
     };
-
-    if (!business) return { business: "Error, You must provider an business" };
-    if (!departament) return { departament: "Error, You must provider an departament" };
+  if (!last_name) {
+    return { last_name: "Error, You must provider a last last name" };
+  }
+  if (last_name.length < 3)
+    return {
+      password: "Error, The last_name must be at least 6 characters",
+    };
+  if (!business) return { business: "Error, You must provider an business" };
+  if (!departament)
+    return { departament: "Error, You must provider an departament" };
   if (!email) return { email: "Error, You must provider an email" };
   if (email) {
     const validate = email.match(
@@ -52,9 +64,11 @@ const validateSignup = (  {name, email, password, business, departament }) =>{
     return {
       password: "Error, The password must be at least 6 characters",
     };
-}
+
+  return {};
+};
 module.exports = {
   validateNewPassword,
   validateLogin,
-  validateSignup
+  validateSignup,
 };

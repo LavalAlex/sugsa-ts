@@ -86,6 +86,7 @@ const adminCreateTicket = async ({ email, description }) => {
     email,
     name: user.name,
     description,
+    last_name:user.last_name,
     business: user.business,
     departament: user.departament,
     assigned_technical: technical,
@@ -122,8 +123,8 @@ const orderTickets = async () => {
 
 const feedbackTicket = async (id, ticket) => {
   let info = await transporter.sendMail({
-    from: '"Feedback  Ticket 👻" <lavalalexander@gmail.com>', // sender address
-    to: "lavalalexander@gmail.com", // list of receivers
+    from: '"Feedback  Ticket 👻" <lavalalextest@gmail.com>', // sender address
+    to: ticket.email, // list of receivers
     subject: "Feedback ✔", // Subject line
     // text: "Hello world?", // plain text body
     html: `<b>Click en el siguiente link para realizar su devolución!</b>

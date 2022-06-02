@@ -7,11 +7,14 @@ import {
   validateDescirption,
 } from "../../../Utils/validateTicket";
 
+import {useNavigate} from 'react-router-dom'
+
 import style from "./AdminFollowing.module.css";
 
 export default function AdminFollowing({ data, isTicket }) {
   const dispatch = useDispatch();
   const [errors, setErrors] = useState({ tech_descrip: "" });
+  const navigate = useNavigate()
 
   const [dataEdit, setDataEdit] = useState({
     tech_descrip: "",
@@ -33,9 +36,14 @@ export default function AdminFollowing({ data, isTicket }) {
     } else {
       dispatch(editTicketAdmin(data._id, dataEdit));
       alert("The ticket has been updated!");
-      isTicket();
+      isTicket()
     }
   };
+
+  const handleClose = ()=>{
+    isTicket()
+
+  }
 
   return (
     <div className={style.container} key={data._id}>
@@ -118,8 +126,12 @@ export default function AdminFollowing({ data, isTicket }) {
             </span>
           )}
         </label>
+            <div className={style.containerBtn}>
 
           <button onClick={handleUpdate}>Agregar</button>
+          <button onClick={handleClose}>Salir</button>
+            </div>
+
     
       </div>    ) : (
         <div className={style.frame_description}>

@@ -1,11 +1,5 @@
-.container * {
-  box-sizing: border-box;
-}
-
 .container {
-
   position: relative;
-
   width: 50em;
   max-width: 50em;
   margin-bottom: 1rem;
@@ -53,6 +47,7 @@
   flex-direction: column;
   margin-left: 1rem;
   margin-top: 0;
+  /* font-size: small; */
 }
 
 .description {
@@ -65,6 +60,7 @@
   padding-top: 1rem;
   margin-left: 1rem;
   border-top: darkgrey solid 1px;
+  font-size: small;
 }
 
 .technical {
@@ -78,6 +74,7 @@
   margin-top: 0;
   padding-top: 0;
   margin-left: 5rem;
+
 }
 
 .frame_description {
@@ -94,14 +91,19 @@
   margin-left: 4rem;
 }
 
-.frame_description button {
+.containerBtn{
+  display: flex;
+  justify-content:space-evenly;
+}
+
+.containerBtn button {
   border-radius: 5em;
   border: none;
   width: 5rem;
   height: 2rem;
   /* align-items:flex-end; */
   margin-top: 1rem;
-  margin-left: 39rem;
+  /* margin-left: 39rem; */
   background-color: hsl(226deg, 100%, 70%);
   /* background: linear-gradient(90deg, #668aff 0%, #003cff 50%, blue 100%); */
   transition: all 0.3s ease-in-out;

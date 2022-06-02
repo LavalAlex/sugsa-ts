@@ -170,18 +170,21 @@ export default function AdminNewTicket({ isTicket}) {
             placeholder="Description..."
             autoComplete="off"
             rows={5}
-            cols={40}
+            cols={400}
+            maxLength={200}
           />
         </div>
         {errors.description ? (
           <span className={style.errorSpan}>{errors.description}</span>
         ) : (
-          ""
+          <span className={style.chart}>
+          {200 - data.description.length} Caracteres disponibles
+        </span>
         )}
       </label>
   
       <button className={style.submit} type="submit">
-        Create
+        Create Ticket
       </button>
     </form>
   );

@@ -15,7 +15,7 @@ export function newTicket(data) {
       dispatch({ type: NEW_TICKET, payload: response });
     } catch (e) {
       console.log(e.response.data);
-      return e.response.status;
+      return e.response.data;
     }
   };
 }
@@ -27,7 +27,7 @@ export function allTickets(email) {
       dispatch({ type: ALL_TICKETS, payload: response });
     } catch (e) {
       console.log(e.response.data);
-      return e.response.status;
+      return e.response.data;
     }
   };
 }
@@ -39,7 +39,7 @@ export function editTicket(id, data) {
       dispatch({ type: EDIT_TICKET, payload: response });
     } catch (e) {
       console.log(e.response.data);
-      return e.response.status;
+      return e.response.data;
     }
   };
 }
