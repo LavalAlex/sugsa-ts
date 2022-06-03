@@ -3,7 +3,7 @@ import { Navigate, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { logout } from "../../Redux/Actions/Auth";
 
 function PrivateRoute() {
-  const admin = useSelector((state) => state.auth.user);
+  const admin = useSelector((state) => state.auth);
   const expires = useSelector((state) => state.auth.expires);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -16,7 +16,7 @@ function PrivateRoute() {
       return navigate("/login");
     }
   }
-  return admin?.email ? <Outlet /> : <Navigate to="/login" />;
+  return admin?.success ? <Outlet /> : <Navigate to="/login" />;
 }
 
 export default PrivateRoute;

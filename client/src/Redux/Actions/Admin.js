@@ -20,9 +20,10 @@ import {
 } from "./ActionsTypes";
 
 export function adminLogin(admin) {
-  return async (dispatch) => {
+    return async (dispatch) => {
     try {
       const response = await axios.post(URL_LOGIN_ADMIN, admin);
+      console.log(response)
       dispatch({ type: LOGIN_ADMIN, payload: response });
     } catch (e) {
       console.log(e.response.data);
@@ -43,8 +44,7 @@ export function logout() {
 export function editTicketAdmin(id, data) {
   return async (dispatch) => {
     try {
-      console.log(data)
-      const response = await axios.put(`${URL_EDIT_TICKET_ADMIN}/${id}`, data);
+       const response = await axios.put(`${URL_EDIT_TICKET_ADMIN}/${id}`, data);
       dispatch({ type: EDIT_TICKET_ADMIN, payload: {} });
     } catch (e) {
       console.log(e.response.data);

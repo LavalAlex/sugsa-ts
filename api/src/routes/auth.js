@@ -13,7 +13,7 @@ router.post("/signup", async (req, res) => {
     else res.status(200).send({msg:"User creado con éxitos!"});
   } catch (e) {
     console.log("Error on signup:", e);
-    res.status(404).send("Error on the user register");
+    res.status(404).send({error:"Error on the user register"});
   }
 });
 

@@ -48,8 +48,8 @@ router.get('/user', async (req, res) => {
         var j =business[index].departament.length < index? business[index].departament.length-1: index
         
         let newUser = new User({
-            name:user[i].first_name,
-            last_name:user[i].last_name,
+            name:user[i].first_name.toLowerCase(),
+            last_name:user[i].last_name.toLowerCase(),
             email:user[i].email,
             password:user[i].password,
             business:business[index].name,

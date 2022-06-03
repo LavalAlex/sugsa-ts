@@ -10,6 +10,7 @@ import { validateNewTicket } from "../../Utils/validateTicket";
 
 
 import style from "./NewTicket.module.css";
+import { lowerCaseString } from "../../Utils/lowerCase";
 
 
 export default function NewTicket({ isTicket}) {
@@ -82,36 +83,16 @@ export default function NewTicket({ isTicket}) {
         <h1>New Ticket</h1>
       </div>
       <label className={style.wrapper}>
-        <h5>Name</h5>
+        <h4>Usuario:</h4>
         <div
-          className={`${style.inputGroup} ${errors.name ? style.error : ""} `}
+          className={style.user}
         >
-          {user.name}
+          {`${lowerCaseString(user.name)} ${lowerCaseString(user.last_name)}`}
         </div>
       </label>
 
-
       <label className={style.wrapper}>
-        <h5>Business</h5>
-        <div
-          className={`${style.inputGroup} ${errors.email ? style.error : ""} `}
-        >
-         {user.business}
-        </div>
- 
-      </label>
-      <label className={style.wrapper}>
-        <h5>Departament</h5>
-        <div
-          className={`${style.inputGroup} ${errors.email ? style.error : ""} `}
-        >
-         {user.departament}
-        </div>
- 
-      </label>
-
-      <label className={style.wrapper}>
-        <h5>Description</h5>
+        <h4>Descripción:</h4>
         <div
           className={`${style.inputGroup} ${errors.description ? style.error : ""} `}
         >
@@ -122,7 +103,7 @@ export default function NewTicket({ isTicket}) {
             type="text"
             placeholder="Description..."
             autoComplete="off"
-            rows={5}
+            // rows={5}
             cols={40}
             maxLength={200}
           />
@@ -138,7 +119,7 @@ export default function NewTicket({ isTicket}) {
 
   
       <button className={style.submit} type="submit">
-        Create
+        Crear Ticket
       </button>
     </form>
   );

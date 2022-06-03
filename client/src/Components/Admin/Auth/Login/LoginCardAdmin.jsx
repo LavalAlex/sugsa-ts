@@ -2,15 +2,15 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { FaUserCircle, FaKey, FaEye } from "react-icons/fa";
 
-import { login } from "../../Redux/Actions/Auth";
-import { validateLogin } from "../../Utils/validate";
-import { statusMsg } from "../../Utils/status";
+// import { login } from "../../../Redux/Actions/Auth";
+import { validateLogin } from "../../../../Utils/validate";
+// import { statusMsg } from "../../Utils/status";
 
-import style from "./LoginCard.module.css";
+import style from "./LoginCardAdmin.module.css";
 
-import logo from "../../Img/logo.jpeg";
+// import logo from "../../Img/logo.jpeg";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { adminLogin } from "../../Redux/Actions/Admin";
+import { adminLogin } from "../../../../Redux/Actions/Admin";
 
 export default function LoginCard() {
   const dispatch = useDispatch();
@@ -59,7 +59,7 @@ export default function LoginCard() {
   return (
     <div className={style.container}>
       <form onSubmit={(e) => handleSubmit(e)}>
-        <h1>{path === "/login" ? "- LOGIN -" : "- LOGIN ADMIN -"}</h1>
+        <h1>- LOGIN ADMIN -</h1>
         <label>
           <h3>Email</h3>
           <div

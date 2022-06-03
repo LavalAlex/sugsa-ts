@@ -1,10 +1,14 @@
 .container {
-    margin-top: 2.5rem;
+    margin-top: 2rem;
     background-color: beige;
     border-top: 1px solid black;
     /* margin-left: 6.4rem; */
     width: 100%;
     font-size: medium;
+    /* height: rem; */
+    margin-bottom: 2rem;
+    border-bottom: 1px solid black;
+    padding-bottom: 1rem;
 
 }
 
@@ -15,7 +19,7 @@
     height: 3rem;
     display: flex;
     justify-content: center;
-    align-items:center;
+    align-items: center;
     gap: 1rem;
     /* margin-top: 1rem; */
     background-color: black;
@@ -44,7 +48,7 @@
 
 .title {
     display: flex;
-    justify-content:center;
+    justify-content: center;
     /* margin-left: 50rem; */
     margin-bottom: 1rem;
     margin-top: 1rem;
@@ -52,10 +56,10 @@
     position: relative;
 }
 
-.title h2{
+.title h2 {
     margin-left: 38rem;
     margin-right: 5rem;
-    
+
 }
 
 
@@ -63,10 +67,10 @@
     /* background-color: blue; */
     border-bottom: 1px #adb5bd solid;
     /* gap: 20rem; */
-/* background-color: rgb(242, 242, 242); */
+    /* background-color: rgb(242, 242, 242); */
 }
 
-.cardContainerPar{
+.cardContainerPar {
     border-bottom: 1px #adb5bd solid;
     /* background-color: rgb(255, 255, 255); */
 
@@ -80,16 +84,16 @@
     font-size: small;
 }
 
-.bodyUser:hover{
+.bodyUser:hover {
     color: hsl(226deg, 100%, 70%);
 }
 
-.idUser{
+.idUser {
     width: 50px;
     display: flex;
     justify-content: center;
-    padding-left:1rem;
-    margin-right:1rem;
+    padding-left: 1rem;
+    margin-right: 1rem;
 }
 
 .headerTable {
@@ -99,19 +103,19 @@
     width: 100%;
     height: 2rem;
     align-items: center;
-    background-color:#f8f9fa;
+    background-color: #f8f9fa;
 }
 
-.titleId{
+.titleId {
     border-right: 1px solid black;
     width: 50px;
     display: flex;
     justify-content: center;
-    padding-left:1rem;
-    padding-right:2rem;
+    padding-left: 1rem;
+    padding-right: 2rem;
 }
 
-.titleUser{
+.titleUser {
     width: 260px;
     display: flex;
     justify-content: center;
@@ -119,6 +123,7 @@
     /* margin-right: 3rem; */
     border-right: 1px solid black;
 }
+
 .titleDate {
     width: 140px;
     height: 100%;
@@ -129,7 +134,7 @@
     justify-content: center;
 }
 
-.titleClassification{
+.titleClassification {
     width: 200px;
     height: 100%;
     display: flex;
@@ -138,7 +143,7 @@
 
 }
 
-.titleDescription{
+.titleDescription {
     width: 210px;
     height: 100%;
     display: flex;
@@ -148,8 +153,8 @@
 
 }
 
-.titleDescriTech{
-    width: 280px;
+.titleDescriTech {
+    width: 295px;
     height: 100%;
     display: flex;
     justify-content: center;
@@ -194,7 +199,7 @@
 
 }
 
-.classification{
+.classification {
     width: 200px;
     height: 100%;
     display: flex;
@@ -204,7 +209,7 @@
     /* margin-right: 2rem; */
 }
 
-.description{
+.description {
     width: 200px;
     height: 100%;
     display: flex;
@@ -254,12 +259,32 @@
     border: none;
 }
 
-.iconFollow{
+.iconFollow {
     cursor: pointer;
     border: none;
 
 }
 
-.iconFollow:hover{
-   color: hsl(226deg, 100%, 70%);
+.iconFollow:hover {
+    color: hsl(226deg, 100%, 70%);
+}
+
+.notFound{
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.page{
+    /* position: absolute; */
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    margin-top:1rem;
+    justify-content: space-between;
+    padding-left: 1rem;
+    /* bottom: 3rem; */
+    /* left: 39.5rem; */
+
 }

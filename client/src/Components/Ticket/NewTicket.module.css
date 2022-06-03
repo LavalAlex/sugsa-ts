@@ -3,34 +3,30 @@
 }
 
 .container {
-  --pX: 1.5em;
   display: flex;
   flex-direction: column;
   width: 25em;
   max-width: 25em;
-
   padding: 1em 1.5em;
   background-color: #fff;
   border-radius: 1em;
   box-shadow: 0 0.25em 0.5em #0005;
   resize: none;
   border: none;
-  margin-bottom: 3rem;
+  margin-bottom: 16rem;
+/* justify-content: center; */
+/* text-align: center; */
 }
 
-.wrapper h5{
-  margin-top: 0;
-}
+.user {
+  display: flex;
+  align-items: center;
+ 
+  background-color: #fff;
 
-.wrapper input {
-  border: none;
-  outline: 0;
-}
+  width: auto;
 
-.wrapper textarea {
-  border: none;
-  outline: 0;
-  height: 5rem;
+  justify-content: center;
 }
 
 .submit {
@@ -43,26 +39,28 @@
 .inputGroup {
   display: flex;
   align-items: center;
-  font-size: 0.9rem;
-  width: 15rem;
   border-bottom: 1px solid #ccc;
   background-color: #fff;
   padding: 0 0 0 1em;
   overflow: hidden;
   gap: 2rem;
-
+  /* margin-left: 3em; */
+  justify-content: center;
+  /* border-bottom: 2px solid hsl(226deg, 100%, 70%); */
 }
 
-.inputGroup input {
-  font-family: "Roboto";
-  padding-left: 0.75em;
-  width: 15rem;
-  font-size: 0.9rem;
-  resize: none;
+.inputGroup textarea {
+  border: none;
+  outline: 0;
+  height: 4rem;
+  /* width: 98rem; */
 }
+
+
 
 .inputGroup:focus-within {
   border-bottom: 2px solid hsl(226deg, 100%, 70%);
+  /* width: 10rem; */
 }
 
 .inputGroup:focus-within.error {
@@ -78,8 +76,11 @@
 
 form button[type="submit"] {
   border-radius: 5em;
+  /* width: 25em; */
+
   border: none;
   background-color: hsl(226deg, 100%, 70%);
+  width: 100%;
   /* background: linear-gradient(90deg, #668aff 0%, #003cff 50%, blue 100%); */
   transition: all 0.3s ease-in-out;
   color: white;
@@ -101,13 +102,15 @@ form button[type="submit"]:hover {
 }
 
 .errorSpan {
-  margin-top: 0.2rem;
+  margin-top: 0.3rem;
   color: #f33;
+  margin-left: 2.7rem; 
+  font-size: .8rem;
+
 }
 
 .chart {
   font-size: .8rem;
-  margin-left: 1rem;
-  /* margin-top: 8rem; */
-  padding-top: 2rem;
+  margin-left: 2.7rem; 
+
 }

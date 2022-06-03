@@ -9,6 +9,9 @@ import { allTickets } from "../../../Redux/Actions/Ticket";
 
 import { RiAlignJustify } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+
+import PaginationCardAdmin from "../Pagination/PaginationCardAdmin";
 
 export default function AdminTables({
   tickets,
@@ -19,6 +22,21 @@ export default function AdminTables({
 }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  //Seteo de cantidad de recetas por pagina
+  const [currentPage, setCurrentPage] = useState(1); //Pagina actual
+  const [rowPerPage, setRowPerPage] = useState(5); //Cantidad de recetas por pagina
+  const indexOfLastRow = currentPage * rowPerPage; //9
+  const indexOfFirstRow = indexOfLastRow - rowPerPage; //0--9--18--
+  const currentRow = tickets.slice(indexOfFirstRow, indexOfLastRow);
+
+  const [n, setN] = useState(0);
+
+  //Setea la cantidad de paginas renderizadas
+  const paginado = (pageNumber) => {
+    setN(pageNumber);
+    setCurrentPage(pageNumber);
+  };
 
   const handleSubmit = (id) => {
     setTicketId(id);
@@ -41,6 +59,11 @@ export default function AdminTables({
       dispatch(filterTicketAdmin(value));
     }
   };
+
+  const handleSelect = ({ target: { name, value } }) => {
+
+    setRowPerPage(parseInt(value))
+  }
 
   console.log(tickets);
   return (
@@ -87,8 +110,8 @@ export default function AdminTables({
             </tr>
           </thead>
           <tbody>
-            {tickets
-              ? tickets.map((e, index) => (
+            {currentRow[0]
+              ? currentRow.map((e, index) => (
                   <tr key={index}>
                     <td
                       className={`${
@@ -185,6 +208,26 @@ export default function AdminTables({
                 ))
               : "NOT FOUND"}
           </tbody>
+          {currentRow[0] ? (
+            <div className={styles.page}>
+              <div >
+                {tickets.length >= 5
+                  ? `Pagina ${currentPage} de ${Math.ceil(
+                      tickets.length / rowPerPage
+                    )}`
+                  : ""}
+              </div>
+              <PaginationCardAdmin
+                rowPerPage={rowPerPage}
+                allRow={tickets.length}
+                paginado={paginado}
+                m={currentPage}
+                handleSelect={handleSelect}
+              />
+            </div>
+          ) : (
+            ""
+          )}
         </Table>
       </CardBody>
     </Card>

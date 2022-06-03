@@ -4,13 +4,13 @@ import Select from "react-select";
 import { useDispatch, useSelector } from "react-redux";
 import { FaUserCircle, FaKey, FaEye } from "react-icons/fa";
 
-import { signup } from "../../Redux/Actions/Auth";
-import { validateSignup } from "../../Utils/validate";
+import { signup } from "../../../Redux/Actions/Auth";
+import { validateSignup } from "../../../Utils/validate";
 
 import style from "./SignupCard.module.css";
 import { useLocation, useNavigate } from "react-router-dom";
-import { allBusiness, departamentBusiness } from "../../Redux/Actions/Business";
-import { optionSelect, selectDepartament } from "../../Utils/optionBusiness";
+import { allBusiness, departamentBusiness } from "../../../Redux/Actions/Business";
+import { optionSelect, selectDepartament } from "../../../Utils/optionBusiness";
 
 export default function LoginCard() {
   const dispatch = useDispatch();
@@ -73,7 +73,7 @@ export default function LoginCard() {
     setErrors("");
   };
 
-  console.log(errors)
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { name, email, password, business, departament, last_name } =
@@ -88,14 +88,9 @@ export default function LoginCard() {
         business: business ? business : "",
         departament: departament ? departament : "",
       }));
-      email
-        ? setInput({ email: "", password: "" })
-        : setInput((old) => ({
-            ...old,
-            password: "",
-          }));
     } else {
       const code = await dispatch(signup(input));
+    
       if (code.error) {
         setErrors((old) => ({
           ...old,
@@ -103,7 +98,7 @@ export default function LoginCard() {
         }));
       } else {
         alert("Usuario creado con éxitos!");
-        navitage("/login");
+        
       }
     }
   };
