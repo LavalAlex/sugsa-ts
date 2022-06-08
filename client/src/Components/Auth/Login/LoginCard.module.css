@@ -145,6 +145,7 @@ form label {
 .errorSpan {
   margin-top: 0.2rem;
   color: #f33;
+  margin-left: 1rem;
 }
 
 @media screen and (max-width: 1100px) {

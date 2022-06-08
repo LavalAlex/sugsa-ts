@@ -34,7 +34,7 @@ router.post("/login", async (req, res) => {
     const userAuth = await findUser(email, password);
 
     if (!userAuth || userAuth.error)
-      return res.status(404).send({ user: userAuth, success: false });
+      return res.status(404).send({error:userAuth.error, success: false });
 
     const id = userAuth.id;
     const token = jwt.sign({ id: id }, JWT_SECRET, {

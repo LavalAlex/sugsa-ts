@@ -64,7 +64,7 @@ export default function AdminNewTicket({ isTicket}) {
               
       }));
     else {
-      var conf = window.confirm("Do you want to create the ticket?");
+      var conf = window.confirm("Seguro que quiere crear el Ticket?");
 
       if (conf) {
 
@@ -80,10 +80,10 @@ export default function AdminNewTicket({ isTicket}) {
         if (error) {
           alert(error.data.msg);
         } else {
-          alert("User create successfully");
+          alert("Ticket creado con éxito!");
         }
       } else {
-        alert("The user is not created!");
+        alert("Upps... hubo un proble, vuelva e intentarlo mas tarde!");
       }
       isTicket()
       setData({
@@ -100,6 +100,7 @@ export default function AdminNewTicket({ isTicket}) {
     setUserSearch(users[id])
   }
 
+  console.log(userSearch)
   return (
     <form className={style.container} onSubmit={(e) => handleSubmit(e)}>
       <div className={style.title}>
@@ -107,10 +108,10 @@ export default function AdminNewTicket({ isTicket}) {
       </div>
       
       <label>
-          <h5>User</h5>
           <label className={style.wrapper}>
+          <h5>Usuario:</h5>
             <Select
-              className={`${style.wrapper} ${
+              className={`${style.select} ${
                 errors.user ? style.errorSelect : ""
               }`}
               onChange={(e) => handleSelectUser(e)}
@@ -129,9 +130,9 @@ export default function AdminNewTicket({ isTicket}) {
 
 
       <label className={style.wrapper}>
-        <h5>Email</h5>
+        <h5>Email:</h5>
         <div
-          className={`${style.inputGroup} ${errors.name ? style.error : ""} `}
+          className={`${style.inputGroup}  ${userSearch.email? style.active :""} ${errors.name ? style.error : ""} `}
         >
           {userSearch.email}
         </div>
@@ -139,18 +140,18 @@ export default function AdminNewTicket({ isTicket}) {
 
 
       <label className={style.wrapper}>
-        <h5>Business</h5>
+        <h5>Empresa:</h5>
         <div
-          className={`${style.inputGroup} ${errors.email ? style.error : ""} `}
+          className={`${style.inputGroup} ${userSearch.email? style.active :""} ${errors.email ? style.error : ""} `}
         >
          {userSearch.business}
         </div>
  
       </label>
       <label className={style.wrapper}>
-        <h5>Departament</h5>
+        <h5>Departamento:</h5>
         <div
-          className={`${style.inputGroup} ${errors.email ? style.error : ""} `}
+          className={`${style.inputGroup}  ${userSearch.email? style.active :""} ${errors.email ? style.error : ""} `}
         >
          {userSearch.departament}
         </div>
@@ -158,7 +159,7 @@ export default function AdminNewTicket({ isTicket}) {
       </label>
 
       <label className={style.wrapper}>
-        <h5>Description</h5>
+        <h5>Descripción:</h5>
         <div
           className={`${style.inputGroup} ${errors.description ? style.error : ""} `}
         >
@@ -184,7 +185,7 @@ export default function AdminNewTicket({ isTicket}) {
       </label>
   
       <button className={style.submit} type="submit">
-        Create Ticket
+        Crear Ticket
       </button>
     </form>
   );

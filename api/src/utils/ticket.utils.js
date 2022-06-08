@@ -4,15 +4,15 @@ const Business = require("../schemas/Business");
 
 const transporter = require("../Conf/Mailer");
 
-
 const createTicket = async ({ email, description }) => {
   const user = await User.findOne({ email });
   if (!user) return { error: "Error, this user does not exits" };
+
   let technical = await assignedTechnical(user);
   const newTicket = await Ticket.create({
     email,
     name: user.name,
-    last_name:user.last_name,
+    last_name: user.last_name,
     description,
     business: user.business,
     departament: user.departament,
@@ -24,7 +24,7 @@ const createTicket = async ({ email, description }) => {
       },
     ],
   });
-  if (newTicket){
+  if (newTicket) {
     let info = await transporter.sendMail({
       from: '"Asignacion de Nuevo Ticket 👻" <lavalalextest@gmail.com>', // sender address
       to: "lavalalextest@gmail.com", // list of receivers
@@ -33,7 +33,8 @@ const createTicket = async ({ email, description }) => {
       html: `<b>Se le acaba de asignar el ticket número: ${newTicket.id}</b>
       `, // html body
     });
-     return { msg: "Created ticket successfully" };}
+    return { msg: "Created ticket successfully" };
+  }
   return { error: "Error on create the ticket" };
 };
 
@@ -42,6 +43,11 @@ const findAllTicket = async (email) => {
   const tickets = allTicket.filter(
     (e) => e.status != "Cancel" && e.status != "Close"
   );
+  tickets.sort((a, b) => {
+    if (a._id < b._id) return 1;
+    if (a._id > b._id) return -1;
+    return 0;
+  });
   return tickets;
 };
 
@@ -54,4 +60,17 @@ const assignedTechnical = async (user) => {
   };
   return newTech;
 };
-module.exports = { createTicket, findAllTicket };
+
+const editTicket = async (id, { status, feedback }) => {
+  const update = {
+    status,
+    feedback,
+    closeAt: Date.now(),
+  };
+  let updateTicket = await Ticket.findByIdAndUpdate(id, update, {
+    new: true,
+  });
+  return updateTicket;
+};
+
+module.exports = { createTicket, findAllTicket, assignedTechnical, editTicket };

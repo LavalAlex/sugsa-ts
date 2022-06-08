@@ -36,7 +36,21 @@ export function utilDate(date) {
 
 
 export function registerUtil(register){
-  console.log(register)
-  const data = register[register.length-1]
+   const data = register[register.length-1]
   return 'hola'
+}
+
+export function statusTitle (status){
+  if(status === "Close"){
+return "TICKET CERRADO"
+  }
+  if(status === "Pending_Feedback"){
+    return "ESPERANDO FEEDBACK DEL USUARIO"
+  }
+  if(status == "Cancel"){
+    return "TICKET CANCELADO"
+  }
+  if(status === "Active"){
+    return "ACTIVO"
+  }
 }

@@ -13,6 +13,7 @@ import { optionSelectTechnical } from "../../../Utils/optionTechnical";
 import { utilDate } from "../../../Utils/tableUtils";
 import style from "./AdminTicketEdit.module.css";
 import { inputTicketEdit } from "../../../Utils/validateTicket";
+import { lowerCaseString } from "../../../Utils/lowerCase";
 
 export default function AdminTicketEdit({ data, isTicket }) {
   const dispatch = useDispatch();
@@ -58,25 +59,25 @@ export default function AdminTicketEdit({ data, isTicket }) {
       }));
     } else {
       dispatch(editTicketAdmin(data._id, update));
-      alert("The ticket has been updated!");
+      alert("El ticket se actualizó correctamente!");
       isTicket();
     }
   };
 
   const handleDelete = async () => {
-    var conf = window.confirm("Do you want to delete the ticket?");
+    var conf = window.confirm("Seguro que quiere eliminar este Ticket?");
     if (conf) {
       dispatch(deleteTicketAdmin(data._id));
-      alert("Deleted Successfully");
+      alert("Ticket eliminado con éxitos!");
     }
     isTicket();
   };
 
   const handleClose = async () => {
-    var conf = window.confirm("Do you want to close the ticket?");
+    var conf = window.confirm("Seguro que quiere cerrar el Ticket?");
     if (conf) {
       dispatch(editTicketAdmin(data._id, { close: true }));
-      alert("Closed successfully ticket, pending a feedback!");
+      alert("Ticket cerrado con éxito, pendiente de feedback!");
     }
     isTicket();
   };
@@ -93,11 +94,11 @@ export default function AdminTicketEdit({ data, isTicket }) {
       <div className={style.data}>
         <div>
           <h4>Nro Ticket:</h4>
-          <span>{data.id}</span>
+          <span>{data._id}</span>
         </div>
         <div>
           <h4>Nombre:</h4>
-          <span>{data.name}</span>
+          <span>{lowerCaseString(data.name)}</span>
         </div>
         <div>
           <h4>Empresa:</h4>
@@ -113,9 +114,13 @@ export default function AdminTicketEdit({ data, isTicket }) {
         </div>
       </div>
 
-      <div className={style.edit}>
-        <h4>Descripción:</h4>
-        <div>{data.description}</div>
+      <div
+        className={data.status === "Active" ? style.edit : style.editFeedback}
+      >
+        <div className={style.descrip}>
+          <h4>Descripción:</h4>
+          <div>{data.description}</div>
+        </div>
 
         <div className={style.containerEdit}>
           {errors.error ? (
@@ -123,123 +128,129 @@ export default function AdminTicketEdit({ data, isTicket }) {
           ) : (
             ""
           )}
-          {data.status != "Close" ? (
-            <div>
-              <h4>
-                Tipo de Ticket:
-                <button
-                  title="Edit Ticket"
-                  className={style.btn}
-                  onClick={() => setEditClass((old) => !old)}
-                >
-                  <BiEditAlt
-                    style={{
-                      width: "2em",
-                      height: "2em",
-                    }}
-                  />
-                </button>
-              </h4>
-
-              {editClass ? (
-                <div>{data.classification.toUpperCase()}</div>
-              ) : (
-                <label className={style.wrapper}>
-                  <div
-                    className={`${style.inputGroup} ${
-                      errors.classification ? style.error : ""
-                    } `}
-                  >
-                    <input
-                      value={dataEdit.classification}
-                      onChange={handleChange}
-                      name="classification"
-                      type="text"
-                      placeholder="Classification..."
-                      autoComplete="off"
-                    />
-                  </div>
-                  {errors.classification ? (
-                    <span className={style.errorSpan}>
-                      {errors.classification}
-                    </span>
-                  ) : (
-                    ""
-                  )}
-                </label>
-              )}
-            </div>
-          ) : (
-            ""
-          )}
-
+        </div>
+        {data.status === "Active" ? (
           <div>
-            {data.status != "Close" ? (
-              <h4>
-                Técnico Asignado:
-                <button
-                  title="Edit Ticket"
-                  className={style.btn}
-                  onClick={() => setEditAssig((old) => !old)}
-                >
-                  <BiEditAlt
-                    style={{
-                      width: "2em",
-                      height: "2em",
-                    }}
-                  />
-                </button>{" "}
-              </h4>
-            ) : (
-              <h4> Técnico Asignado:</h4>
-            )}
-
-            {editAssig ? (
-              <div>
-                {!data.assigned_technical || data.assigned_technical == "false"
-                  ? "Unassigned at the moment"
-                  : `${data.assigned_technical.name.toUpperCase()} ${data.assigned_technical.last_name.toUpperCase()}`}
-              </div>
-            ) : (
-              <label className={style.wrapper}>
-                <label className={style.wrapper}>
+            <h4>
+              Técnico Asignado:
+              <button
+                title="Editar Técnico"
+                className={style.btn}
+                onClick={() => setEditAssig((old) => !old)}
+              >
+                <BiEditAlt
+                  style={{
+                    width: "1.5em",
+                    height: "1.5em",
+                  }}
+                />
+              </button>{" "}
+            </h4>
+            <label>
+              {editAssig ? (
+                <div>
+                  {data.assigned_technical.name.toUpperCase()}{" "}
+                  {data.assigned_technical.last_name.toUpperCase()}
+                </div>
+              ) : (
+                <div className={style.wrapper}>
                   <Select
-                    className={`${style.wrapper} ${
-                      errors.departament ? style.errorSelect : ""
-                    }`}
+                    className={style.select}
                     onChange={(e) => handleTechnical(e)}
                     options={optionTechnical}
-                    placeholder="Technical..."
+                    placeholder="Técnico..."
                   />
-                </label>
+                </div>
+              )}
+            </label>
+          </div>
+        ) : (
+          <div className={style.wrapper}>
+            <h4> Técnico Asignado:</h4>
 
-                {errors.assigned ? (
-                  <span className={style.errorSpan}>{errors.assigned}</span>
+            <div>
+              {data.assigned_technical.name.toUpperCase()}
+              {data.assigned_technical.last_name.toUpperCase()}
+            </div>
+          </div>
+        )}
+
+        {data.status === "Active" ? (
+          <div>
+            <h4>
+              Tipo de Ticket:
+              <button
+                title="Editar tipo Ticket"
+                className={style.btn}
+                onClick={() => setEditClass((old) => !old)}
+              >
+                <BiEditAlt
+                  style={{
+                    width: "1.5em",
+                    height: "1.5em",
+                  }}
+                />
+              </button>
+            </h4>
+
+            {editClass ? (
+              <div>{data.classification.toUpperCase()}</div>
+            ) : (
+              <label className={style.wrapper}>
+                <div
+                  className={`${style.inputGroup} ${
+                    errors.classification ? style.error : ""
+                  } `}
+                >
+                  <input
+                    value={dataEdit.classification}
+                    onChange={handleChange}
+                    name="classification"
+                    type="text"
+                    placeholder="Tipo de ticket..."
+                    autoComplete="off"
+                  />
+                </div>
+                {errors.classification ? (
+                  <span className={style.errorSpan}>
+                    {errors.classification}
+                  </span>
                 ) : (
                   ""
                 )}
               </label>
             )}
           </div>
-        </div>
-
-        {data.status === "Close" ? (
-          <div>
-            <h4>Feedback del Usuario:</h4>
-            <div>{data.feedback}</div>
-          </div>
         ) : (
           ""
         )}
       </div>
+
+      {data.status === "Close" || data.status === "Cancel" ? (
+        <div className={style.feedback}>
+          <h4>Feedback del Usuario:</h4>
+          <div>{data.feedback.toUpperCase()}</div>
+        </div>
+      ) : data.status === "Pending_Feedback" ? (
+        <div className={style.feedback}>
+          <h4>Feedback del Usuario:</h4>
+          <div>Todavia no hay feedback del usuario...</div>
+        </div>
+      ) : (
+        ""
+      )}
 
       <div className={style.buttonContainer}>
         {data.feedback === "false" &&
         data.status != "Close" &&
         data.status != "Cancel" ? (
           <div className={`${style.btn} + ${style.save}`}>
-            <button type="submit" onClick={handleUpdate}>
-              SAVE
+            <button
+              type="submit"
+              onClick={handleUpdate}
+              title="Guardar Cambios"
+            >
+              GUARDAR
             </button>
           </div>
         ) : (
@@ -249,16 +260,16 @@ export default function AdminTicketEdit({ data, isTicket }) {
         data.status != "Close" &&
         data.status != "Cancel" ? (
           <div className={`${style.btn} + ${style.close}`}>
-            <button type="submit" onClick={handleClose}>
-              CLOSE
+            <button type="submit" onClick={handleClose} title="Cerrar Ticket">
+              CERRAR
             </button>
           </div>
         ) : (
           ""
         )}
         <div className={`${style.btn} + ${style.delete}`}>
-          <button type="submit" onClick={handleDelete}>
-            DELETE
+          <button type="submit" onClick={handleDelete} title="Eliminar Ticket">
+            ELIMINAR
           </button>
         </div>
       </div>

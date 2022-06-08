@@ -14,7 +14,7 @@ export default function root(state = initialState, action) {
     case SIGNUP:
       return {
         ...state,
-        state: action.payload.status,
+        state: action.payload.data,
       };
 
     case LOGOUT:

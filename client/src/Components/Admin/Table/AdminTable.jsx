@@ -2,7 +2,12 @@ import { Card, CardBody, CardTitle, CardSubtitle, Table } from "reactstrap";
 
 import { BiCommentAdd, BiAddToQueue } from "react-icons/bi";
 import styles from "./AdminTables.module.css";
-import { avatarUser, registerUtil, utilDate } from "../../../Utils/tableUtils";
+import {
+  avatarUser,
+  registerUtil,
+  utilDate,
+  statusTitle,
+} from "../../../Utils/tableUtils";
 import { useDispatch } from "react-redux";
 import { filterTicketAdmin } from "../../../Redux/Actions/Admin";
 import { allTickets } from "../../../Redux/Actions/Ticket";
@@ -12,10 +17,20 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 import PaginationCardAdmin from "../Pagination/PaginationCardAdmin";
+import { lowerCaseString } from "../../../Utils/lowerCase";
+import SearchBar from "../SearchBar/SearchBar";
+
+const statusDir = {
+  Activo: "Active",
+  Todos: "Status",
+  Pendiente: "Pending_Feedback",
+  Cerrado: "Close",
+  Cancelado: "Cancel",
+};
 
 export default function AdminTables({
   tickets,
-  setTicketId,
+  setTicket,
   setDetailTicket,
   setFollowingTicket,
   setNewAdminTicket,
@@ -36,15 +51,27 @@ export default function AdminTables({
   const paginado = (pageNumber) => {
     setN(pageNumber);
     setCurrentPage(pageNumber);
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
 
-  const handleSubmit = (id) => {
-    setTicketId(id);
+  const handleDetail = (id) => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+    setTicket(id);
     setDetailTicket(true);
   };
 
   const handleFollowing = (id) => {
-    setTicketId(id);
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+    setTicket(id);
     setFollowingTicket(true);
   };
 
@@ -52,25 +79,31 @@ export default function AdminTables({
     setNewAdminTicket(true);
   };
 
-  const handleFilter = ({ target: { name, value } }) => {
-    if (value === "Pending Feedback") {
-      dispatch(filterTicketAdmin("Pending_Feedback"));
-    } else {
-      dispatch(filterTicketAdmin(value));
-    }
+  const handleFilter = async ({ target: { name, value } }) => {
+    const code = await dispatch(filterTicketAdmin(statusDir[value]));
+    paginado(1)
   };
 
   const handleSelect = ({ target: { name, value } }) => {
+    setRowPerPage(parseInt(value));
+  };
 
-    setRowPerPage(parseInt(value))
-  }
-
-  console.log(tickets);
   return (
     <Card className={styles.container}>
       <CardBody>
         <CardTitle className={styles.title}>
+          {/* <SearchBar/> */}
           <h2>TIKET</h2>
+
+          <div className={styles.selectStatus}>
+            <select onChange={(e) => handleFilter(e)}>
+              <option>Todos</option>
+              <option>Activo</option>
+              <option>Pendiente</option>
+              <option>Cerrado</option>
+              <option>Cancelado</option>
+            </select>
+          </div>
 
           <div
             title="New Ticket"
@@ -110,18 +143,16 @@ export default function AdminTables({
             </tr>
           </thead>
           <tbody>
-            {currentRow[0]
-              ? currentRow.map((e, index) => (
+            <tr >
+              <div className={styles.bodyContainer}>
+
+        
+              {currentRow[0] ? (
+                currentRow.map((e, index) => (
                   <tr key={index}>
-                    <td
-                      className={`${
-                        index % 2 == 0
-                          ? styles.cardContainer
-                          : styles.cardContainerPar
-                      }`}
-                    >
+                    <div className={styles.cardContainer}>
                       <td>
-                        <div className={styles.idUser}>{e.id}</div>
+                        <div className={styles.idUser}>{e._id}</div>
                       </td>
                       <td>
                         <div className={styles.bodyUser}>
@@ -138,27 +169,24 @@ export default function AdminTables({
                           <div
                             className={styles.infoUser}
                             title="Detalle del Ticktet"
-                            onClick={() => handleSubmit(index)}
+                            onClick={() => handleDetail(e)}
                           >
-                            <h5>{e.name}</h5>
-                            <h5>{e.last_name}</h5>
+                            <h5>{lowerCaseString(e.name)}</h5>
+                            <h5>{lowerCaseString(e.last_name)}</h5>
                             <span>{e.email}</span>
                           </div>
                         </div>
                       </td>
+                  
                       <td>
-                        <div className={styles.date}>
-                          <span>
-                            {e.status != "Close"
-                              ? utilDate(e.createdAt)
-                              : "CERRADO"}
-                          </span>
+                        <div className={styles.date} title={e.status === "Active"? "Apertura de Ticket": "Cerrado/Cancelado de Ticket"}>
+                          <span>{ e.status === "Active" ? utilDate(e.createdAt): utilDate(e.closeAt)}</span>
                         </div>
                       </td>
                       <td>
-                        <div className={styles.classification}>
+                        <div className={styles.classification} title="Clasificación de Ticket">
                           <span>
-                            {e.status != "Close" ? e.classification : ""}
+                            {e.status === "Active" ? e.classification : ""}
                           </span>
                         </div>
                       </td>
@@ -166,14 +194,16 @@ export default function AdminTables({
                         {" "}
                         <div className={styles.description}>
                           <span>
-                            {e.status != "Close" ? e.description : ""}
+                            {e.status === "Active"
+                              ? e.description
+                              : statusTitle(e.status)}
                           </span>
                         </div>
                       </td>
                       <td>
-                        <div className={styles.date}>
+                        <div className={styles.date} title="Último Reporte">
                           <span>
-                            {e.status != "Close"
+                            {e.status === "Active"
                               ? utilDate(
                                   e.register[e.register.length - 1]
                                     .date_register
@@ -184,18 +214,21 @@ export default function AdminTables({
                       </td>
 
                       <td>
-                        <div className={styles.description}>
+                        <div className={styles.descriptionTech}>
                           <span>
-                            {e.status != "Close"
+                            {e.status === "Active"
                               ? e.register[e.register.length - 1].description
                               : ""}
                           </span>
                         </div>
                       </td>
+
+
+
                       <td>
                         <div
-                          onClick={() => handleFollowing(index)}
-                          title="Seguimiento"
+                          onClick={() => handleFollowing(e)}
+                          title="Seguimiento de Ticket"
                           className={styles.iconFollow}
                         >
                           <RiAlignJustify
@@ -203,33 +236,45 @@ export default function AdminTables({
                           />
                         </div>
                       </td>
-                    </td>
+                    </div>
                   </tr>
                 ))
-              : "NOT FOUND"}
+              ) : (
+                <div className={styles.notFound}>
+                  <h3>NO HAY TICKET</h3>
+                </div>
+              )}
+                    </div>
+            </tr>
           </tbody>
           {currentRow[0] ? (
             <div className={styles.page}>
-              <div >
+              <div>
                 {tickets.length >= 5
                   ? `Pagina ${currentPage} de ${Math.ceil(
                       tickets.length / rowPerPage
                     )}`
                   : ""}
               </div>
-              <PaginationCardAdmin
-                rowPerPage={rowPerPage}
-                allRow={tickets.length}
-                paginado={paginado}
-                m={currentPage}
-                handleSelect={handleSelect}
-              />
+              {tickets.length >= 5 ? (
+                <PaginationCardAdmin
+                  rowPerPage={rowPerPage}
+                  allRow={tickets.length}
+                  paginado={paginado}
+                  m={currentPage}
+                  handleSelect={handleSelect}
+                />
+              ) : (
+                ""
+              )}
             </div>
           ) : (
             ""
           )}
         </Table>
+      
       </CardBody>
+      
     </Card>
     // <div className={styles.container}>
     //   <Card>

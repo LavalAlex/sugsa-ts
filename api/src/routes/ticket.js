@@ -1,6 +1,7 @@
 const { Router } = require("express");
+
 const Ticket = require("../schemas/Ticket");
-const { createTicket, findAllTicket } = require("../utils/ticket.utils");
+const { createTicket, findAllTicket, editTicket } = require("../utils/ticket.utils");
 const router = Router();
 
 router.post("/create", async (req, res) => {
@@ -31,13 +32,13 @@ router.put("/update/:id", async (req, res) => {
   try {
     const ticketId = req.params.id;
     const update = req.body;
-    const ticketUpdate = await Ticket.findByIdAndUpdate(ticketId, update, {
-      new: true,
-    });
-    res.status(200).send({ ticket: ticketUpdate });
+  
+    const ticketUpdate = await editTicket(ticketId,req.body)
+
+    res.status(200).send({msg: "Ticket editado con éxito!" });
   } catch (e) {
-    console.log("Error on update ticket", e);
-    res.status(500).send({ error: "Error on ticket update" });
+    console.log("Error en la actualización de ticket", e);
+    res.status(500).send({ error: "Error en la actualización de ticket" });
   }
 });
 

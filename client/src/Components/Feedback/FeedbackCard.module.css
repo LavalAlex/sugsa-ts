@@ -21,11 +21,15 @@
 }
 
 
+.wrapper h2{
+  margin-bottom: 1rem;
+}
 
 .wrapper textarea {
   border: none;
   outline: 0;
   height: 5rem;
+  margin-top: 1rem;
 }
 
 

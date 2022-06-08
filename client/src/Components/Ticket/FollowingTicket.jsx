@@ -41,15 +41,17 @@ export default function FollowingTicket({ data, isFollowing }) {
   const handleCancel = () => {
     var conf = window.confirm("Seguro que quieres cancelar el Ticket?");
     if (conf) {
-      dispatch(editTicket(data._id, { status: "Cancel" }));
+      const update = {
+        status: "Cancel",
+        feedback: "Cancelado por el Usuario",
+      };
+      dispatch(editTicket(data._id, update));
       alert("Ticket cancelado con exitos!");
       isFollowing();
-    
-    }else{
-
+    } else {
+      alert("El ticket NO se cancelo!");
       isFollowing();
     }
-    
   };
 
   return (
@@ -63,10 +65,10 @@ export default function FollowingTicket({ data, isFollowing }) {
           {data.status != "Pending Feedback" ? "Ticket" : "TICKET CERRADO"}
         </h1>
         {data.status != "Pending Feedback" ? (
-          <div >
+          <div>
             <div className={style.left}>
               <h4>Nro Ticket:</h4>
-              <span>{data.id}</span>
+              <span>{data._id}</span>
             </div>
             <div className={style.center}>
               <h4>Técnico: </h4>
@@ -88,7 +90,6 @@ export default function FollowingTicket({ data, isFollowing }) {
         <h4>Description:</h4>
         <div>{data.description}</div>
       </div>
-     
 
       <div className={style.history}>
         {data.register.map((e) => {
@@ -114,7 +115,9 @@ export default function FollowingTicket({ data, isFollowing }) {
       ) : (
         <div className={style.frame_description}>
           <h4>Pendiente de feedback: </h4>
-          <span>Revisa tu correo, tienes 48hs para mandar tu feedback, gracias!</span>
+          <span>
+            Revisa tu correo, tienes 48hs para mandar tu feedback, gracias!
+          </span>
         </div>
       )}
     </div>

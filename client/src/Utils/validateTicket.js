@@ -2,11 +2,11 @@ const validateNewTicket = ({ description}) => {
 
 
   if (!description) {
-    return { description: "Error, You must provider a description" };
+    return { description: "Error, Debe proporcionar una descripción!" };
   }
   if (description.length < 8) {
     return {
-      description: "Error, The description must be at least 8 characters",
+      description: "Error, La descripción debe tener al menos 8 caracteres",
     };
   }
 

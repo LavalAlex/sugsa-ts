@@ -1,17 +1,21 @@
-const { Document, Schema, model } = require("mongoose");
+const { Document, Schema, model, plugin } = require("mongoose");
 
+const autoIncrement = require("mongoose-auto-increment");
 
 let counter = 1;
-let CountedId = {type: Number, default: () => counter++};
+let CountedId = { type: Number, default: () => counter++ };
 
 const schemaTicket = new Schema({
-  id: CountedId,
   email: { type: String, required: true },
   name: { type: String, required: true },
   last_name: { type: String, required: true },
   business: { type: String, required: true },
   departament: { type: String, required: true },
-  description: { type: String, required: true },
+  description: {
+    type: String,
+    required: true,
+    maxlength: [200, "La descripción no puede exceder los 200 caracteres"],
+  },
   classification: {
     type: String,
     default: "Menor a 48hs",
@@ -31,9 +35,12 @@ const schemaTicket = new Schema({
     type: Date,
     default: Date.now,
   },
+  closeAt:{
+    type:Date
+  },
   status: {
     type: String,
-    default: "Activo",
+    default: "Active",
   },
   register: [
     {
@@ -53,4 +60,5 @@ const schemaTicket = new Schema({
   ],
 });
 
+schemaTicket.plugin(autoIncrement.plugin, "tickets");
 module.exports = model("tickets", schemaTicket);

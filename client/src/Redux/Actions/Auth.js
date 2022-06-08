@@ -17,6 +17,7 @@ export function signup(user){
   return async (dispatch)=>{
     try{
       const response = await axios.post(URL_SIGNUP, user);
+      console.log(response)
       dispatch({type: SIGNUP, payload: response})
     }catch(e){
       console.log(e.response.data)

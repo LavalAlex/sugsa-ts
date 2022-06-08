@@ -32,11 +32,16 @@
 }
 
 .icon {
-    width: 2em;
-    height: 2em;
+    width: 1.5em;
+    height: 1.5em;
+    cursor: pointer;
     /* color: #1e1e1e; */
 }
 
+.icon:hover{
+color: hsl(226deg, 100%, 70%);
+
+}
 
 .btn:hover {
     /* color: hsl(226deg, 100%, 70%); */
@@ -70,8 +75,12 @@
 /* background-color: rgb(242, 242, 242); */
 }
 
-.cardContainerPar{
-    border-bottom: 1px #adb5bd solid;
+.containerPagination{
+    position: relative;
+    bottom: .2rem; 
+
+    width: 74.6rem;
+    border-top: 1px black solid;
     /* background-color: rgb(255, 255, 255); */
 
 }
@@ -277,11 +286,12 @@
 }
 
 .page{
-    position: absolute;
+    position: relative;
     display: flex;
     justify-content: center;
     text-align: center;
-    bottom: 3rem;
-    left: 39.5rem;
-
+    top: 2rem;
+    /* left: 39.5rem; */
+    /* border-top: 1px black solid; */
+    
 }

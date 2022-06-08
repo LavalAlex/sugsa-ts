@@ -1,8 +1,9 @@
 .container{
     display: flex;
     justify-content: center;
-    background-color: rgb(236, 243, 247);
-    /* overflow:hidden; */
+    /* background-color: rgb(236, 243, 247); */
+    background-color: black;
+    overflow:hidden;
 }
 
 .newTicket{

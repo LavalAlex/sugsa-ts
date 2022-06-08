@@ -52,7 +52,14 @@ export default function LoginCard() {
             password: "",
           }));
     } else {
-      await dispatch(adminLogin(input));
+     const code = await dispatch(adminLogin(input));
+     if(!code.error){
+
+     }else{
+       setErrors((old)=>({
+         code: code.error
+       }))
+     }
     }
   };
 
@@ -69,7 +76,7 @@ export default function LoginCard() {
           >
             <FaUserCircle />
             <input
-              type="text"
+              type="email"
               value={input.email}
               name="email"
               onChange={(e) => handleChange(e)}
@@ -125,7 +132,7 @@ export default function LoginCard() {
         <div className={style.buttonContainer}>
           <button type="submit">Login</button>
         </div>
-        {path === "/login" ? 
+        {/* {path === "/login" ? 
         <div className={style.buttonContainer}>
           <div>OR</div>
           <button type="submit" onClick={() => navigate("/signup")}>
@@ -133,7 +140,7 @@ export default function LoginCard() {
           </button>
         </div>
         : ""
-        }
+        } */}
 
         {/* {path === "/login" ? (
           <div className={style.path}>

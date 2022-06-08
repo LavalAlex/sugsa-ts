@@ -29,13 +29,20 @@ export default function Navbar() {
     <header className={styles.navbar}>
       <nav className={styles.nav}>
         <div className={styles.left}>
-          <Link
-            className={styles.brand}
-            to={`${path === "/login" ? "/admin/login" : "/login"}`}
-          >
-            <span>SUGSA</span>
-            <img src={logo} className={styles.logo} alt="" />
-          </Link>
+          {session ? (
+            <Link className={styles.brand} to={path}>
+              <span>SUGSA</span>
+              <img src={logo} className={styles.logo} alt="" />
+            </Link>
+          ) : (
+            <Link
+              className={styles.brand}
+              to={`${path === "/login" ? "/admin/login" : "/login"}`}
+            >
+              <span>SUGSA</span>
+              <img src={logo} className={styles.logo} alt="" />
+            </Link>
+          )}
         </div>
 
         {path === "/admin/home" ? (
@@ -44,7 +51,7 @@ export default function Navbar() {
           </ul>
         ) : (
           <ul className={styles.menu}>
-            <Menu home tool notification />
+            <Menu home />
           </ul>
         )}
 

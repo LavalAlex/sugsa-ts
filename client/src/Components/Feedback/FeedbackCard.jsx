@@ -53,7 +53,7 @@ export default function FeedbackCard({ id }) {
           <input
             type="radio"
             name="feedback"
-            value="perfect"
+            value="perfecto"
             onChange={handleInput}
           />
           <label>Perfect, gracias!</label>
@@ -63,7 +63,7 @@ export default function FeedbackCard({ id }) {
           <input
             type="radio"
             name="feedback"
-            value="meh"
+            value="bueno"
             onChange={handleInput}
           />
           <label>Bueno, se podria mejorar!</label>
@@ -73,7 +73,7 @@ export default function FeedbackCard({ id }) {
           <input
             type="radio"
             name="feedback"
-            value="bad"
+            value="malo"
             onChange={handleInput}
           />
           <label>Malo</label>

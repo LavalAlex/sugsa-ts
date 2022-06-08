@@ -9,10 +9,13 @@ import { validateSignup } from "../../../Utils/validate";
 
 import style from "./SignupCard.module.css";
 import { useLocation, useNavigate } from "react-router-dom";
-import { allBusiness, departamentBusiness } from "../../../Redux/Actions/Business";
+import {
+  allBusiness,
+  departamentBusiness,
+} from "../../../Redux/Actions/Business";
 import { optionSelect, selectDepartament } from "../../../Utils/optionBusiness";
 
-export default function LoginCard() {
+export default function LoginCard({ isAuth }) {
   const dispatch = useDispatch();
   const path = useLocation().pathname;
   const navitage = useNavigate();
@@ -73,7 +76,6 @@ export default function LoginCard() {
     setErrors("");
   };
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { name, email, password, business, departament, last_name } =
@@ -90,15 +92,13 @@ export default function LoginCard() {
       }));
     } else {
       const code = await dispatch(signup(input));
-    
-      if (code.error) {
+      if (!code) {
+        isAuth();
+      } else {
         setErrors((old) => ({
           ...old,
           code: code.error,
         }));
-      } else {
-        alert("Usuario creado con éxitos!");
-        
       }
     }
   };
@@ -139,6 +139,7 @@ export default function LoginCard() {
           >
             <FaUserCircle />
             <input
+             pattern="[a-zA-Z]+"
               type="text"
               value={input.name}
               name="name"
@@ -158,10 +159,13 @@ export default function LoginCard() {
         <label>
           <h5>Apellido:</h5>
           <div
-            className={`${style.inputGroup} ${errors.last_name ? style.error : ""} `}
+            className={`${style.inputGroup} ${
+              errors.last_name ? style.error : ""
+            } `}
           >
             <FaUserCircle />
             <input
+            pattern="[a-zA-Z]+"
               type="text"
               value={input.last_name}
               name="last_name"
@@ -229,7 +233,7 @@ export default function LoginCard() {
           >
             <FaUserCircle />
             <input
-              type="text"
+              type="email"
               value={input.email}
               name="email"
               onChange={(e) => handleChange(e)}

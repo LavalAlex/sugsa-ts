@@ -10,9 +10,9 @@
     align-items: center;
     margin-right: 1rem;
     margin-top: 1rem;
-    position: absolute;
-    bottom: 2rem;
-    right: 6.5rem;
+    position: relative;
+    bottom: 1rem;
+    right: 1rem;
 
 }
 

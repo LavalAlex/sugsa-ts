@@ -25,10 +25,14 @@ export default function TicketDetails({ data, isTicket }) {
   };
 
   const handleCancel = () => {
-    var conf = window.confirm("Do you want to deleted the user?");
+    var conf = window.confirm("Seguro que quieres cancelar el ticket?");
     if (conf) {
-      dispatch(editTicket(data._id, { status: "Cancel" }));
-      alert("Deleted Successfully");
+      const update = {
+        status: "Cancel",
+        feedback:"Cancelado por el Usuario"
+      }
+      dispatch(editTicket(data._id,  update ));
+      alert("Ticket cancelado con éxito!");
     }
     isTicket();
   };
@@ -68,6 +72,7 @@ export default function TicketDetails({ data, isTicket }) {
         <h4>Description:</h4>
         <div>{data.description}</div>
       </div>
+      
       {data.feedback == "false" ? (
         <div>
           <div className={style.data}>

@@ -18,7 +18,7 @@ export default function AdminHome() {
   const [ticketId, setTicketId] = useState("");
   const [followingTicket, setFollowingTicket] = useState(false)
   const [newAdminTicket, setNewAdminTicket] = useState(false)
-
+  const [data, setData] = useState({})
   useEffect(() => {
     dispatch(allTicketsAdmin());
   }, [newTicket]);
@@ -41,7 +41,7 @@ export default function AdminHome() {
               e.target.id === "close" ? setDetailTicket((old) => false) : ""
             }
           >
-            <AdminTicketEdit data={tickets[ticketId]} isTicket={isTicket} />
+            <AdminTicketEdit data={data} isTicket={isTicket} />
           </div>
         ) : (
           ""
@@ -57,7 +57,7 @@ export default function AdminHome() {
               e.target.id === "close" ? setFollowingTicket((old) => false) : ""
             }
           >
-            <AdminFollowing data={tickets[ticketId]} isTicket={isTicket} />
+            <AdminFollowing data={data} isTicket={isTicket} />
           </div>
         ) : (
           ""
@@ -83,7 +83,7 @@ export default function AdminHome() {
 
       <AdminTables
         tickets={tickets}
-        setTicketId={setTicketId}
+        setTicket={setData}
         setDetailTicket={setDetailTicket}
         isTicket={isTicket}
         setFollowingTicket={setFollowingTicket}

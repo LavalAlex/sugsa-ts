@@ -9,6 +9,7 @@ require('dotenv').config();
 //Connection on database
 const {DB_USER,DB_HOST,DB_NAME,DB_PORT} = process.env
 const URI = `mongodb://${DB_HOST}:${DB_PORT}/${DB_NAME}`;
+const autoIncrement = require('mongoose-auto-increment');
 
 mongoose
   .connect(URI, {
@@ -18,7 +19,7 @@ mongoose
   .catch((err) => console.log(err));
 
 const db = mongoose.connection;
-
+autoIncrement.initialize(mongoose)
 
 //Server
 const server = express();

@@ -9,7 +9,7 @@ const { now } = require("mongoose");
 const createAdmin = async (name, email, password) => {
   password = bcrypt.hashSync(password, saltRounds);
   const admin = await Admin.findOne({ email });
-  if (admin) return { error: "Error, this admin does exits" };
+  if (admin) return { error: "Error, Este usuario ya pose una cuenta!" };
   let newAdmin = new Admin({
     name,
     email,
@@ -21,7 +21,7 @@ const createAdmin = async (name, email, password) => {
 
 const findAll = async () => {
   var adminAll = await Admin.find({});
-  if (!adminAll) return { error: `Error, no users information` };
+  if (!adminAll) return { error: "Error, no hay usuarios cargados" };
   const users = adminAll.map((e) => {
     return { email: e.email, name: e.name, id: e._id };
   });
@@ -30,9 +30,9 @@ const findAll = async () => {
 
 const findAdmin = async (email, password) => {
   const adminAuth = await Admin.findOne({ email });
-  if (!adminAuth) return { error: "Error, this admin does not exist" };
+  if (!adminAuth) return { error: "Error, Este usuario no existe!" };
   const validate = await bcrypt.compare(password, adminAuth.password);
-  if (!validate) return { error: "Error, this admin does not exist" };
+  if (!validate) return { error: "Error, El email o la contraseña es incorrecta!" };
   return { id: adminAuth._id, email: adminAuth.email, name: adminAuth.name };
 };
 

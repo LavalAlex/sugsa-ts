@@ -8,18 +8,17 @@ import styles from "./Signup.module.css";
 export default function Login() {
   const user = useSelector((state) => state.auth);
   const navitage = useNavigate();
-  
-  console.log(user)
-  return user === 200  ? (
-    navitage("/login")
-  ) : (
-    
-      <div className={styles.container}>
 
+  const isAuth = () => {
+    alert("Usuario creado con éxitos!");
+    navitage("/login");
+  };
+
+  return (
+    <div className={styles.container}>
       <div className={styles.signCard}>
-        <SignupCard />
+        <SignupCard isAuth={isAuth} />
       </div>
-      </div>
-    
+    </div>
   );
 }

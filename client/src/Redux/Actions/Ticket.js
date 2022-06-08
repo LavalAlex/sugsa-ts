@@ -3,6 +3,8 @@ import {
   ALL_TICKETS,
   EDIT_TICKET,
   NEW_TICKET,
+  ORDER_TICKETS,
+  TICKET_ID,
   URL_ALLTICKETS,
   URL_EDIT_TICKET,
   URL_NEWTICKET,
@@ -42,4 +44,17 @@ export function editTicket(id, data) {
       return e.response.data;
     }
   };
+}
+
+
+export function orderTicket(payload){
+  return (dispatch)=>{
+    dispatch({type:ORDER_TICKETS, payload})
+  }
+}
+
+export function searchTicket(payload){
+  return (dispatch)=>{
+    dispatch({type: TICKET_ID, payload})
+  }
 }

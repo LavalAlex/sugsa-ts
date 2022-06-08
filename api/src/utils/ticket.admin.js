@@ -2,20 +2,24 @@ const Business = require("../schemas/Business");
 const Ticket = require("../schemas/Ticket");
 const User = require("../schemas/User");
 const transporter = require("../Conf/Mailer");
+
 const Status = {
   Active: "Active",
   Pending: "Pending",
-  Pending_Feedback: "Pending Feedback",
+  Pending_Feedback: "Pending_Feedback",
   Close: "Close",
   Cancel: "Cancel",
 };
 
+
 const editTicketAdmin = async (ticketId, data) => {
   if (data.feedback) {
-    let ticket = await Ticket.findOne({ id: ticketId });
+    let ticket = await Ticket.findOne({ _id: ticketId });
     let update ={
       feedback: data.feedback,
-      status: "Close"
+      status: "Close",
+      closeAt: Date.now(),
+      
     }
     if (ticket.feedback === "true") {
       const ticketUpdate = await Ticket.findByIdAndUpdate(ticket._id, update, {
@@ -39,9 +43,9 @@ const editTicketAdmin = async (ticketId, data) => {
   }
   if (data.close) {
     const update = {
-      status: "Pending Feedback",
+      status: "Pending_Feedback",
       feedback: true,
-      createdAt: Date.now(),
+      closeAt: Date.now(),
     };
     const ticketUpdate = await Ticket.findByIdAndUpdate(ticketId, update, {
       new: true,
@@ -71,16 +75,26 @@ const editTicketAdmin = async (ticketId, data) => {
 const filterTicketStatus = async (status) => {
   if (status === "Status") {
     const allTicket = await Ticket.find({});
+    allTicket.sort((a, b) => {
+      if (a._id < b._id) return 1;
+      if (a._id > b._id) return -1;
+      return 0;
+    });
     return allTicket;
   } else {
     const allTicket = await Ticket.find({ status: Status[status] });
+    allTicket.sort((a, b) => {
+      if (a._id < b._id) return 1;
+      if (a._id > b._id) return -1;
+      return 0;
+    });
     return allTicket;
   }
 };
 
 const adminCreateTicket = async ({ email, description }) => {
   const user = await User.findOne({ email });
-  if (!user) return { error: "Error, this user does not exits" };
+  if (!user) return { error: "Error, El usuario no existe!" };
   let technical = await assignedTechnical(user);
   const newTicket = await Ticket.create({
     email,
@@ -97,8 +111,19 @@ const adminCreateTicket = async ({ email, description }) => {
       },
     ],
   });
-  if (newTicket) return { msg: "Created ticket successfully" };
-  return { error: "Error on create the ticket" };
+  if (newTicket) {
+    let info = await transporter.sendMail({
+      from: '"Asignacion de Nuevo Ticket 👻" <lavalalextest@gmail.com>', // sender address
+      to: "lavalalextest@gmail.com", // list of receivers
+      subject: "Nuevo-Ticket ✔", // Subject line
+      // text: "Hello world?", // plain text body
+      html: `<b>Se le acaba de asignar el ticket número: ${newTicket.id}</b>
+      `, // html body
+    });
+    return { msg: "Ticket creado exitosamente!" };
+  }
+  return { error: "Error no se pudo crear el ticket!" };
+
 };
 
 const assignedTechnical = async (user) => {
@@ -113,12 +138,13 @@ const assignedTechnical = async (user) => {
 
 const orderTickets = async () => {
   const tickets = await Ticket.find({});
-  let orderTicket = [];
-  for (var i = tickets.length - 1; i >= 0; i--) {
-    orderTicket.push(tickets[i]);
-  }
-  orderTicket = orderTicket.filter((e) => e.status != "Pending Feedback");
-  return orderTicket;
+  tickets.sort((a, b) => {
+    if (a._id < b._id) return 1;
+    if (a._id > b._id) return -1;
+    return 0;
+  });
+  // const orderTicket = orderTicket.filter((e) => e.status != "Pending Feedback");
+  return tickets;
 };
 
 const feedbackTicket = async (id, ticket) => {

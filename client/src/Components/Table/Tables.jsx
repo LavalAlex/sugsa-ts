@@ -4,9 +4,11 @@ import { BiCommentAdd, BiAddToQueue } from "react-icons/bi";
 import styles from "./Tables.module.css";
 import { avatarUser, utilDate } from "../../Utils/tableUtils";
 import { useDispatch } from "react-redux";
-import { RiAlignJustify } from "react-icons/ri";
+import { RiAlignJustify, RiArrowUpDownFill } from "react-icons/ri";
 import PaginationCard from "../Pagination/PaginationCard";
 import { useState } from "react";
+import { orderTicket } from "../../Redux/Actions/Ticket";
+import { lowerCaseString } from "../../Utils/lowerCase";
 
 export default function Tables({
   tickets,
@@ -23,6 +25,7 @@ export default function Tables({
   const indexOfLastRow = currentPage * rowPerPage; //9
   const indexOfFirstRow = indexOfLastRow - rowPerPage; //0--9--18--
   const currentRow = tickets.slice(indexOfFirstRow, indexOfLastRow);
+  const [up, setUp] = useState(false);
 
   const [n, setN] = useState(0);
 
@@ -46,12 +49,22 @@ export default function Tables({
     setFollowTicket(true);
   };
 
+  const handleOrder = () => {
+    setUp((old) => !old);
+    dispatch(orderTicket(up));
+  };
+
   console.log();
   return (
     <div className={styles.container}>
       <Card>
         <CardBody>
           <CardTitle div className={styles.title}>
+            <div onClick={handleOrder} >
+        
+              <RiArrowUpDownFill className={styles.icon} />
+            
+            </div>
             <h2>TIKETS</h2>
             <div
               title="New Ticket"
@@ -92,15 +105,9 @@ export default function Tables({
               {currentRow[0] ? (
                 currentRow.map((e, index) => (
                   <tr key={index}>
-                    <td
-                      className={`${
-                        index % 2 == 0
-                          ? styles.cardContainer
-                          : styles.cardContainerPar
-                      }`}
-                    >
+                    <td className={styles.cardContainer}>
                       <td scope="row">
-                        <div className={styles.idUser}>{e.id}</div>
+                        <div className={styles.idUser}>{e._id}</div>
                       </td>
                       <td>
                         <div className={styles.bodyUser}>
@@ -116,11 +123,11 @@ export default function Tables({
 
                           <div
                             className={styles.infoUser}
-                            title="Detalle del Ticktet"
-                            onClick={() => handleSubmit(index)}
+                            // title="Detalle del Ticktet"
+                            // onClick={() => handleSubmit(index)}
                           >
-                            <h5>{e.name}</h5>
-                            <h5>{e.last_name}</h5>
+                            <h5>{lowerCaseString(e.name)}</h5>
+                            <h5>{lowerCaseString(e.last_name)}</h5>
                             <span>{e.email}</span>
                           </div>
                         </div>
@@ -143,7 +150,7 @@ export default function Tables({
                       </td>
                       <td>
                         <div className={styles.status}>
-                          <span>{e.status != "Close" ? e.status : ""}</span>
+                          <span>{e.status != "Close" ? "ACTIVO" : ""}</span>
                         </div>
                       </td>
 
@@ -167,21 +174,21 @@ export default function Tables({
                 </div>
               )}
             </tbody>
-            {currentRow[0] ? (
+            <div className={styles.containerPagination}></div>
+            {tickets.length > 5 ? (
               <div>
                 <div className={styles.page}>
-                  {tickets.length >= 5
-                    ? `Pagina ${currentPage} de ${Math.ceil(
-                        tickets.length / rowPerPage
-                      )}`
-                    : ""}
+                  Pagina {currentPage} de{" "}
+                  {Math.ceil(tickets.length / rowPerPage)}
                 </div>
-                <PaginationCard
-                  rowPerPage={rowPerPage}
-                  allRow={tickets.length}
-                  paginado={paginado}
-                  m={currentPage}
-                />
+                <div>
+                  <PaginationCard
+                    rowPerPage={rowPerPage}
+                    allRow={tickets.length}
+                    paginado={paginado}
+                    m={currentPage}
+                  />
+                </div>
               </div>
             ) : (
               ""

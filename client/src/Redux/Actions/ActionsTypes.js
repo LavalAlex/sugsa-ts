@@ -16,6 +16,8 @@ export const DEPARTAMENT_BUSINESS = process.env.REACT_APP_DEPARTAMENT_BUSINESS
 export const ALL_TECHNICALS = process.env.REACT_APP_ALL_TECHNICALS
 export const ALL_USERS = process.env.REACT_APP_ALL_USERS
 export const CREATE_TICKET_ADMIN = process.env.REACT_APP_CREATE_TICKET_ADMIN
+export const ORDER_TICKETS = process.env.REACT_APP_ORDER_TICKETS
+export const TICKET_ID = process.env.REACT_APP_TICKET_ID
 
 //URL API
 export const URL_LOGIN = process.env.REACT_APP_URL_LOGIN

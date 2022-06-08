@@ -53,7 +53,14 @@ export default function LoginCard() {
           }));
     } else {
      const code = await dispatch(login(input));
-  
+     if(!code.error){
+
+     }else{
+       setErrors((old)=>({
+         ...old, code: code.error
+       }))
+     }
+  console.log(code)
     }
   };
 
