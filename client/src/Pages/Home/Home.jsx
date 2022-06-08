@@ -15,11 +15,11 @@ export default function Home() {
   const [detailTicket, setDetailTicket] = useState(false);
   const tickets = useSelector((state) => state.tickets.tickets);
   const [ticketId, setTicketId] = useState("");
-  const email = useSelector((state) => state.auth.user.email);
+  const user = useSelector((state) => state.auth.user);
   const [followTiket, setFollowTicket] = useState(false);
 
   useEffect(() => {
-    dispatch(allTickets(email));
+    dispatch(allTickets(user));
   }, [newTicket]);
 
   const isTicket = () => {
@@ -28,17 +28,17 @@ export default function Home() {
 
   const isDeteail = () => {
     setDetailTicket((old) => !old);
-    dispatch(allTickets(email));
+    dispatch(allTickets(user));
   };
 
   const isFollowing = () => {
     setFollowTicket((old) => !old)
-    dispatch(allTickets(email))
+    dispatch(allTickets(user))
   };
 
   return (
     <div className={styles.container}>
-      <div className={styles.containerNewUser}>
+      <div className={styles.containerTable}>
         {newTicket ? (
           <div
             className={styles.newTicket}

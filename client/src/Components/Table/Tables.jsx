@@ -24,7 +24,7 @@ export default function Tables({
   const [rowPerPage, setRowPerPage] = useState(5); //Cantidad de recetas por pagina
   const indexOfLastRow = currentPage * rowPerPage; //9
   const indexOfFirstRow = indexOfLastRow - rowPerPage; //0--9--18--
-  const currentRow = tickets.slice(indexOfFirstRow, indexOfLastRow);
+  const currentRow = tickets[0]? tickets.slice(indexOfFirstRow, indexOfLastRow): [];
   const [up, setUp] = useState(false);
 
   const [n, setN] = useState(0);
@@ -54,7 +54,7 @@ export default function Tables({
     dispatch(orderTicket(up));
   };
 
-  console.log();
+
   return (
     <div className={styles.container}>
       <Card>

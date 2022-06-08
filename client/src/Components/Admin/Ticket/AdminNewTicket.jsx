@@ -15,7 +15,7 @@ import { optionSelectUser } from "../../../Utils/optionUser";
 
 export default function AdminNewTicket({ isTicket}) {
   const dispatch = useDispatch();
-  const user = useSelector((state) =>  state.auth.user)
+  const token = useSelector((state) => state.authAdmin.user.token)
   const users = useSelector((state) => state.users.users)
 
   const [errors, setErrors] = useState({
@@ -33,7 +33,7 @@ export default function AdminNewTicket({ isTicket}) {
 
 
   useEffect(()=>{
-    dispatch(allUsers())
+    dispatch(allUsers(token))
   },[])
 
   useEffect(() => {
@@ -76,7 +76,7 @@ export default function AdminNewTicket({ isTicket}) {
           description:data.description,
         }
         
-        const error = await dispatch(adminNewTicket(ticket));
+        const error = await dispatch(adminNewTicket(ticket, token));
         if (error) {
           alert(error.data.msg);
         } else {
@@ -100,7 +100,7 @@ export default function AdminNewTicket({ isTicket}) {
     setUserSearch(users[id])
   }
 
-  console.log(userSearch)
+
   return (
     <form className={style.container} onSubmit={(e) => handleSubmit(e)}>
       <div className={style.title}>

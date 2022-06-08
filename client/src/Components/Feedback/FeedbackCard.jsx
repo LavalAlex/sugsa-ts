@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { editTicketAdmin } from "../../Redux/Actions/Admin";
+import { feedbackTicket } from "../../Redux/Actions/Ticket";
 import style from "./FeedbackCard.module.css";
 
 export default function FeedbackCard({ id }) {
@@ -28,7 +29,7 @@ export default function FeedbackCard({ id }) {
         feedback: "Error, You must provider a options",
       }));
     } else {
-      const error = await dispatch(editTicketAdmin(id, input));
+      const error = await dispatch(feedbackTicket(id, input));
       //   var conf = window.confirm("Do you want to submit the poll?");
       alert("Gracias por su feedback, es muy importante para nosotros!");
       navigate('/login')

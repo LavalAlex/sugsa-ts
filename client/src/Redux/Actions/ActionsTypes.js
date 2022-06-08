@@ -18,6 +18,7 @@ export const ALL_USERS = process.env.REACT_APP_ALL_USERS
 export const CREATE_TICKET_ADMIN = process.env.REACT_APP_CREATE_TICKET_ADMIN
 export const ORDER_TICKETS = process.env.REACT_APP_ORDER_TICKETS
 export const TICKET_ID = process.env.REACT_APP_TICKET_ID
+export const FEEDBACK_TICKET = process.env.REACT_APP_FEEDBACK_TICKET
 
 //URL API
 export const URL_LOGIN = process.env.REACT_APP_URL_LOGIN
@@ -35,3 +36,4 @@ export const URL_DEPARTAMENT_BUSINESS = process.env.REACT_APP_URL_DEPARTAMENT_BU
 export const URL_ALL_TECHNICALS = process.env.REACT_APP_URL_ALL_TECHNICALS
 export const URL_ALL_USERS = process.env.REACT_APP_URL_ALL_USERS
 export const URL_CREATE_TICKET_ADMIN =process.env.REACT_APP_URL_CREATE_TICKET_ADMIN
+export const URL_FEEDBACK_TICKET = process.env.REACT_APP_URL_FEEDBACK_TICKET

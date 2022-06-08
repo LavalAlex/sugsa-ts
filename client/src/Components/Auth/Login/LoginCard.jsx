@@ -60,7 +60,7 @@ export default function LoginCard() {
          ...old, code: code.error
        }))
      }
-  console.log(code)
+
     }
   };
 

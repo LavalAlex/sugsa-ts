@@ -52,14 +52,13 @@ export default function LoginCard() {
             password: "",
           }));
     } else {
-     const code = await dispatch(adminLogin(input));
-     if(!code.error){
-
-     }else{
-       setErrors((old)=>({
-         code: code.error
-       }))
-     }
+      const code = await dispatch(adminLogin(input));
+      if (!code.error) {
+      } else {
+        setErrors((old) => ({
+          code: code.error,
+        }));
+      }
     }
   };
 

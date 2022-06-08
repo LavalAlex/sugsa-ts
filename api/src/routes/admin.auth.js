@@ -35,22 +35,16 @@ router.get("/allUser", async (req, res) => {
 router.post("/login", async (req, res) => {
   try {
     const { name, password, email } = req.body;
-    console.log(req.body)
     const adminAuth = await findAdmin(email, password);
+    console.log(adminAuth)
     if (!adminAuth || adminAuth.error) return res.status(404).send(adminAuth);
 
-    const id = adminAuth.id;
-    const token = jwt.sign({ id: id }, JWT_SECRET, {
+    const token = jwt.sign({ user: adminAuth }, JWT_SECRET, {
       expiresIn: JWT_EXPIRE_TIME,
     });
-    const cookiesOptions = {
-      expires: new Date(Date.now() + JWT_COOKIE_EXPIRE * 3600 * 1000),
-      httponly: true,
-      Secure: true,
-    };
 
-    res.cookie("sugsa", token, cookiesOptions);
-    res.status(200).send({ email: email, success: true });
+    adminAuth.token = token
+    res.status(200).send({ user: adminAuth, success: true,});;
   } catch (e) {
     console.log("Error on login:", e);
     res.status(404).send(e);

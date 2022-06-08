@@ -15,16 +15,17 @@ export default function AdminHome() {
   const [newTicket, setNewTicket] = useState(false);
   const [editTicket, setDetailTicket] = useState(false);
   const tickets = useSelector((state) => state.tickets.tickets);
-  const [ticketId, setTicketId] = useState("");
+  // const [ticketId, setTicketId] = useState("");
+  const token = useSelector((state) => state.authAdmin.user.token)
   const [followingTicket, setFollowingTicket] = useState(false)
   const [newAdminTicket, setNewAdminTicket] = useState(false)
   const [data, setData] = useState({})
   useEffect(() => {
-    dispatch(allTicketsAdmin());
+    dispatch(allTicketsAdmin(token));
   }, [newTicket]);
 
   const isTicket = () => {
-    dispatch(allTicketsAdmin());
+    dispatch(allTicketsAdmin(token));
     setDetailTicket((old) => false)
     setFollowingTicket((old) => false)
     setNewAdminTicket((old)=> false)

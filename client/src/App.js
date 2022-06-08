@@ -15,6 +15,7 @@ import AdminFollowing from "./Pages/Admin/Following/AdminFollowing";
 
 import Navbar from "./Components/Navbar/NavBar";
 import PrivateRoute from "./Components/TypeRoutes/PrivateRoute";
+import PrivateRouteAdmin from "./Components/TypeRoutes/PriviteRouteAdmin";
 
 import Feedback from "./Pages/Feedback/Feedback";
 
@@ -35,6 +36,8 @@ function App() {
           <Route path="home" element={<Home />} />
           <Route path="notification" element={<Notification />} />
           <Route path="tool" element={<Tool />} />
+        </Route>
+        <Route element={<PrivateRouteAdmin />}>
           <Route path="admin">
             <Route path="home" element={<AdminHome />} />
             <Route path="following:id" element={<AdminFollowing />} />

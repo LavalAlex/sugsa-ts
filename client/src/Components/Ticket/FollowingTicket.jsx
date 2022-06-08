@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { editTicket } from "../../Redux/Actions/Ticket";
 // import { editTicketAdmin } from "../../../Redux/Actions/Admin";
 import { utilDate } from "../../Utils/tableUtils";
@@ -13,6 +13,7 @@ import style from "./FollowingTicket.module.css";
 export default function FollowingTicket({ data, isFollowing }) {
   const dispatch = useDispatch();
   const [errors, setErrors] = useState({ tech_descrip: "" });
+  const user = useSelector((state) =>  state.auth.user)
 
   const [dataEdit, setDataEdit] = useState({
     tech_descrip: "",
@@ -45,7 +46,7 @@ export default function FollowingTicket({ data, isFollowing }) {
         status: "Cancel",
         feedback: "Cancelado por el Usuario",
       };
-      dispatch(editTicket(data._id, update));
+      dispatch(editTicket(data._id, update, user.token));
       alert("Ticket cancelado con exitos!");
       isFollowing();
     } else {

@@ -8,7 +8,7 @@ const router = Router();
 
 const user = require("../Mock/User.mock.json");
 const User = require("../schemas/User");
-const { assignedTechnical } = require("../utils/ticket.utils");
+const { assignedTechnical } = require("../utils/utils.ticket");
 const Ticket = require("../schemas/Ticket");
 
 const ticketMock = require("../Mock/Ticket.mock.json");

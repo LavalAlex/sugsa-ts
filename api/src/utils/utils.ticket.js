@@ -4,6 +4,7 @@ const Business = require("../schemas/Business");
 
 const transporter = require("../Conf/Mailer");
 
+const {EMAIL_USER} =  process.env
 const createTicket = async ({ email, description }) => {
   const user = await User.findOne({ email });
   if (!user) return { error: "Error, this user does not exits" };
@@ -26,8 +27,8 @@ const createTicket = async ({ email, description }) => {
   });
   if (newTicket) {
     let info = await transporter.sendMail({
-      from: '"Asignacion de Nuevo Ticket 👻" <lavalalextest@gmail.com>', // sender address
-      to: "lavalalextest@gmail.com", // list of receivers
+      from: `"Asignacion de Nuevo Ticket 👻" <${EMAIL_USER}>`, // sender address
+      to: `${EMAIL_USER}`, // list of receivers
       subject: "Nuevo-Ticket ✔", // Subject line
       // text: "Hello world?", // plain text body
       html: `<b>Se le acaba de asignar el ticket número: ${newTicket.id}</b>

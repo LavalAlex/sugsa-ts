@@ -5,6 +5,7 @@ import adminReducer from "./Admin";
 import businessReducer from "./Business";
 import technicalReducer from "./Technicals";
 import usersReducer from "./User";
+import authAdminReducer from "./AuthAdmin";
 
 const reducers = combineReducers({
   auth: authReducer,
@@ -13,6 +14,7 @@ const reducers = combineReducers({
   business: businessReducer,
   technical: technicalReducer,
   users: usersReducer,
+  authAdmin:authAdminReducer
 });
 
 export default reducers;

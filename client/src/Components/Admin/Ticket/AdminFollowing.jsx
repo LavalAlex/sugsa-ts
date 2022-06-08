@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { editTicketAdmin } from "../../../Redux/Actions/Admin";
 import { utilDate } from "../../../Utils/tableUtils";
 import {
@@ -16,7 +16,7 @@ export default function AdminFollowing({ data, isTicket }) {
   const dispatch = useDispatch();
   const [errors, setErrors] = useState({ tech_descrip: "" });
   const navigate = useNavigate();
-
+  const token = useSelector((state) => state.authAdmin.user.token)
   const [dataEdit, setDataEdit] = useState({
     tech_descrip: "",
   });
@@ -35,7 +35,7 @@ export default function AdminFollowing({ data, isTicket }) {
         tech_descrip: update.error,
       }));
     } else {
-      dispatch(editTicketAdmin(data._id, dataEdit));
+      dispatch(editTicketAdmin(data._id, dataEdit,  token));
       alert("Nuevo avance de ticket agregado con éxitos!");
       isTicket();
     }
@@ -45,7 +45,7 @@ export default function AdminFollowing({ data, isTicket }) {
     isTicket();
   };
 
-  console.log(data);
+
   return (
     <div className={style.container} key={data._id}>
       <div

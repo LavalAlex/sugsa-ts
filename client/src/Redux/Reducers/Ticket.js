@@ -80,16 +80,12 @@ export default function root(state = initialState, action) {
 
     case TICKET_ID:
       const tickets = state.ticketId
-      console.log(action.payload)
-      console.log(tickets)
       if(action.payload){
         var ticketFilter = tickets.filter((e)=>  e._id === (action.payload)
         )
       }else{
         ticketFilter = state.ticketId
       }
-
-      console.log(ticketFilter)
       return {
         ...state,
         tickets: ticketFilter

@@ -62,7 +62,7 @@ export default function NewTicket({ isTicket}) {
          
         }
         
-        const error = await dispatch(newTicket(ticket));
+        const error = await dispatch(newTicket({ticket, user}));
         if (error) {
           alert(error.data.msg);
         } else {

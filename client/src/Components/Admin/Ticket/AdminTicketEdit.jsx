@@ -21,16 +21,17 @@ export default function AdminTicketEdit({ data, isTicket }) {
   const [editAssig, setEditAssig] = useState(true);
   const technicals = useSelector((state) => state.technical.technical);
   const [optionTechnical, setOptionTecnical] = useState([]);
+  const token = useSelector((state) => state.authAdmin.user.token);
 
   useEffect(() => {
-    dispatch(allTechnicals());
-  }, [editAssig]);
+    dispatch(allTechnicals(token));
+  }, []);
 
   useEffect(() => {
     if (technicals[0]) {
       setOptionTecnical(optionSelectTechnical(technicals));
     } else {
-      dispatch(allTechnicals());
+      dispatch(allTechnicals(token));
       setOptionTecnical([]);
     }
   }, [editAssig]);
@@ -51,14 +52,15 @@ export default function AdminTicketEdit({ data, isTicket }) {
     });
   };
 
-  const handleUpdate = async () => {
+  const handleUpdate = async (e) => {
+    e.preventDefault();
     const update = inputTicketEdit(dataEdit);
     if (update.error) {
       setErrors((old) => ({
         error: update.error,
       }));
     } else {
-      dispatch(editTicketAdmin(data._id, update));
+      dispatch(editTicketAdmin(data._id, update, token));
       alert("El ticket se actualizó correctamente!");
       isTicket();
     }
@@ -67,7 +69,7 @@ export default function AdminTicketEdit({ data, isTicket }) {
   const handleDelete = async () => {
     var conf = window.confirm("Seguro que quiere eliminar este Ticket?");
     if (conf) {
-      dispatch(deleteTicketAdmin(data._id));
+      dispatch(deleteTicketAdmin(data._id, token));
       alert("Ticket eliminado con éxitos!");
     }
     isTicket();
@@ -76,7 +78,7 @@ export default function AdminTicketEdit({ data, isTicket }) {
   const handleClose = async () => {
     var conf = window.confirm("Seguro que quiere cerrar el Ticket?");
     if (conf) {
-      dispatch(editTicketAdmin(data._id, { close: true }));
+      dispatch(editTicketAdmin(data._id, { close: true }, token));
       alert("Ticket cerrado con éxito, pendiente de feedback!");
     }
     isTicket();
@@ -86,6 +88,7 @@ export default function AdminTicketEdit({ data, isTicket }) {
     setDataEdit((old) => ({ ...old, assigned: e.value }));
   };
 
+  console.log(dataEdit);
   return (
     <div className={style.container} key={data._id}>
       <div className={style.title}>
@@ -114,67 +117,47 @@ export default function AdminTicketEdit({ data, isTicket }) {
         </div>
       </div>
 
+      <div className={style.descrip}>
+        <h4>Descripción:</h4>
+        <div>{data.description}</div>
+      </div>
+
+      <div className={style.wrapper}>
+        <label>
+          <h4>
+            Técnico Asignado:
+            <button
+              title="Editar Técnico"
+              className={style.btn}
+              onClick={() => setEditAssig((old) => !old)}
+            >
+              <BiEditAlt
+                style={{
+                  width: "1.5em",
+                  height: "1.5em",
+                }}
+              />
+            </button>{" "}
+          </h4>
+        </label>
+        {editAssig ? (
+          <div>
+            {data.assigned_technical.name.toUpperCase()}{" "}
+            {data.assigned_technical.last_name.toUpperCase()}
+          </div>
+        ) : (
+          <Select
+            className={style.select}
+            onChange={(e) => handleTechnical(e)}
+            options={optionTechnical}
+            placeholder="Técnico..."
+          />
+        )}
+      </div>
+
       <div
         className={data.status === "Active" ? style.edit : style.editFeedback}
       >
-        <div className={style.descrip}>
-          <h4>Descripción:</h4>
-          <div>{data.description}</div>
-        </div>
-
-        <div className={style.containerEdit}>
-          {errors.error ? (
-            <span className={style.errorSpan}>{errors.error}</span>
-          ) : (
-            ""
-          )}
-        </div>
-        {data.status === "Active" ? (
-          <div>
-            <h4>
-              Técnico Asignado:
-              <button
-                title="Editar Técnico"
-                className={style.btn}
-                onClick={() => setEditAssig((old) => !old)}
-              >
-                <BiEditAlt
-                  style={{
-                    width: "1.5em",
-                    height: "1.5em",
-                  }}
-                />
-              </button>{" "}
-            </h4>
-            <label>
-              {editAssig ? (
-                <div>
-                  {data.assigned_technical.name.toUpperCase()}{" "}
-                  {data.assigned_technical.last_name.toUpperCase()}
-                </div>
-              ) : (
-                <div className={style.wrapper}>
-                  <Select
-                    className={style.select}
-                    onChange={(e) => handleTechnical(e)}
-                    options={optionTechnical}
-                    placeholder="Técnico..."
-                  />
-                </div>
-              )}
-            </label>
-          </div>
-        ) : (
-          <div className={style.wrapper}>
-            <h4> Técnico Asignado:</h4>
-
-            <div>
-              {data.assigned_technical.name.toUpperCase()}
-              {data.assigned_technical.last_name.toUpperCase()}
-            </div>
-          </div>
-        )}
-
         {data.status === "Active" ? (
           <div>
             <h4>
@@ -196,7 +179,7 @@ export default function AdminTicketEdit({ data, isTicket }) {
             {editClass ? (
               <div>{data.classification.toUpperCase()}</div>
             ) : (
-              <label className={style.wrapper}>
+              <label>
                 <div
                   className={`${style.inputGroup} ${
                     errors.classification ? style.error : ""
@@ -225,6 +208,39 @@ export default function AdminTicketEdit({ data, isTicket }) {
           ""
         )}
       </div>
+      {/* 
+      <div className={style.wrapper}>
+        <label>
+          <h4>
+            Técnico Asignado:
+            <button
+              title="Editar Técnico"
+              className={style.btn}
+              onClick={() => setEditAssig((old) => !old)}
+            >
+              <BiEditAlt
+                style={{
+                  width: "1.5em",
+                  height: "1.5em",
+                }}
+              />
+            </button>{" "}
+          </h4>
+        </label>
+        {editAssig ? (
+          <div>
+            {data.assigned_technical.name.toUpperCase()}{" "}
+            {data.assigned_technical.last_name.toUpperCase()}
+          </div>
+        ) : (
+          <Select
+            className={style.select}
+            onChange={(e) => handleTechnical(e)}
+            options={optionTechnical}
+            placeholder="Técnico..."
+          />
+        )}
+      </div> */}
 
       {data.status === "Close" || data.status === "Cancel" ? (
         <div className={style.feedback}>

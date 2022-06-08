@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const jwt = require("jsonwebtoken");
-const  transporter  = require("../Conf/Mailer");
+const transporter = require("../Conf/Mailer");
 const Ticket = require("../schemas/Ticket");
 const { JWT_SECRET, JWT_EXPIRE_TIME, JWT_COOKIE_EXPIRE } = process.env;
 
@@ -9,12 +9,16 @@ const {
   filterTicketStatus,
   adminCreateTicket,
   orderTickets,
-} = require("../utils/ticket.admin");
+  feedbackTicketUser,
+} = require("../utils/utils.ticket.admin");
+const { verifyToken } = require("../utils/verifyToken");
 
 const router = Router();
 
-router.put("/update/:id", async (req, res) => {
+router.put("/update/:id", verifyToken, async (req, res) => {
   try {
+    var decoded = jwt.verify(req.token, JWT_SECRET);
+    if (!decoded.user) res.status(403).send({ error: "Token invalido" });
     const ticketId = req.params.id;
     const update = req.body;
     const ticketUpdate = await editTicketAdmin(ticketId, update);
@@ -25,19 +29,22 @@ router.put("/update/:id", async (req, res) => {
   }
 });
 
-router.get("/status/:status", async (req, res) => {
-  try{
-    
-    const allTicket = await filterTicketStatus(req.params.status)
-    res.status(200).send(allTicket)
-  }catch(e){
+router.get("/status/:status", verifyToken, async (req, res) => {
+  try {
+    var decoded = jwt.verify(req.token, JWT_SECRET);
+    if (!decoded.user) res.status(403).send({ error: "Token invalido" });
+    const allTicket = await filterTicketStatus(req.params.status);
+    res.status(200).send(allTicket);
+  } catch (e) {
     console.log("Error on filter ticket", e);
     res.status(500).send({ error: "Error on filter update" });
   }
-})
+});
 
-router.get("/alltickets", async (req, res) => {
+router.get("/alltickets", verifyToken, async (req, res) => {
   try {
+    var decoded = jwt.verify(req.token, JWT_SECRET);
+    if (!decoded.user) res.status(403).send({ error: "Token invalido" });
     const allTicket = await orderTickets();
     if (!allTicket)
       res.status(404).send({ error: "this tickets does not exist" });
@@ -48,8 +55,10 @@ router.get("/alltickets", async (req, res) => {
   }
 });
 
-router.delete("/delete/:id", async (req, res) => {
+router.delete("/delete/:id", verifyToken, async (req, res) => {
   try {
+    var decoded = jwt.verify(req.token, JWT_SECRET);
+    if (!decoded.user) res.status(403).send({ error: "Token invalido" });
     const ticketId = req.params.id;
     const ticketDeleted = await Ticket.findByIdAndDelete(ticketId);
     if (ticketDeleted)
@@ -61,8 +70,10 @@ router.delete("/delete/:id", async (req, res) => {
   }
 });
 
-router.post("/ticket/create", async (req, res) => {
+router.post("/ticket/create", verifyToken, async (req, res) => {
   try {
+    var decoded = jwt.verify(req.token, JWT_SECRET);
+    if (!decoded.user) res.status(403).send({ error: "Token invalido" });
     const newTicket = await adminCreateTicket(req.body);
     if (newTicket.msg) res.status(200).send(newTicket);
     else res.status(404).send(newTicket);
@@ -70,23 +81,26 @@ router.post("/ticket/create", async (req, res) => {
     console.log("Error on create", e);
     res.status(404).send(newTicket);
   }
-})
+});
 
-
-
-router.post('/feedback', async (req, res) => {
-
-  const {id} = req.body
-  let info = await transporter.sendMail({
-    from: '"Feedback  Ticket 👻" <lavalalexander@gmail.com>', // sender address
-    to: "lavalalexander@gmail.com", // list of receivers
-    subject: "Feedback ✔", // Subject line
-    // text: "Hello world?", // plain text body
-    html: `<b>Click en el siguiente link para realizar su devolución!</b>
-    <a href="http://localhost:3000/feedback/${id}> Feedback</a>`, // html body
-  });
-
-  res.send({msg: 'Readed email'}).status(200)
-})
+router.put("/ticket/feedback/:id", async (req, res) => {
+  const ticketId = req.params.id;
+  const data = req.body;
+  if (data.feedback) {
+    try {
+      const ticket = await feedbackTicketUser(ticketId, data);
+      if (!ticket.error) {
+        res.send({ msg: "Feedback creado con éxito!" }).status(200);
+      } else {
+        res.status(404).send({ msg: "No se pudo crear el feedback al ticket" });
+      }
+    } catch (e) {
+      console.log("Error al crear feedback-ticket", e);
+      res.status(404).send({ error: "Error al crear feedback-ticket" });
+    }
+  } else {
+    res.status(404).send({ error: "Error al crear feedback-ticket" });
+  }
+});
 
 module.exports = router;

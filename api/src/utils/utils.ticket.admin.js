@@ -2,6 +2,9 @@ const Business = require("../schemas/Business");
 const Ticket = require("../schemas/Ticket");
 const User = require("../schemas/User");
 const transporter = require("../Conf/Mailer");
+const Technical = require("../schemas/Technical");
+
+const { EMAIL_USER } = process.env;
 
 const Status = {
   Active: "Active",
@@ -11,23 +14,7 @@ const Status = {
   Cancel: "Cancel",
 };
 
-
 const editTicketAdmin = async (ticketId, data) => {
-  if (data.feedback) {
-    let ticket = await Ticket.findOne({ _id: ticketId });
-    let update ={
-      feedback: data.feedback,
-      status: "Close",
-      closeAt: Date.now(),
-      
-    }
-    if (ticket.feedback === "true") {
-      const ticketUpdate = await Ticket.findByIdAndUpdate(ticket._id, update, {
-        new: true,
-      });
-      return ticketUpdate;
-    } else return "";
-  }
   if (data.tech_descrip) {
     let ticket = await Ticket.findById(ticketId);
     let tech = ticket.register;
@@ -51,19 +38,36 @@ const editTicketAdmin = async (ticketId, data) => {
       new: true,
     });
 
-    feedbackTicket(ticketId, ticketUpdate);
+    sendEmailFeedback(ticketId, ticketUpdate);
     return ticketUpdate;
   }
   if (data.assigned) {
-    const update = {
-      status: "Active",
-      assigned_technician: data.assigned,
-      classification: data.classification,
-    };
-    const ticketUpdate = await Ticket.findByIdAndUpdate(ticketId, update, {
-      new: true,
-    });
-    return ticketUpdate;
+    const tech = await Technical.findOne({ _id: data.assigned });
+    console.log(data);
+    if (data.classification) {
+      const ticketUpdate = await Ticket.findByIdAndUpdate(
+        ticketId,
+        {
+          assigned_technical: tech,
+          classification: data.classification ? data.classification : "",
+        },
+        {
+          new: true,
+        }
+      );
+      sendEmailTechnical(ticketUpdate.id, tech.email);
+      return ticketUpdate;
+    } else {
+      const ticketUpdate = await Ticket.findByIdAndUpdate(
+        ticketId,
+        { assigned_technical: tech },
+        {
+          new: true,
+        }
+      );
+      sendEmailTechnical(ticketUpdate.id, tech.email);
+      return ticketUpdate;
+    }
   } else {
     const ticketUpdate = await Ticket.findByIdAndUpdate(ticketId, data, {
       new: true,
@@ -100,7 +104,7 @@ const adminCreateTicket = async ({ email, description }) => {
     email,
     name: user.name,
     description,
-    last_name:user.last_name,
+    last_name: user.last_name,
     business: user.business,
     departament: user.departament,
     assigned_technical: technical,
@@ -112,18 +116,10 @@ const adminCreateTicket = async ({ email, description }) => {
     ],
   });
   if (newTicket) {
-    let info = await transporter.sendMail({
-      from: '"Asignacion de Nuevo Ticket 👻" <lavalalextest@gmail.com>', // sender address
-      to: "lavalalextest@gmail.com", // list of receivers
-      subject: "Nuevo-Ticket ✔", // Subject line
-      // text: "Hello world?", // plain text body
-      html: `<b>Se le acaba de asignar el ticket número: ${newTicket.id}</b>
-      `, // html body
-    });
+    sendEmailTechnical(newTicket.id, technical.email);
     return { msg: "Ticket creado exitosamente!" };
   }
   return { error: "Error no se pudo crear el ticket!" };
-
 };
 
 const assignedTechnical = async (user) => {
@@ -147,15 +143,43 @@ const orderTickets = async () => {
   return tickets;
 };
 
-const feedbackTicket = async (id, ticket) => {
+const sendEmailFeedback = async (id, ticket) => {
   let info = await transporter.sendMail({
-    from: '"Feedback  Ticket 👻" <lavalalextest@gmail.com>', // sender address
+    from: `"Feedback  Ticket 👻" <${EMAIL_USER}>`, // sender address
     to: ticket.email, // list of receivers
     subject: "Feedback ✔", // Subject line
     // text: "Hello world?", // plain text body
     html: `<b>Click en el siguiente link para realizar su devolución!</b>
-    <a href="http://localhost:3000/feedback/${ticket.id}> Feedback</a>`, // html body
+    <a href="http://localhost:3000/feedback/${id}> Feedback</a>`, // html body
   });
+};
+
+const sendEmailTechnical = async (id, emailTech) => {
+  let info = await transporter.sendMail({
+    from: `"Asignacion de Nuevo Ticket 👻" <${EMAIL_USER}>`, // sender address
+    to: `${EMAIL_USER}`, // list of receivers
+    subject: "Nuevo-Ticket ✔", // Subject line
+    // text: "Hello world?", // plain text body
+    html: `<b>Se le acaba de asignar el ticket número: ${id}</b>
+    `, // html body
+  });
+
+  return { msg: "Email enviado exitosamente!" };
+};
+
+const feedbackTicketUser = async (id, data) => {
+  let ticket = await Ticket.findOne({ _id: id });
+  let update = {
+    feedback: data.feedback,
+    status: "Close",
+    closeAt: Date.now(),
+  };
+  if (ticket.feedback === "true") {
+    const ticketUpdate = await Ticket.findByIdAndUpdate(ticket._id, update, {
+      new: true,
+    });
+    return ticketUpdate;
+  } else return { error: "Error al crear Feedback-Ticket" };
 };
 
 module.exports = {
@@ -163,4 +187,5 @@ module.exports = {
   filterTicketStatus,
   adminCreateTicket,
   orderTickets,
+  feedbackTicketUser,
 };

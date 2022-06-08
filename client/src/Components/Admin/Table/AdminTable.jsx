@@ -8,7 +8,7 @@ import {
   utilDate,
   statusTitle,
 } from "../../../Utils/tableUtils";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { filterTicketAdmin } from "../../../Redux/Actions/Admin";
 import { allTickets } from "../../../Redux/Actions/Ticket";
 
@@ -37,6 +37,7 @@ export default function AdminTables({
 }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const token = useSelector((state) => state.authAdmin.user.token)
 
   //Seteo de cantidad de recetas por pagina
   const [currentPage, setCurrentPage] = useState(1); //Pagina actual
@@ -80,7 +81,7 @@ export default function AdminTables({
   };
 
   const handleFilter = async ({ target: { name, value } }) => {
-    const code = await dispatch(filterTicketAdmin(statusDir[value]));
+    const code = await dispatch(filterTicketAdmin(statusDir[value], token));
     paginado(1)
   };
 

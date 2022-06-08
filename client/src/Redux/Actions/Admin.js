@@ -9,6 +9,7 @@ import {
   FILTER_TICKET_ADMIN,
   LOGIN_ADMIN,
   LOGOUT,
+  LOGOUT_ADMIN,
   URL_ALLTICKETS_ADMIN,
   URL_ALL_TECHNICALS,
   URL_ALL_USERS,
@@ -20,10 +21,10 @@ import {
 } from "./ActionsTypes";
 
 export function adminLogin(admin) {
-    return async (dispatch) => {
+  return async (dispatch) => {
     try {
       const response = await axios.post(URL_LOGIN_ADMIN, admin);
-      console.log(response)
+
       dispatch({ type: LOGIN_ADMIN, payload: response });
     } catch (e) {
       console.log(e.response.data);
@@ -32,19 +33,21 @@ export function adminLogin(admin) {
   };
 }
 
-export function logout() {
+export function adminLogout() {
   return (dispatch) => {
     dispatch({
-      type: LOGOUT,
+      type: LOGOUT_ADMIN,
       payload: {},
     });
   };
 }
 
-export function editTicketAdmin(id, data) {
+export function editTicketAdmin(id, data, token) {
   return async (dispatch) => {
     try {
-       const response = await axios.put(`${URL_EDIT_TICKET_ADMIN}/${id}`, data);
+      const response = await axios.put(`${URL_EDIT_TICKET_ADMIN}/${id}`, data, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       dispatch({ type: EDIT_TICKET_ADMIN, payload: {} });
     } catch (e) {
       console.log(e.response.data);
@@ -53,10 +56,12 @@ export function editTicketAdmin(id, data) {
   };
 }
 
-export function allTicketsAdmin() {
+export function allTicketsAdmin(token) {
   return async (dispatch) => {
     try {
-      const response = await axios.get(URL_ALLTICKETS_ADMIN);
+      const response = await axios.get(URL_ALLTICKETS_ADMIN, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       dispatch({ type: ALL_TICKETS_ADMIN, payload: response });
     } catch (e) {
       console.log(e.response.data);
@@ -65,10 +70,12 @@ export function allTicketsAdmin() {
   };
 }
 
-export function filterTicketAdmin(status) {
+export function filterTicketAdmin(status, token) {
   try {
     return async (dispatch) => {
-      const response = await axios.get(`${URL_FILTER_TICKET_ADMIN}/${status}`);
+      const response = await axios.get(`${URL_FILTER_TICKET_ADMIN}/${status}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       dispatch({ type: FILTER_TICKET_ADMIN, payload: response });
     };
   } catch (e) {
@@ -77,10 +84,12 @@ export function filterTicketAdmin(status) {
   }
 }
 
-export function deleteTicketAdmin(id) {
+export function deleteTicketAdmin(id, token) {
   try {
     return async (dispatch) => {
-      const response = await axios.delete(`${URL_DELETE_TICKET_ADMIN}/${id}`);
+      const response = await axios.delete(`${URL_DELETE_TICKET_ADMIN}/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       dispatch({ type: DELETE_TICKET_ADMIN, payload: response });
     };
   } catch (e) {
@@ -89,11 +98,12 @@ export function deleteTicketAdmin(id) {
   }
 }
 
-
-export function allTechnicals() {
+export function allTechnicals(token) {
   return async (dispatch) => {
     try {
-      const response = await axios.get(URL_ALL_TECHNICALS);
+      const response = await axios.get(URL_ALL_TECHNICALS, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       dispatch({ type: ALL_TECHNICALS, payload: response });
     } catch (e) {
       console.log(e.response.data);
@@ -102,10 +112,12 @@ export function allTechnicals() {
   };
 }
 
-export function allUsers(){
+export function allUsers(token) {
   return async (dispatch) => {
     try {
-      const response = await axios.get(URL_ALL_USERS);
+      const response = await axios.get(URL_ALL_USERS, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       dispatch({ type: ALL_USERS, payload: response });
     } catch (e) {
       console.log(e.response.data);
@@ -114,14 +126,16 @@ export function allUsers(){
   };
 }
 
-export function adminNewTicket(data) {
+export function adminNewTicket(data, token) {
   return async (dispatch) => {
-  try {
-    const response = await axios.post(URL_CREATE_TICKET_ADMIN, data);
-    dispatch({ type: CREATE_TICKET_ADMIN, payload: response });
-  } catch (e) {
-    console.log(e.response.data);
-    return e.response.data;
-  }
-};
+    try {
+      const response = await axios.post(URL_CREATE_TICKET_ADMIN, data, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      dispatch({ type: CREATE_TICKET_ADMIN, payload: response });
+    } catch (e) {
+      console.log(e.response.data);
+      return e.response.data;
+    }
+  };
 }

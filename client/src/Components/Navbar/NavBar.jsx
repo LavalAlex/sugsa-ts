@@ -7,24 +7,31 @@ import { FiLogIn, FiLogOut } from "react-icons/fi";
 import Menu from "./Menu/Menu";
 import logo from "../../Img/logo.jpeg";
 import { logout } from "../../Redux/Actions/Auth";
+import { adminLogout } from "../../Redux/Actions/Admin";
 
 import styles from "./NavBar.module.css";
 
 export default function Navbar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const session = useSelector((store) => store.auth.success);
+  const session = useSelector((store) => store.auth.user?.token);
   const [showMenu, setShowMenu] = useState(false);
-  const admin = useSelector((state) => state.admin);
+  const admin = useSelector((state) => state.authAdmin.user?.token);
   const path = useLocation().pathname;
 
   const logoutNav = () => {
+    if (admin) {
+      dispatch(adminLogout());
+      navigate("/admin/login");
+    }
     dispatch(logout());
     navigate("/login");
   };
 
-  // console.log(path.match("/feedback")[0]);
+  console.log(path);
+  console.log('admin',admin)
 
+  console.log('session',session)
   return (
     <header className={styles.navbar}>
       <nav className={styles.nav}>
@@ -57,7 +64,8 @@ export default function Navbar() {
 
         <div className={styles.right}>
           {session ? (
-            <div className={styles.profile__container}>
+            <div>
+            {/* <div className={styles.profile__container}>
               <div
                 className={
                   `${showMenu ? styles.show : styles.hide} ` +
@@ -66,6 +74,26 @@ export default function Navbar() {
               >
                 <Menu column home tool notification />:
               </div>
+            </div> */}
+             <div className={styles.right}>
+             <button
+               title="Log Out"
+               className={`${styles.nav__link} ${styles.logout}`}
+               onClick={() => logoutNav()}
+             >
+               <FiLogOut />
+             </button>
+           </div>
+           </div>
+          ) : admin ? (
+            <div className={styles.right}>
+              <button
+                title="Log Out"
+                className={`${styles.nav__link} ${styles.logout}`}
+                onClick={() => logoutNav()}
+              >
+                <FiLogOut />
+              </button>
             </div>
           ) : (
             <NavLink to="/login">
@@ -77,19 +105,6 @@ export default function Navbar() {
                 <FiLogIn />
               </button>
             </NavLink>
-          )}
-          {session ? (
-            <div className={styles.right}>
-              <button
-                title="Log Out"
-                className={`${styles.nav__link} ${styles.logout}`}
-                onClick={() => logoutNav()}
-              >
-                <FiLogOut />
-              </button>
-            </div>
-          ) : (
-            ""
           )}
         </div>
       </nav>
