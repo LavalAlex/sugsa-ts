@@ -28,10 +28,6 @@ export default function Navbar() {
     navigate("/login");
   };
 
-  console.log(path);
-  console.log('admin',admin)
-
-  console.log('session',session)
   return (
     <header className={styles.navbar}>
       <nav className={styles.nav}>
@@ -54,11 +50,11 @@ export default function Navbar() {
 
         {path === "/admin/home" ? (
           <ul className={styles.menu}>
-            <Menu home />
+            <Menu home maintenance/>
           </ul>
         ) : (
           <ul className={styles.menu}>
-            <Menu home />
+            <Menu home  maintenance/>
           </ul>
         )}
 

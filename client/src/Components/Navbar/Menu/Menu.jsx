@@ -2,11 +2,11 @@ import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { BiHomeAlt, BiUserPin } from "react-icons/bi";
 import { FaToolbox } from "react-icons/fa";
-
+import { GrHostMaintenance } from "react-icons/gr";
 import styles from "./Menu.module.css";
 import { useSelector } from "react-redux";
 
-export default function Menu({ column, home, tool, notification }) {
+export default function Menu({ column, home, tool, notification, maintenance }) {
   const path = useLocation().pathname;
   const admin = useSelector((state)=> state.admin)
 
@@ -59,6 +59,17 @@ export default function Menu({ column, home, tool, notification }) {
         <></>
       )}
 
+{maintenance? (   <li>
+          <NavLink
+            title="Mantenimiento"
+            className={`${styles.menu__link} ${
+              path === "/admin/maintenance" ? styles.active : ""
+            }`}
+            to="/admin/maintenance"
+          >
+            <GrHostMaintenance className={styles.icon} />
+          </NavLink>
+        </li>):(<></>)}
     </ul>
   );
 }

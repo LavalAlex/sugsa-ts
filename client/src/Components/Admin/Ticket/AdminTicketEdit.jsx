@@ -121,23 +121,25 @@ export default function AdminTicketEdit({ data, isTicket }) {
         <h4>Descripción:</h4>
         <div>{data.description}</div>
       </div>
-
-      <div className={style.wrapper}>
+      {/* className={data.status === "Active" ? style.edit : style.editFeedback} */}
+      <div className={data.status === "Active" ? style.wrapper: style.editFeedback}>
         <label>
           <h4>
             Técnico Asignado:
+            {data.status === "Active" ? (
             <button
-              title="Editar Técnico"
-              className={style.btn}
-              onClick={() => setEditAssig((old) => !old)}
+            title="Editar Técnico"
+            className={style.btn}
+            onClick={() => setEditAssig((old) => !old)}
             >
               <BiEditAlt
                 style={{
                   width: "1.5em",
                   height: "1.5em",
                 }}
-              />
-            </button>{" "}
+                />
+            </button>
+              ):("")}
           </h4>
         </label>
         {editAssig ? (
