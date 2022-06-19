@@ -7,74 +7,66 @@ import { FaEye } from "react-icons/fa";
 import { allTickets, newTicket } from "../../Redux/Actions/Ticket";
 import { validateNewTicket } from "../../Utils/validateTicket";
 
-
-
 import style from "./NewTicket.module.css";
 import { lowerCaseString } from "../../Utils/lowerCase";
+import ImageUpload from "../ImageUpload/ImageUpload";
 
-
-export default function NewTicket({ isTicket}) {
+export default function NewTicket({ isTicket }) {
   const dispatch = useDispatch();
-  const user = useSelector((state) =>  state.auth.user)
+  const user = useSelector((state) => state.auth.user);
 
- 
   const [errors, setErrors] = useState({
     description: "",
-
   });
   const [data, setData] = useState({
-  
     description: "",
-
-    
+    image: null,
   });
 
   const handleChange = ({ target: { name, value } }) => {
     setData((old) => ({ ...old, [name]: value }));
     setErrors({
-      
-        description: "",
-     
-       
+      description: "",
     });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const {description} = validateNewTicket(data);
-    if (  description )
+    const { description } = validateNewTicket(data);
+    if (description)
       setErrors((old) => ({
         ...old,
         description: description ? description : "",
-           
       }));
     else {
       var conf = window.confirm("Esta seguro que quiere crear el ticket?");
 
       if (conf) {
-
-        let ticket ={
-          name: user.name,
-          email:user.email,
-          business:user.business,
-          departament: user.departament,
-          description:data.description,
-         
-        }
-        
-        const error = await dispatch(newTicket({ticket, user}));
+        const ticket = new FormData();
+        ticket.append("name", user.name);
+        ticket.append("email", user.email);
+        ticket.append("file", data.image);
+        ticket.append("description", data.description);
+        const error = await dispatch(newTicket({ ticket, user }));
         if (error) {
           alert(error.data.msg);
         } else {
           alert("Ticket creado con éxitos!");
-          isTicket()
+          isTicket();
         }
       } else {
         alert("El ticket no se creo!");
-        isTicket()
+        isTicket();
       }
-  
     }
+  };
+
+  const handleImage = (e) => {
+    if (!e) return setData((old) => ({ ...old, image: null }));
+    const {
+      target: { name, files },
+    } = e;
+    setData((old) => ({ ...old, [name]: files[0] }));
   };
 
   return (
@@ -84,9 +76,7 @@ export default function NewTicket({ isTicket}) {
       </div>
       <label className={style.wrapper}>
         <h4>Usuario:</h4>
-        <div
-          className={style.user}
-        >
+        <div className={style.user}>
           {`${lowerCaseString(user.name)} ${lowerCaseString(user.last_name)}`}
         </div>
       </label>
@@ -94,7 +84,9 @@ export default function NewTicket({ isTicket}) {
       <label className={style.wrapper}>
         <h4>Descripción:</h4>
         <div
-          className={`${style.inputGroup} ${errors.description ? style.error : ""} `}
+          className={`${style.inputGroup} ${
+            errors.description ? style.error : ""
+          } `}
         >
           <textarea
             value={data.description}
@@ -112,12 +104,13 @@ export default function NewTicket({ isTicket}) {
           <span className={style.errorSpan}>{errors.description}</span>
         ) : (
           <span className={style.chart}>
-          {200 - data.description.length} Caracteres disponibles
-        </span>
+            {200 - data.description.length} Caracteres disponibles
+          </span>
         )}
       </label>
 
-  
+      <ImageUpload onChange={handleImage} />
+
       <button className={style.submit} type="submit">
         Crear Ticket
       </button>

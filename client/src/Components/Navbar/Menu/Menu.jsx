@@ -3,6 +3,9 @@ import { NavLink, useLocation } from "react-router-dom";
 import { BiHomeAlt, BiUserPin } from "react-icons/bi";
 import { FaToolbox } from "react-icons/fa";
 import { GrHostMaintenance } from "react-icons/gr";
+import { AiOutlineFolderAdd } from "react-icons/ai";
+
+
 import styles from "./Menu.module.css";
 import { useSelector } from "react-redux";
 
@@ -46,13 +49,13 @@ export default function Menu({ column, home, tool, notification, maintenance }) 
 {tool ? (
         <li>
           <NavLink
-            title="Maintenance"
+            title="Administración"
             className={`${styles.menu__link} ${
-              path === "/tool" ? styles.active : ""
+              path === "/admin/tool" ? styles.active : ""
             }`}
-            to="/tool"
+            to="/admin/tool"
           >
-            <FaToolbox className={styles.icon} />
+            <AiOutlineFolderAdd className={styles.icon} />
           </NavLink>
         </li>
       ) : (

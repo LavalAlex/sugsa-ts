@@ -3,6 +3,11 @@ const cookieParser = require("cookie-parser");
 const morgan = require("morgan");
 const cors = require("cors");
 const mongoose = require('mongoose');
+
+const fileUpload = require("express-fileupload");
+const multer = require('multer');
+const uuid = require('uuidv4');
+const path = require('path');
 require('dotenv').config();
 
 
@@ -25,19 +30,41 @@ autoIncrement.initialize(mongoose)
 const server = express();
 
 // settings
+// server.set('views', path.join(__dirname, 'views'));
 server.set("port", process.env.PORT || 3001);
 server.name = "API";
+
+// server.use(bodyParser.urlencoded({ extended: false }))
+// server.use(bodyParser.json())
+ 
+// // Set EJS as templating engine
+// server.set("view engine", "ejs");
 
 server.use(express.json({ limit: "500mb" }));
 server.use(cookieParser());
 server.use(morgan("dev"));
 
+server.use(express.urlencoded({extended: false}));
+
+server.use(
+  fileUpload({
+    tempFileDir: "/temp", // put temp directory path here
+  })
+);
+
+
 // cors
 server.use(cors());
+
 
 //Routes
 const routes = require("./routes");
 server.use("/", routes);
+
+server.use(express.static(path.join(__dirname, "public")));
+
+server.use("/uploads", express.static(path.join(__dirname, "../uploads")));
+
 
 // Catch 404 Errors
 const err = new Error("not Found");

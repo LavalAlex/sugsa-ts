@@ -1,14 +1,13 @@
 const { Document, Schema, model } = require("mongoose");
 
-let counter = 1;
-let CountedId = {type: Number, default: () => counter++};
+const autoIncrement = require("mongoose-auto-increment");
 
 const schemaAdmin = new Schema({
-  id: CountedId,
-  name:  { type: String, required: true },
+  name: { type: String, required: true },
   last_name: { type: String, required: true },
-  email:  { type: String, required: true },
-  password:  { type: String, required: true },
+  email: { type: String, required: true, unique:true },
+  password: { type: String, required: true },
 });
 
+schemaAdmin.plugin(autoIncrement.plugin, "admin");
 module.exports = model("admin", schemaAdmin);

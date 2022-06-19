@@ -16,7 +16,10 @@ export function newTicket({ ticket, user: { token } }) {
   return async (dispatch) => {
     try {
       const response = await axios.post(URL_NEWTICKET, ticket, {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: {
+          authorization: `Bearer ${token}`,
+          "Content-Type": `multipart/form-data; boundary=${ticket._boundary}`,
+        },
       });
       dispatch({ type: NEW_TICKET, payload: response });
     } catch (e) {
@@ -44,7 +47,7 @@ export function allTickets({ email, token }) {
   };
 }
 
-export function editTicket(id, data, token ) {
+export function editTicket(id, data, token) {
   return async (dispatch) => {
     try {
       const response = await axios.put(`${URL_EDIT_TICKET}/${id}`, data, {
@@ -70,8 +73,8 @@ export function searchTicket(payload) {
   };
 }
 
-export function feedbackTicket  (id, data){
-  return async (dispatch)=>{
+export function feedbackTicket(id, data) {
+  return async (dispatch) => {
     try {
       const response = await axios.put(`${URL_FEEDBACK_TICKET}/${id}`, data);
       dispatch({ type: FEEDBACK_TICKET, payload: response });
@@ -79,5 +82,5 @@ export function feedbackTicket  (id, data){
       console.log(e.response.data);
       return e.response.data;
     }
-  }
+  };
 }

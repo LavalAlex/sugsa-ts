@@ -3,21 +3,27 @@ import {
   ALL_TECHNICALS,
   ALL_TICKETS_ADMIN,
   ALL_USERS,
+  CREATE_TECHNICAL,
   CREATE_TICKET_ADMIN,
+  CREATE_USER_ADMIN,
   DELETE_TICKET_ADMIN,
   EDIT_TICKET_ADMIN,
   FILTER_TICKET_ADMIN,
   LOGIN_ADMIN,
   LOGOUT,
   LOGOUT_ADMIN,
+  NEW_PASSWORD_ADMIN,
   URL_ALLTICKETS_ADMIN,
   URL_ALL_TECHNICALS,
   URL_ALL_USERS,
+  URL_CREATE_TECHNICAL,
   URL_CREATE_TICKET_ADMIN,
+  URL_CREATE_USER_ADMIN,
   URL_DELETE_TICKET_ADMIN,
   URL_EDIT_TICKET_ADMIN,
   URL_FILTER_TICKET_ADMIN,
   URL_LOGIN_ADMIN,
+  URL_NEW_PASSWORD_ADMIN,
 } from "./ActionsTypes";
 
 export function adminLogin(admin) {
@@ -133,6 +139,42 @@ export function adminNewTicket(data, token) {
         headers: { Authorization: `Bearer ${token}` },
       });
       dispatch({ type: CREATE_TICKET_ADMIN, payload: response });
+    } catch (e) {
+      console.log(e.response.data);
+      return e.response.data;
+    }
+  };
+}
+
+export function newPasswordAdmin(data) {
+  return async (dispatch) => {
+    try {
+      const response = await axios.put(URL_NEW_PASSWORD_ADMIN, data);
+      dispatch({ type: NEW_PASSWORD_ADMIN, payload: response });
+    } catch (e) {
+      console.log(e.response.data);
+      return e.response.data;
+    }
+  };
+}
+
+export function createTechnical(data) {
+  return async (dispatch) => {
+    try {
+      const response = await axios.post(URL_CREATE_TECHNICAL, data);
+      dispatch({ type: CREATE_TECHNICAL, payload: response });
+    } catch (e) {
+      console.log(e.response.data);
+      return e.response.data;
+    }
+  };
+}
+
+export function createUserAdmin(data) {
+  return async (dispatch) => {
+    try {
+      const response = await axios.post(URL_CREATE_USER_ADMIN, data);
+      dispatch({ type: CREATE_USER_ADMIN, payload: response });
     } catch (e) {
       console.log(e.response.data);
       return e.response.data;

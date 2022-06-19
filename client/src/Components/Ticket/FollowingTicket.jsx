@@ -15,6 +15,10 @@ export default function FollowingTicket({ data, isFollowing }) {
   const [errors, setErrors] = useState({ tech_descrip: "" });
   const user = useSelector((state) =>  state.auth.user)
 
+  const [image, setImage] = useState()
+
+  // setImage(data.image.data.toString('base64'))
+
   const [dataEdit, setDataEdit] = useState({
     tech_descrip: "",
   });
@@ -39,20 +43,13 @@ export default function FollowingTicket({ data, isFollowing }) {
   //     }
   //   };
 
+ 
+  console.log(image)
+  console.log(data.image.data.data)
+
+  console.log(data)
   const handleCancel = () => {
-    var conf = window.confirm("Seguro que quieres cancelar el Ticket?");
-    if (conf) {
-      const update = {
-        status: "Cancel",
-        feedback: "Cancelado por el Usuario",
-      };
-      dispatch(editTicket(data._id, update, user.token));
-      alert("Ticket cancelado con exitos!");
-      isFollowing();
-    } else {
-      alert("El ticket NO se cancelo!");
-      isFollowing();
-    }
+isFollowing()
   };
 
   return (
@@ -90,6 +87,19 @@ export default function FollowingTicket({ data, isFollowing }) {
       <div className={style.data}>
         <h4>Description:</h4>
         <div>{data.description}</div>
+      
+        {data.image? (
+         <img
+         className={style.descrImage}
+         src={`data:${data.image.mimetype};base64, ${data.image.data.data}`}
+         alt={data.image.name}
+       />
+       //<img
+//src={data.image.data.data}
+///>
+        
+      ):("")}
+
       </div>
 
       <div className={style.history}>
@@ -110,7 +120,7 @@ export default function FollowingTicket({ data, isFollowing }) {
       {data.status != "Pending Feedback" ? (
         <div className={style.buttonContainer}>
           <button type="submit" onClick={handleCancel}>
-            Cancelar Ticket
+            Salir
           </button>
         </div>
       ) : (
