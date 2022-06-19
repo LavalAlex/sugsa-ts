@@ -173,7 +173,7 @@
   border-radius: 5em;
   border: none;
   color: #fff;
-  background-color: red;
+  background-color: hsl(226deg, 100%, 70%);
   width: 10rem;
   display: flex;
   justify-content: center;
@@ -191,4 +191,12 @@
   color: black;
   outline: 2px solid black;
   ;
+}
+
+.descrImage {
+  width: 100%;
+  max-height: 15rem;
+  object-fit: cover;
+  background-color: #aaa;
+  margin: 2em 0 0 0;
 }

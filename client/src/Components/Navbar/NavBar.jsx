@@ -50,11 +50,11 @@ export default function Navbar() {
 
         {path === "/admin/home" ? (
           <ul className={styles.menu}>
-            <Menu home maintenance/>
+            <Menu home maintenance tool/>
           </ul>
         ) : (
           <ul className={styles.menu}>
-            <Menu home  maintenance/>
+            <Menu home  maintenance tool/>
           </ul>
         )}
 

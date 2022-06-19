@@ -36,6 +36,10 @@ export default function Home() {
     dispatch(allTickets(user))
   };
 
+  const isCancel = ()=>{
+    dispatch(allTickets(user));
+
+  }
   return (
     <div className={styles.container}>
       <div className={styles.containerTable}>
@@ -60,7 +64,7 @@ export default function Home() {
               e.target.id === "close" ? setDetailTicket((old) => false) : ""
             }
           >
-            <TicketDetails data={tickets[ticketId]} isTicket={isDeteail} />
+            <TicketDetails data={tickets} isTicket={isDeteail} />
           </div>
         ) : (
           ""
@@ -74,7 +78,7 @@ export default function Home() {
               e.target.id === "close" ? setFollowTicket((old) => false) : ""
             }
           >
-            <FollowingTicket data={tickets[ticketId]} isFollowing={isFollowing} />
+            <FollowingTicket data={ticketId} isFollowing={isFollowing} />
           </div>
         ) : (
           ""
@@ -86,6 +90,7 @@ export default function Home() {
         setDetailTicket={setDetailTicket}
         isTicket={isTicket}
         setFollowTicket={setFollowTicket}
+        isCancel={isCancel}
       />
     </div>
   );

@@ -41,4 +41,31 @@ const findUser = async (email, password) => {
 
 
 
-module.exports = { createUser, findAll, findUser };
+
+const newPasswordUser = async ({ email, password, code }) => {
+  const isUser = await User.findOne({ email });
+
+  if (!isUser) return { error: "Error, Este técnico no existe!" };
+  if (isUser.is_enabled) {
+    if (isUser.password === code) {
+      password = bcrypt.hashSync(password, saltRounds);
+
+      const update = {
+        password,
+        is_enabled: false,
+      };
+      const updateTech = await User.findByIdAndUpdate(
+        isUser._id,
+        update,
+        { new: true }
+      );
+      return { msg: "Contraseña creada con exito!" };
+    } else {
+      return { error: "Codigo no valido" };
+    }
+  } else {
+    return { error: "Usted ya tiene habilitada su contraseña" };
+  }
+};
+
+module.exports = { createUser, findAll, findUser, newPasswordUser};

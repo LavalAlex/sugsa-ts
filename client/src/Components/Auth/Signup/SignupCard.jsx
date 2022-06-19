@@ -14,15 +14,16 @@ import {
   departamentBusiness,
 } from "../../../Redux/Actions/Business";
 import { optionSelect, selectDepartament } from "../../../Utils/optionBusiness";
+import { allDepartament } from "../../../Redux/Actions/Departament";
 
-export default function LoginCard({ isAuth }) {
+export default function LoginCard({ setSelectLink }) {
   const dispatch = useDispatch();
   const path = useLocation().pathname;
   const navitage = useNavigate();
   const [keyOn, setKeyOn] = useState(false);
   const [optionBusiness, setOptionBusines] = useState([]);
   const business = useSelector((state) => state.business.business);
-  const departament = useSelector((state) => state.business.departament);
+  const departament = useSelector((state) => state.departament.departament);
   const [optionDepartament, setoptionDepartament] = useState([]);
 
   const [errors, setErrors] = useState({
@@ -45,6 +46,7 @@ export default function LoginCard({ isAuth }) {
   });
 
   useEffect(() => {
+    dispatch(allDepartament())
     dispatch(allBusiness());
   }, [input.name]);
 
@@ -55,18 +57,23 @@ export default function LoginCard({ isAuth }) {
       dispatch(allBusiness());
       setOptionBusines([]);
     }
-  }, [input.name]);
-
-  useEffect(() => {
     if (departament[0]) {
       setoptionDepartament(selectDepartament(departament));
     } else {
-      if (input.business) {
-        dispatch(departamentBusiness(input.business));
-        setoptionDepartament([]);
-      }
+      dispatch(allDepartament());
     }
-  }, [input.business, departament[0]]);
+  }, [input.name]);
+
+  // useEffect(() => {
+  //   if (departament[0]) {
+  //     setoptionDepartament(selectDepartament(departament));
+  //   } else {
+  //     if (input.business) {
+  //       dispatch(departamentBusiness(input.business));
+  //       setoptionDepartament([]);
+  //     }
+  //   }
+  // }, [input.business, departament[0]]);
 
   const handleChange = (e) => {
     setInput({
@@ -91,21 +98,38 @@ export default function LoginCard({ isAuth }) {
         departament: departament ? departament : "",
       }));
     } else {
-      const code = await dispatch(signup(input));
-      if (!code) {
-        isAuth();
-      } else {
-        setErrors((old) => ({
-          ...old,
-          code: code.error,
-        }));
+      var conf = window.confirm("Esta seguro que quiere crear el usuario?");
+      if(conf){
+        const code = await dispatch(signup(input));
+        if (!code) {
+        alert('Usuario creado con éxito!')
+        setSelectLink({login:"login"})
+        } else {
+          setErrors((old) => ({
+            ...old,
+            code: code.error,
+          }));
+        }
+      }else{
+        alert("Usuario NO CREADO!")
+        setSelectLink({login:"login"})
       }
     }
+      // const code = await dispatch(signup(input));
+      // if (!code) {
+      //   isAuth();
+      // } else {
+      //   setErrors((old) => ({
+      //     ...old,
+      //     code: code.error,
+      //   }));
+      // }
+    
   };
 
   const handleSelectBusiness = async (e) => {
-    setInput((old) => ({ ...old, business: e.value }));
-    await dispatch(departamentBusiness(e.value));
+    setInput((old) => ({ ...old, business: e.map((option) => option.value)}));
+    // await dispatch(departamentBusiness(e.value));
     setErrors({
       name: "",
       last_name: "",
@@ -117,7 +141,7 @@ export default function LoginCard({ isAuth }) {
   };
 
   const handleSelectDepartament = async (e) => {
-    setInput((old) => ({ ...old, departament: e.value }));
+    setInput((old) => ({ ...old, departament: e.map((option) => option.value.name) }));
     setErrors({
       name: "",
       last_name: "",
@@ -131,7 +155,7 @@ export default function LoginCard({ isAuth }) {
   return (
     <div className={style.container}>
       <form onSubmit={(e) => handleSubmit(e)}>
-        <h1>{path === "/signup" ? "- SIGN UP -" : "- LOGIN ADMIN -"}</h1>
+        <h1>- Registrarse -</h1>
         <label>
           <h5>Nombre:</h5>
           <div
@@ -178,47 +202,6 @@ export default function LoginCard({ isAuth }) {
         <div>
           {errors.last_name ? (
             <span className={style.errorSpan}>{errors.last_name}</span>
-          ) : (
-            ""
-          )}
-        </div>
-        <label>
-          <h5>Empresa:</h5>
-          <label className={style.wrapper}>
-            <Select
-              className={`${style.wrapper} ${
-                errors.business ? style.errorSelect : ""
-              }`}
-              onChange={(e) => handleSelectBusiness(e)}
-              options={optionBusiness}
-              placeholder="Empresa..."
-            />
-          </label>
-        </label>
-        <div>
-          {errors.business ? (
-            <span className={style.errorSpan}>{errors.business}</span>
-          ) : (
-            ""
-          )}
-        </div>
-
-        <label>
-          <h5>Departamento:</h5>
-          <label className={style.wrapper}>
-            <Select
-              className={`${style.wrapper} ${
-                errors.departament ? style.errorSelect : ""
-              }`}
-              onChange={(e) => handleSelectDepartament(e)}
-              options={optionDepartament}
-              placeholder="Departament..."
-            />
-          </label>
-        </label>
-        <div>
-          {errors.departament ? (
-            <span className={style.errorSpan}>{errors.departament}</span>
           ) : (
             ""
           )}
@@ -279,6 +262,52 @@ export default function LoginCard({ isAuth }) {
             ""
           )}
         </div>
+
+        <label>
+          <h5>Empresa:</h5>
+          <label className={style.wrapper}>
+            <Select
+              className={`${style.wrapper} ${
+                errors.business ? style.errorSelect : ""
+              }`}
+              onChange={(e) => handleSelectBusiness(e)}
+              options={optionBusiness}
+              placeholder="Empresa..."
+              isMulti
+            />
+          </label>
+        </label>
+        <div>
+          {errors.business ? (
+            <span className={style.errorSpan}>{errors.business}</span>
+          ) : (
+            ""
+          )}
+        </div>
+
+        <label>
+          <h5>Departamento:</h5>
+          <label className={style.wrapper}>
+            <Select
+              className={`${style.wrapper} ${
+                errors.departament ? style.errorSelect : ""
+              }`}
+              onChange={(e) => handleSelectDepartament(e)}
+              options={optionDepartament}
+              placeholder="Departament..."
+              isMulti
+            />
+          </label>
+        </label>
+        <div>
+          {errors.departament ? (
+            <span className={style.errorSpan}>{errors.departament}</span>
+          ) : (
+            ""
+          )}
+        </div>
+
+       
         <div>
           {errors.code ? (
             <span className={style.errorSpan}>{errors.code}</span>

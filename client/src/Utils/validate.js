@@ -34,24 +34,11 @@ const validateSignup = ({
   departament,
   last_name,
 }) => {
-  var regName = / ^ [a-zA-Z] + [a-zA-Z] + $ / ;
-  // console.log(name)
-  // console.log(regName.test (name))
-  // if (!regName.test(name)) {
-  //   return {
-  //     name: "El Nombre debe tener solo letras [a-z]",
-  //   };
-  // }
   if (!name) return { name: "Error, Debe proporcionar un Nombre" };
   if (name.length < 3)
     return {
       name: "Error, El Nombre debe ser mayor a 3 caracteres",
     };
-  // if (!regName.test(last_name)) {
-  //   return {
-  //     last_name: "El Apellido debe tener solo letras [a-z]",
-  //   };
-  // }
   if (!last_name) {
     return { last_name: "Error ,Debe proporcionar un Apellido" };
   }
@@ -80,8 +67,50 @@ const validateSignup = ({
 
   return {};
 };
+
+const validateInput = ({ name, departament }) => {
+  if (!name) return { name: "Error, Debe proporcionar un Nombre" };
+  if (name.length < 3)
+    return {
+      name: "Error, El Nombre debe ser mayor a 3 caracteres",
+    };
+
+  if (!departament)
+    return { departament: "Error, Debe seleccionar un Departamento" };
+  return {};
+};
+
+const validateTechnical = ({name,email,business,last_name,}) => {
+  if (!name) return { name: "Error, Debe proporcionar un Nombre" };
+  if (name.length < 3)
+    return {
+      name: "Error, El Nombre debe ser mayor a 3 caracteres",
+    };
+  if (!last_name) {
+    return { last_name: "Error ,Debe proporcionar un Apellido" };
+  }
+  if (last_name.length < 3)
+    return {
+      last_name: "El Apellido debe ser mayor a 3 caracteres ",
+    };
+  if (!business) return { business: "Error, Debe seleccionar una Empresa" };
+
+  if (!email) return { email: "Error, Debe proporcionar un email" };
+  if (email) {
+    const validate = email.match(
+      /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    );
+    if (!validate) {
+      return { email: "Error, Is not an email" };
+    }
+  }
+
+  return {};
+};
 module.exports = {
   validateNewPassword,
   validateLogin,
   validateSignup,
+  validateInput,
+  validateTechnical
 };

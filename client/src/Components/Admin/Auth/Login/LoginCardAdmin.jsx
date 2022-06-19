@@ -12,7 +12,7 @@ import style from "./LoginCardAdmin.module.css";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { adminLogin } from "../../../../Redux/Actions/Admin";
 
-export default function LoginCard() {
+export default function LoginCardAdmin({ handleAuth }) {
   const dispatch = useDispatch();
   const [keyOn, setKeyOn] = useState(false);
   const path = useLocation().pathname;
@@ -53,7 +53,8 @@ export default function LoginCard() {
           }));
     } else {
       const code = await dispatch(adminLogin(input));
-      if (!code.error) {
+      if (!code) {
+        handleAuth();
       } else {
         setErrors((old) => ({
           code: code.error,

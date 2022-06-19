@@ -69,7 +69,7 @@ router.get("/tickets", async (req, res) => {
   const users = await User.find({});
 
   for (var i = 0; i < 10000; i++) {
-      console.log(i)
+    console.log(i);
     const indexUser = Math.floor(Math.random() * 20);
     const indexTickte = Math.floor(Math.random() * 10);
     let technical = await assignedTechnical(users[indexUser]);
@@ -88,10 +88,21 @@ router.get("/tickets", async (req, res) => {
         },
       ],
     });
-    newTicket.save()
+    newTicket.save();
   }
 
   res.status(200).send({ msg: "Created ticket successfully" });
+});
+
+router.get("/image/:id", async (req, res) => {
+  const id = req.params.id;
+  const imageTicket = await Ticket.findOne({_id: id});
+  
+  console.log(imageTicket.image.data)
+  console.log(imageTicket.image.mimetype)
+  
+  res.set('Content-Type', imageTicket.image.mimetype)
+  res.status(200).send(imageTicket.image.data)
 });
 
 module.exports = router;

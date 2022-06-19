@@ -3,12 +3,14 @@ import { Card, CardBody, CardTitle, CardSubtitle, Table } from "reactstrap";
 import { BiCommentAdd, BiAddToQueue } from "react-icons/bi";
 import styles from "./Tables.module.css";
 import { avatarUser, utilDate } from "../../Utils/tableUtils";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RiAlignJustify, RiArrowUpDownFill } from "react-icons/ri";
 import PaginationCard from "../Pagination/PaginationCard";
 import { useState } from "react";
-import { orderTicket } from "../../Redux/Actions/Ticket";
+import { editTicket, orderTicket } from "../../Redux/Actions/Ticket";
 import { lowerCaseString } from "../../Utils/lowerCase";
+
+import { ImCancelCircle } from "react-icons/im";
 
 export default function Tables({
   tickets,
@@ -16,6 +18,7 @@ export default function Tables({
   setDetailTicket,
   isTicket,
   setFollowTicket,
+  isCancel
 }) {
   const dispatch = useDispatch();
 
@@ -26,6 +29,7 @@ export default function Tables({
   const indexOfFirstRow = indexOfLastRow - rowPerPage; //0--9--18--
   const currentRow = tickets[0]? tickets.slice(indexOfFirstRow, indexOfLastRow): [];
   const [up, setUp] = useState(false);
+  const user = useSelector((state) =>  state.auth.user)
 
   const [n, setN] = useState(0);
 
@@ -44,8 +48,9 @@ export default function Tables({
     isTicket();
   };
 
-  const handleFollowing = (id) => {
-    setTicketId(id);
+  const handleFollowing = (data) => {
+    console.log(data)
+    setTicketId(data);
     setFollowTicket(true);
   };
 
@@ -54,6 +59,22 @@ export default function Tables({
     dispatch(orderTicket(up));
   };
 
+  const handleCancel = (id) => {
+
+    var conf = window.confirm("Seguro que quieres cancelar el Ticket?");
+    if (conf) {
+      const update = {
+        status: "Cancel",
+        feedback: "Cancelado por el Usuario",
+      };
+      dispatch(editTicket(id, update, user.token));
+      alert("Ticket cancelado con exitos!");
+      isCancel()
+    } else {
+      alert("El ticket NO se cancelo!");
+      isCancel()
+    }
+  };
 
   return (
     <div className={styles.container}>
@@ -155,15 +176,27 @@ export default function Tables({
                       </td>
 
                       <td>
+                        <div className={styles.iconsTable}>
+
                         <div
-                          onClick={() => handleFollowing(index)}
-                          title="Seguimiento"
+                          onClick={() => handleFollowing(e)}
+                          title="Seguimiento Ticket"
                           className={styles.iconFollow}
                         >
                           <RiAlignJustify
                             style={{ width: "2em", height: "2em" }}
-                          />
+                            />
                         </div>
+                        <div
+                          onClick={() => handleCancel(e._id)}
+                          title="Cancelar Ticket"
+                          className={styles.iconCancel}
+                          >
+                          <ImCancelCircle
+                            style={{ width: "2em", height: "2em" }}
+                            />
+                        </div>
+                            </div>
                       </td>
                     </td>
                   </tr>

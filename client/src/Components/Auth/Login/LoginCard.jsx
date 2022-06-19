@@ -12,7 +12,7 @@ import style from "./LoginCard.module.css";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 // import { adminLogin } from "../../../Redux/Actions/Admin";
 
-export default function LoginCard() {
+export default function LoginCard({handleAuth}) {
   const dispatch = useDispatch();
   const [keyOn, setKeyOn] = useState(false);
   const path = useLocation().pathname;
@@ -53,8 +53,8 @@ export default function LoginCard() {
           }));
     } else {
      const code = await dispatch(login(input));
-     if(!code.error){
-
+     if(!code){
+      handleAuth()
      }else{
        setErrors((old)=>({
          ...old, code: code.error
@@ -133,32 +133,6 @@ export default function LoginCard() {
         <div className={style.buttonContainer}>
           <button type="submit">Login</button>
         </div>
-        {path === "/login" ? 
-        <div className={style.buttonContainer}>
-          <div>OR</div>
-          <button type="submit" onClick={() => navigate("/signup")}>
-            SignUp
-          </button>
-        </div>
-        : ""
-        }
-
-        {/* {path === "/login" ? (
-          <div className={style.path}>
-            <button onClick={() => navigate("/admin/login")}>Admin</button>
-          </div>
-        ) : (
-          <div className={style.path}>
-            <button onClick={() => navigate("/login")}>User</button>
-          </div>
-        )} */}
-
-        {/* <div className={style.left}>
-          <Link className={style.brand} to={`${path === "/login" ? "/admin/login" : "/login"}`}>
-            
-            <img src={logo} className={style.logo} alt="" />
-          </Link>
-        </div> */}
       </form>
     </div>
   );

@@ -2,9 +2,6 @@ const { Document, Schema, model, plugin } = require("mongoose");
 
 const autoIncrement = require("mongoose-auto-increment");
 
-let counter = 1;
-let CountedId = { type: Number, default: () => counter++ };
-
 const schemaTicket = new Schema({
   email: { type: String, required: true },
   name: { type: String, required: true },
@@ -35,8 +32,8 @@ const schemaTicket = new Schema({
     type: Date,
     default: Date.now,
   },
-  closeAt:{
-    type:Date
+  closeAt: {
+    type: Date,
   },
   status: {
     type: String,
@@ -58,6 +55,13 @@ const schemaTicket = new Schema({
       },
     },
   ],
+  image: {
+    name: { type: String },
+    data: { type: Buffer },
+    size: { type: Number },
+    mimetype: { type: String },
+    created_at: { type: Date, default: Date.now() },
+  },
 });
 
 schemaTicket.plugin(autoIncrement.plugin, "tickets");

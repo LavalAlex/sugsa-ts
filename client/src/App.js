@@ -7,7 +7,7 @@ import Signup from "./Pages/Auth/Sigup/Signup";
 import LandingPage from "./Pages/Landing/LandingPage";
 import Home from "./Pages/Home/Home";
 import Notification from "./Pages/Notification/Notification";
-import Tool from "./Pages/Tools/Tools";
+import Tool from "./Pages/Admin/Tools/Tools";
 
 import AdminLogin from "./Pages/Admin/Auth/AdminLogin";
 import AdminHome from "./Pages/Admin/Home/AdminHome";
@@ -19,6 +19,7 @@ import PrivateRoute from "./Components/TypeRoutes/PrivateRoute";
 import PrivateRouteAdmin from "./Components/TypeRoutes/PriviteRouteAdmin";
 
 import Feedback from "./Pages/Feedback/Feedback";
+import Departament from "./Pages/Admin/Tools/Departament/Departament";
 
 function App() {
   // const path = useLocation().pathname;
@@ -36,13 +37,14 @@ function App() {
         <Route element={<PrivateRoute />}>
           <Route path="home" element={<Home />} />
           <Route path="notification" element={<Notification />} />
-          <Route path="tool" element={<Tool />} />
         </Route>
         <Route element={<PrivateRouteAdmin />}>
           <Route path="admin">
             <Route path="home" element={<AdminHome />} />
             <Route path="following:id" element={<AdminFollowing />} />
             <Route path="maintenance" element={<Maintenance />} />
+            <Route path="tool" element={<Tool />}/>
+            <Route path="tool/departament" element={<Departament />} />
           </Route>
         </Route>
       </Routes>

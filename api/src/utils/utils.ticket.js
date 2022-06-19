@@ -4,11 +4,26 @@ const Business = require("../schemas/Business");
 
 const transporter = require("../Conf/Mailer");
 
-const {EMAIL_USER} =  process.env
-const createTicket = async ({ email, description }) => {
+const { EMAIL_USER } = process.env;
+
+const multer = require("multer");
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
+
+const createTicket = async ({ email, description }, file) => {
   const user = await User.findOne({ email });
   if (!user) return { error: "Error, this user does not exits" };
 
+
+  let image = {};
+  if (file) {
+    image = {
+      name: file.name,
+      data: file.toString("base64"),
+      size: file.size,
+      mimetype: file.mimetype,
+    };
+  }
   let technical = await assignedTechnical(user);
   const newTicket = await Ticket.create({
     email,
@@ -24,7 +39,9 @@ const createTicket = async ({ email, description }) => {
         description: "Registro de nuevo caso",
       },
     ],
+    image:file,
   });
+
   if (newTicket) {
     let info = await transporter.sendMail({
       from: `"Asignacion de Nuevo Ticket 👻" <${EMAIL_USER}>`, // sender address

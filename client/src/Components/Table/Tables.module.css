@@ -95,9 +95,6 @@ color: hsl(226deg, 100%, 70%);
     font-size: small;
 }
 
-.bodyUser:hover{
-    color: hsl(226deg, 100%, 70%);
-}
 
 .idUser{
     width: 50px;
@@ -188,7 +185,6 @@ color: hsl(226deg, 100%, 70%);
 .infoUser {
     width: auto;
     gap: 0;
-    cursor: pointer;
 }
 
 .infoUser h5 {
@@ -294,4 +290,21 @@ color: hsl(226deg, 100%, 70%);
     /* left: 39.5rem; */
     /* border-top: 1px black solid; */
     
+}
+
+.iconsTable{
+    width: 210px;
+    display: flex;
+    /* justify-content:space-evenly; */
+    gap: 130px;
+    margin-left: 40px;
+}
+
+.iconCancel{
+    cursor: pointer;
+    border: none;
+}
+
+.iconCancel:hover{
+    color: red;
 }

@@ -2,7 +2,7 @@ const { Router } = require("express");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET, JWT_EXPIRE_TIME } = process.env;
 
-const { createUser, findAll, findUser } = require("../utils/utils.auth");
+const { createUser, findAll, findUser, newPasswordUser } = require("../utils/utils.auth");
 
 const router = Router();
 
@@ -42,12 +42,21 @@ router.post("/login", async (req, res) => {
 
     userAuth.token = token
     res.status(200).send({ user: userAuth, success: true, token });
-
-    // res.cookie("sugsa", token, cookiesOptions);
-    // res.status(200).send({ user: userAuth, success: true });
   } catch (e) {
     console.log("Error on login:", e);
     res.status(404).send(e);
+  }
+});
+
+router.put("/password", async (req, res) => {
+  try {
+    console.log(req.body)
+    const newPass = await newPasswordUser(req.body);
+    if (newPass.error) res.status(500).send(newPass);
+    else res.status(200).send({ newPass: false });
+  } catch (e) {
+    console.log("Error al crear la nueva contraseña", e);
+    res.status(500).send({ error: "Error al crear la contraseña" });
   }
 });
 

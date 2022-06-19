@@ -43,7 +43,6 @@ const editTicketAdmin = async (ticketId, data) => {
   }
   if (data.assigned) {
     const tech = await Technical.findOne({ _id: data.assigned });
-    console.log(data);
     if (data.classification) {
       const ticketUpdate = await Ticket.findByIdAndUpdate(
         ticketId,
