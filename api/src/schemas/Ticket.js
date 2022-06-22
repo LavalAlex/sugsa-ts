@@ -6,8 +6,8 @@ const schemaTicket = new Schema({
   email: { type: String, required: true },
   name: { type: String, required: true },
   last_name: { type: String, required: true },
-  business: { type: String, required: true },
-  departament: { type: String, required: true },
+  business: [{ type: String, required: true }],
+  departament: [{ type: String, required: true }],
   description: {
     type: String,
     required: true,
@@ -15,7 +15,7 @@ const schemaTicket = new Schema({
   },
   classification: {
     type: String,
-    default: "Menor a 48hs",
+
   },
   assigned_technical: {
     type: {
@@ -55,13 +55,13 @@ const schemaTicket = new Schema({
       },
     },
   ],
-  image: {
-    name: { type: String },
-    data: { type: Buffer },
-    size: { type: Number },
-    mimetype: { type: String },
-    created_at: { type: Date, default: Date.now() },
-  },
+  // image: {
+  //   name: { type: String },
+  //   data: { type: Buffer },
+  //   size: { type: Number },
+  //   mimetype: { type: String },
+  //   created_at: { type: Date, default: Date.now() },
+  // },
 });
 
 schemaTicket.plugin(autoIncrement.plugin, "tickets");

@@ -1,4 +1,5 @@
 import {
+  ALL_TICKETCONFIG,
   ALL_TICKETS,
   ALL_TICKETS_ADMIN,
   CREATE_TICKET_ADMIN,
@@ -14,6 +15,7 @@ const initialState = {
   tickets: [],
   allTicket: [],
   ticketId: [],
+  ticketConfig: [],
 };
 
 export default function root(state = initialState, action) {
@@ -79,17 +81,23 @@ export default function root(state = initialState, action) {
       };
 
     case TICKET_ID:
-      const tickets = state.ticketId
-      if(action.payload){
-        var ticketFilter = tickets.filter((e)=>  e._id === (action.payload)
-        )
-      }else{
-        ticketFilter = state.ticketId
+      const tickets = state.ticketId;
+      if (action.payload) {
+        var ticketFilter = tickets.filter((e) => e._id === action.payload);
+      } else {
+        ticketFilter = state.ticketId;
       }
       return {
         ...state,
-        tickets: ticketFilter
+        tickets: ticketFilter,
       };
+
+    case ALL_TICKETCONFIG:
+      console.log(action.payload)
+      return{
+        ...state,
+        ticketConfig: action.payload.data
+      }
     default:
       return state;
   }

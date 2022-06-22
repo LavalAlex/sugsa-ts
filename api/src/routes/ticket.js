@@ -15,12 +15,12 @@ const { JWT_SECRET } = process.env;
 
 router.post("/create", verifyToken, async (req, res) => {
   try {
-    const {file} = req.files
+    // const {file} = req.files
     var decoded = jwt.verify(req.token, JWT_SECRET);
     if (!decoded.user) res.status(403).send({ error: "Token invalido" });
   
 
-    const newTicket = await createTicket(req.body, file);
+    const newTicket = await createTicket(req.body);
     if (newTicket.msg) res.status(200).send(newTicket);
     else res.status(404).send(newTicket);
   } catch (e) {

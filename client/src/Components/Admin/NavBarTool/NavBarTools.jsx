@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 import style from "./NavBarTools.module.css";
-import { IoBusiness, IoFileTrayStackedOutline } from "react-icons/io5";
+import { IoBusiness, IoFileTrayStackedOutline, IoTicketOutline } from "react-icons/io5";
 import { AiOutlineUserAdd } from "react-icons/ai";
 import { MdAddBusiness, MdAdminPanelSettings } from "react-icons/md";
 import { BsTools} from "react-icons/bs";
@@ -48,11 +48,11 @@ export default function NavBarTools({handleLink, active, }) {
           title="Agregar Usuario"
         />
       </div>
-      <div className={`${style.navItems} ${active.admin? style.active:""}`}>
-        <MdAdminPanelSettings
-          onClick={() => handleLink({admin:"admin"})}
+      <div className={`${style.navItems} ${active.ticket? style.active:""}`}>
+        <IoTicketOutline
+          onClick={() => handleLink({ticket:"ticket"})}
           className={style.icon}
-          title="Agregar Admin"
+          title="Ticket"
         />
       </div>
     </nav>

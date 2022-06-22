@@ -1,12 +1,16 @@
 import axios from "axios";
 import {
+  ALL_TICKETCONFIG,
   ALL_TICKETS,
+  CREATE_TICKETCONFIG,
   EDIT_TICKET,
   FEEDBACK_TICKET,
   NEW_TICKET,
   ORDER_TICKETS,
   TICKET_ID,
   URL_ALLTICKETS,
+  URL_ALL_TICKETCONFIG,
+  URL_CREATE_TICKETCONFIG,
   URL_EDIT_TICKET,
   URL_FEEDBACK_TICKET,
   URL_NEWTICKET,
@@ -78,6 +82,31 @@ export function feedbackTicket(id, data) {
     try {
       const response = await axios.put(`${URL_FEEDBACK_TICKET}/${id}`, data);
       dispatch({ type: FEEDBACK_TICKET, payload: response });
+    } catch (e) {
+      console.log(e.response.data);
+      return e.response.data;
+    }
+  };
+}
+
+export function allTicektConfig(name) {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(`${URL_ALL_TICKETCONFIG}/${name}`);
+      console.log(response)
+      dispatch({ type: ALL_TICKETCONFIG, payload: response });
+    } catch (e) {
+      console.log(e.response.data);
+      return e.response.data;
+    }
+  };
+}
+
+export function createTicektConfig(data) {
+  return async (dispatch) => {
+    try {
+      const response = await axios.put(URL_CREATE_TICKETCONFIG, data);
+      dispatch({ type: CREATE_TICKETCONFIG, payload: response });
     } catch (e) {
       console.log(e.response.data);
       return e.response.data;

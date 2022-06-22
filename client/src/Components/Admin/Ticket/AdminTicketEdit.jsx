@@ -15,6 +15,10 @@ import style from "./AdminTicketEdit.module.css";
 import { inputTicketEdit } from "../../../Utils/validateTicket";
 import { lowerCaseString } from "../../../Utils/lowerCase";
 
+import { spaceSTR } from "../../../Utils/spaceSTR";
+import { allTicektConfig } from "../../../Redux/Actions/Ticket";
+import { selectClasification } from "../../../Utils/optionClasification";
+
 export default function AdminTicketEdit({ data, isTicket }) {
   const dispatch = useDispatch();
   const [editClass, setEditClass] = useState(true);
@@ -22,16 +26,24 @@ export default function AdminTicketEdit({ data, isTicket }) {
   const technicals = useSelector((state) => state.technical.technical);
   const [optionTechnical, setOptionTecnical] = useState([]);
   const token = useSelector((state) => state.authAdmin.user.token);
+  const user = useSelector((state) => state.authAdmin.user);
+  const ticket = useSelector(
+    (state) => state.tickets.ticketConfig.classification
+  );
+
+  const [optionType, setOptionType] = useState([]);
 
   useEffect(() => {
-    dispatch(allTechnicals(token));
+    dispatch(allTechnicals(token, data.email));
+    dispatch(allTicektConfig(data.business));
   }, []);
 
   useEffect(() => {
     if (technicals[0]) {
       setOptionTecnical(optionSelectTechnical(technicals));
+      setOptionType(selectClasification(ticket));
     } else {
-      dispatch(allTechnicals(token));
+      dispatch(allTechnicals(user));
       setOptionTecnical([]);
     }
   }, [editAssig]);
@@ -43,8 +55,8 @@ export default function AdminTicketEdit({ data, isTicket }) {
   });
   const [errors, setErrors] = useState({ classification: "", assigned: "" });
 
-  const handleChange = ({ target: { name, value } }) => {
-    setDataEdit((old) => ({ ...old, [name]: value }));
+  const handleChange = (e) => {
+    setDataEdit((old) => ({ ...old, classification: e.value }));
     setErrors({
       classification: "",
       assigned: "",
@@ -101,15 +113,15 @@ export default function AdminTicketEdit({ data, isTicket }) {
         </div>
         <div>
           <h4>Nombre:</h4>
-          <span>{lowerCaseString(data.name)}</span>
+          <span>{data.name.toUpperCase()}</span>
         </div>
         <div>
           <h4>Empresa:</h4>
-          <span>{data.business}</span>
+          <span>{spaceSTR(data.business).toUpperCase()}</span>
         </div>
-        <div>
+        <div className={style.departament}>
           <h4>Departamento:</h4>
-          <span>{data.departament}</span>
+          <span>{spaceSTR(data.departament).toUpperCase()}</span>
         </div>
         <div>
           <h4>Fecha de apertura:</h4>
@@ -122,24 +134,30 @@ export default function AdminTicketEdit({ data, isTicket }) {
         <div>{data.description}</div>
       </div>
       {/* className={data.status === "Active" ? style.edit : style.editFeedback} */}
-      <div className={data.status === "Active" ? style.wrapper: style.editFeedback}>
+      <div
+        className={
+          data.status === "Active" ? style.wrapper : style.editFeedback
+        }
+      >
         <label>
           <h4>
             Técnico Asignado:
             {data.status === "Active" ? (
-            <button
-            title="Editar Técnico"
-            className={style.btn}
-            onClick={() => setEditAssig((old) => !old)}
-            >
-              <BiEditAlt
-                style={{
-                  width: "1.5em",
-                  height: "1.5em",
-                }}
+              <button
+                title="Editar Técnico"
+                className={style.btn}
+                onClick={() => setEditAssig((old) => !old)}
+              >
+                <BiEditAlt
+                  style={{
+                    width: "1.5em",
+                    height: "1.5em",
+                  }}
                 />
-            </button>
-              ):("")}
+              </button>
+            ) : (
+              ""
+            )}
           </h4>
         </label>
         {editAssig ? (
@@ -158,10 +176,10 @@ export default function AdminTicketEdit({ data, isTicket }) {
       </div>
 
       <div
-        className={data.status === "Active" ? style.edit : style.editFeedback}
+        className={data.status === "Active" ? style.wrapper : style.editFeedback}
       >
         {data.status === "Active" ? (
-          <div>
+          <label>
             <h4>
               Tipo de Ticket:
               <button
@@ -177,72 +195,23 @@ export default function AdminTicketEdit({ data, isTicket }) {
                 />
               </button>
             </h4>
-
-            {editClass ? (
-              <div>{data.classification.toUpperCase()}</div>
-            ) : (
-              <label>
-                <div
-                  className={`${style.inputGroup} ${
-                    errors.classification ? style.error : ""
-                  } `}
-                >
-                  <input
-                    value={dataEdit.classification}
-                    onChange={handleChange}
-                    name="classification"
-                    type="text"
-                    placeholder="Tipo de ticket..."
-                    autoComplete="off"
-                  />
-                </div>
-                {errors.classification ? (
-                  <span className={style.errorSpan}>
-                    {errors.classification}
-                  </span>
-                ) : (
-                  ""
-                )}
-              </label>
-            )}
-          </div>
+          </label>
         ) : (
           ""
         )}
-      </div>
-      {/* 
-      <div className={style.wrapper}>
-        <label>
-          <h4>
-            Técnico Asignado:
-            <button
-              title="Editar Técnico"
-              className={style.btn}
-              onClick={() => setEditAssig((old) => !old)}
-            >
-              <BiEditAlt
-                style={{
-                  width: "1.5em",
-                  height: "1.5em",
-                }}
-              />
-            </button>{" "}
-          </h4>
-        </label>
-        {editAssig ? (
-          <div>
-            {data.assigned_technical.name.toUpperCase()}{" "}
-            {data.assigned_technical.last_name.toUpperCase()}
-          </div>
+        {editClass ? (
+           data.status === "Active" ?
+          <div>{data.classification.toUpperCase()}</div>
+        : ""
         ) : (
           <Select
             className={style.select}
-            onChange={(e) => handleTechnical(e)}
-            options={optionTechnical}
-            placeholder="Técnico..."
+            onChange={(e) => handleChange(e)}
+            options={optionType}
+            placeholder="Tipo de ticket"
           />
         )}
-      </div> */}
+      </div>
 
       {data.status === "Close" || data.status === "Cancel" ? (
         <div className={style.feedback}>

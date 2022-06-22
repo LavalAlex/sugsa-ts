@@ -7,24 +7,26 @@ const transporter = require("../Conf/Mailer");
 const { EMAIL_USER } = process.env;
 
 const multer = require("multer");
+const TicketConfig = require("../schemas/TicketConfig");
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
-const createTicket = async ({ email, description }, file) => {
+const createTicket = async ({ email, description }) => {
   const user = await User.findOne({ email });
   if (!user) return { error: "Error, this user does not exits" };
 
 
-  let image = {};
-  if (file) {
-    image = {
-      name: file.name,
-      data: file.toString("base64"),
-      size: file.size,
-      mimetype: file.mimetype,
-    };
-  }
-  let technical = await assignedTechnical(user);
+  // let image = {};
+  // if (file) {
+  //   image = {
+  //     name: file.name,
+  //     data: file.toString("base64"),
+  //     size: file.size,
+  //     mimetype: file.mimetype,
+  //   };
+  // }
+  let {newTech, newType} = await assignedTicket(user);
+
   const newTicket = await Ticket.create({
     email,
     name: user.name,
@@ -32,20 +34,21 @@ const createTicket = async ({ email, description }, file) => {
     description,
     business: user.business,
     departament: user.departament,
-    assigned_technical: technical,
+    assigned_technical: newTech,
+    classification: newType,
     register: [
       {
         date_register: Date.now(),
         description: "Registro de nuevo caso",
       },
     ],
-    image:file,
+
   });
 
   if (newTicket) {
     let info = await transporter.sendMail({
       from: `"Asignacion de Nuevo Ticket 👻" <${EMAIL_USER}>`, // sender address
-      to: `${EMAIL_USER}`, // list of receivers
+      to: `${newTech.email}`, // list of receivers
       subject: "Nuevo-Ticket ✔", // Subject line
       // text: "Hello world?", // plain text body
       html: `<b>Se le acaba de asignar el ticket número: ${newTicket.id}</b>
@@ -69,14 +72,18 @@ const findAllTicket = async (email) => {
   return tickets;
 };
 
-const assignedTechnical = async (user) => {
+const assignedTicket = async (user) => {
   let business = await Business.findOne({ name: user.business });
+  let ticket = await TicketConfig.findOne({business: user.business})
+
   let newTech = {
-    name: business.technicals[business.technicals.length - 1].name,
-    last_name: business.technicals[business.technicals.length - 1].last_name,
-    email: business.technicals[business.technicals.length - 1].email,
+    name: business.assignedTechnical.name,
+    last_name: business.assignedTechnical.last_name,
+    email: business.assignedTechnical.email,
   };
-  return newTech;
+
+  let newType = ticket.classification_default
+  return {newTech, newType}
 };
 
 const editTicket = async (id, { status, feedback }) => {
@@ -91,4 +98,4 @@ const editTicket = async (id, { status, feedback }) => {
   return updateTicket;
 };
 
-module.exports = { createTicket, findAllTicket, assignedTechnical, editTicket };
+module.exports = { createTicket, findAllTicket,  editTicket };

@@ -12,6 +12,7 @@ import BusinessAdd from "./Business/BusinessAdd";
 import Technicals from "./Technicals/Technicals"
 import User from "./User/User"
 import BusinessEdit from "./Business/BusinessEdit";
+import TicketConfig from "./TIcket/TicketConfig";
 
 
 
@@ -31,6 +32,7 @@ export default function Tools() {
       {selectLink.departament ? <Departament /> : ""}
       {selectLink.technical? <Technicals/>: ""}
       {selectLink.user? <User setSelectLink={setSelectLink}/>:""}
+      {selectLink.ticket? <TicketConfig/> :""}
     </div>
   );
 }

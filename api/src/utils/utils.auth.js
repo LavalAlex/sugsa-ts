@@ -34,9 +34,16 @@ const findAll = async () => {
 const findUser = async (email, password) => {
   const userAuth = await User.findOne({ email });
   if (!userAuth) return { error: "Error, No existe usuario registrado" };
-  const validate = await bcrypt.compare(password, userAuth.password);
-  if (!validate) return { error: "Error, Email o Contraseña incorrecta" };
-  return { id: userAuth._id, email: userAuth.email, name: userAuth.name,  last_name:userAuth.last_name };
+  
+  if (userAuth.is_enabled) {
+    return { error: "Debe habilitar su cuenta!" };
+  } else {
+
+    
+    const validate = await bcrypt.compare(password, userAuth.password);
+    if (!validate) return { error: "Error, Email o Contraseña incorrecta" };
+    return { id: userAuth._id, email: userAuth.email, name: userAuth.name,  last_name:userAuth.last_name };
+  }
 };
 
 

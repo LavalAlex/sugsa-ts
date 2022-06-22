@@ -1,5 +1,4 @@
 export const optionSelectUser = (user) => {
-  console.log(user)
     let options = [];
     if (user[0]) {
       for (var i = 0; i < user.length; i++) {
