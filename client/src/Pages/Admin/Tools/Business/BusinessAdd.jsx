@@ -11,7 +11,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { allDepartament } from "../../../../Redux/Actions/Departament";
 
 import { selectDepartament } from "../../../../Utils/optionBusiness";
-import { createBusiness } from "../../../../Redux/Actions/Business";
+import { allBusiness, createBusiness } from "../../../../Redux/Actions/Business";
+import { allTicektConfig } from "../../../../Redux/Actions/Ticket";
 
 export default function BusinessAdd() {
   const dispatch = useDispatch();
@@ -35,6 +36,8 @@ export default function BusinessAdd() {
 
   useEffect(() => {
     dispatch(allDepartament());
+    dispatch(allBusiness());
+    dispatch(allTicektConfig())
   }, [input.name]);
 
   useEffect(() => {

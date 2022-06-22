@@ -14,15 +14,14 @@ const router = Router();
 
 const transporter = require("../Conf/Mailer");
 
-router.post("/signup", async (req, res) => {
+router.get("/signup", async (req, res) => {
   try {
-    var { name, email, password, empresa } = req.body;
-    const newAdmin = await createAdmin(name, email, password, empresa);
+   const newAdmin = await createAdmin();
     if (newAdmin.error) res.status(404).send(newAdmin);
     else res.status(200).send(newAdmin);
   } catch (e) {
-    console.log("Error on signup:", e);
-    res.status(404).send({ error: "Error on the user register" });
+    console.log("Error al crear cuenta de admin:", e);
+    res.status(404).send({ error: "Error al crear cuenta de admin" });
   }
 });
 

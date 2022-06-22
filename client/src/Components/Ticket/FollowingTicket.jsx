@@ -44,10 +44,10 @@ export default function FollowingTicket({ data, isFollowing }) {
   //   };
 
  
-  console.log(image)
-  console.log(data.image.data.data)
+  // console.log(image)
+  // console.log(data.image.data.data)
 
-  console.log(data)
+  // console.log(data)
   const handleCancel = () => {
 isFollowing()
   };
@@ -88,17 +88,14 @@ isFollowing()
         <h4>Description:</h4>
         <div>{data.description}</div>
       
-        {data.image? (
+        {/* {data.image? (
          <img
          className={style.descrImage}
          src={`data:${data.image.mimetype};base64, ${data.image.data.data}`}
          alt={data.image.name}
        />
-       //<img
-//src={data.image.data.data}
-///>
-        
-      ):("")}
+ 
+      ):("")} */}
 
       </div>
 

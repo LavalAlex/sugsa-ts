@@ -109,7 +109,7 @@ export default function NewTicket({ isTicket }) {
         )}
       </label>
 
-      <ImageUpload onChange={handleImage} />
+      {/* <ImageUpload onChange={handleImage} /> */}
 
       <button className={style.submit} type="submit">
         Crear Ticket

@@ -1,0 +1,171 @@
+.container {
+    border-radius: 1em;
+    background-color: #fff;
+    box-shadow: 0.3em 0.25em 0.5em 0em #0005;
+    margin-top: 0rem;
+    width: 450px;
+}
+
+.container>form {
+    padding: 2.5em 5em;
+}
+
+
+.container h1 {
+    /* align-self: center; */
+    display: flex;
+    justify-content: center;
+    margin-top: 0;
+    border-bottom: 1px solid #1e1e1e;
+    margin-bottom: 0;
+
+}
+
+.container label {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.container h5 {
+    margin-bottom: .5rem;
+
+    margin-top: 0;
+}
+
+.inputGroup {
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+    width: 95%;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    padding: 0 0 0 1em;
+    border-radius: 4px;
+    overflow: hidden;
+    outline: 2px solid hsl(226deg, 100%, 70%);
+    margin-bottom: .5rem;
+}
+
+
+
+.inputGroup:focus-within.error {
+    margin-top: 0.2rem;
+    color: #f33;
+    outline: 2px solid red;
+}
+
+.error {
+    margin-top: 0.2rem;
+    color: #f33;
+    outline: 2px solid red;
+}
+
+form label {
+    /* margin: 1em 0 0 0; */
+    font-size: 0.9rem;
+    width: 100%;
+    background-color: #fff;
+    font-family: "Roboto";
+    padding: 0.75em;
+    border: none;
+    width: 100%;
+    font-size: 0.9rem;
+    border: none;
+    resize: none;
+}
+
+.inputGroup button{
+    border: none;
+    background-color: white;
+}
+
+.inputGroup input {
+    font-family: "Roboto";
+    padding: 0.75em;
+    border: none;
+    width: 95%;
+    font-size: 0.9rem;
+    border: none;
+    resize: none;
+    outline: 0;
+}
+
+.inputGroup :focus input {
+    border: none;
+    font-family: "Roboto";
+
+}
+
+.buttonContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin: 2em 0 0 0;
+}
+
+
+.buttonContainer button[type="submit"] {
+    border-radius: 5em;
+    border: none;
+    color: #fff;
+    background-color: hsl(226deg, 100%, 70%);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 1em;
+    text-align: center;
+    font-size: 1rem;
+    /* margin: 2em 0 0 0; */
+
+}
+
+.buttonContainer button[type="submit"]:hover {
+    color: black;
+
+}
+
+.errorSpan {
+    margin-top: 0.2rem;
+    color: #f33;
+    margin-left: 1rem;
+}
+
+@media screen and (max-width: 1100px) {
+    .left {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 800px) {
+
+    .center {
+        margin: 100px auto;
+        width: 100%;
+    }
+
+    .left {
+        display: none;
+    }
+
+    .right {
+        display: none;
+    }
+}
+
+.wrapper .errorSelect {
+    margin-top: 0.2rem;
+    outline: 2px solid red;
+    border-radius: 4px;
+}
+
+.icon {
+
+    width: 1.5em;
+    height: 1.5em;
+cursor: pointer;
+padding-right: 1rem;
+}
+
+.icon:hover{
+    color: #f33;
+}

@@ -3,6 +3,7 @@ const Ticket = require("../schemas/Ticket");
 const User = require("../schemas/User");
 const transporter = require("../Conf/Mailer");
 const Technical = require("../schemas/Technical");
+const TicketConfig = require("../schemas/TicketConfig");
 
 const { EMAIL_USER } = process.env;
 
@@ -98,15 +99,16 @@ const filterTicketStatus = async (status) => {
 const adminCreateTicket = async ({ email, description }) => {
   const user = await User.findOne({ email });
   if (!user) return { error: "Error, El usuario no existe!" };
-  let technical = await assignedTechnical(user);
+  let {newTech, newType} = await assignedTicket(user);
   const newTicket = await Ticket.create({
     email,
     name: user.name,
     description,
     last_name: user.last_name,
+    departament:user.departament,
     business: user.business,
-    departament: user.departament,
-    assigned_technical: technical,
+    assigned_technical: newTech,
+    classification: newType,
     register: [
       {
         date_register: Date.now(),
@@ -115,21 +117,26 @@ const adminCreateTicket = async ({ email, description }) => {
     ],
   });
   if (newTicket) {
-    sendEmailTechnical(newTicket.id, technical.email);
+    sendEmailTechnical(newTicket.id, newTech.email);
     return { msg: "Ticket creado exitosamente!" };
   }
   return { error: "Error no se pudo crear el ticket!" };
 };
 
-const assignedTechnical = async (user) => {
+const assignedTicket = async (user) => {
   let business = await Business.findOne({ name: user.business });
+  let ticket = await TicketConfig.findOne({business: user.business})
+
   let newTech = {
-    name: business.technicals[business.technicals.length - 1].name,
-    last_name: business.technicals[business.technicals.length - 1].last_name,
-    email: business.technicals[business.technicals.length - 1].email,
+    name: business.assignedTechnical.name,
+    last_name: business.assignedTechnical.last_name,
+    email: business.assignedTechnical.email,
   };
-  return newTech;
+
+  let newType = ticket.classification_default
+  return {newTech, newType}
 };
+
 
 const orderTickets = async () => {
   const tickets = await Ticket.find({});
@@ -156,7 +163,7 @@ const sendEmailFeedback = async (id, ticket) => {
 const sendEmailTechnical = async (id, emailTech) => {
   let info = await transporter.sendMail({
     from: `"Asignacion de Nuevo Ticket 👻" <${EMAIL_USER}>`, // sender address
-    to: `${EMAIL_USER}`, // list of receivers
+    to: `${emailTech}`, // list of receivers
     subject: "Nuevo-Ticket ✔", // Subject line
     // text: "Hello world?", // plain text body
     html: `<b>Se le acaba de asignar el ticket número: ${id}</b>

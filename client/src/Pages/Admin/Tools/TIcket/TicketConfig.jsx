@@ -7,7 +7,7 @@ import { FaUserCircle, FaKey, FaEye } from "react-icons/fa";
 // import { validateSignup } from "../../../Utils/validate";
 import { validateInput } from "../../../../Utils/validate";
 
-import style from "./BusinessEdit.module.css";
+import style from "./TicketConfig.module.css";
 
 import { useLocation, useNavigate } from "react-router-dom";
 import { allDepartament } from "../../../../Redux/Actions/Departament";
@@ -30,27 +30,25 @@ import {
 } from "../../../../Redux/Actions/Business";
 import { BiEditAlt } from "react-icons/bi";
 import { TiDeleteOutline } from "react-icons/ti";
-export default function BusinessEdit() {
+import { allTicektConfig, createTicektConfig } from "../../../../Redux/Actions/Ticket";
+import { selectClasification } from "../../../../Utils/optionClasification";
+
+export default function TicketConfig() {
   const dispatch = useDispatch();
-  const navitage = useNavigate();
-  const [keyOn, setKeyOn] = useState(false);
+
 
   // const [optionDepartament, setoptionDepartament] = useState([]);
   const business = useSelector((state) => state.business.business);
-  const technicals = useSelector((state) => state.business.technicals);
 
-  //   const business = useSelector((state) => state.departament.departament);
+  const tickets = useSelector((state) => state.tickets.ticketConfig?.classification);
+  
+  const classification =  useSelector((state) => state.tickets.ticketConfig.classification_default);
+
   const [optionBusiness, setOptionBusines] = useState([]);
 
-  const [allDepartaments, setDepartamen] = useState([]);
+  const [optionClas, setOptionClas] = useState([])
 
-  const [optionDepartament, setoptionDepartament] = useState([]);
-
-  const departament = useSelector((state) => state.departament.departament);
-
-  const [optionTechnical, setOptionTechnical] = useState([]);
-
-  // const [optionAssigned, setOptionAssigned] = useState([]);
+  console.log(tickets)
 
   const [errors, setErrors] = useState({
     business: "",
@@ -59,37 +57,44 @@ export default function BusinessEdit() {
     code: "",
   });
 
+  //   business,
+  //   classification,
+  //   classification_default,
   const [input, setInput] = useState({
     id: "",
     business: "",
-    departament: "",
-    assignedTechnical: "",
-    technicals,
-  });
+    classification: "",
+    classification_default:"",
+    clasDelete:""
+});
 
-  useEffect(() => {
+  useEffect( () => {
     dispatch(allBusiness());
+    // dispatch(allTicektConfig())
   }, []);
 
-  useEffect(() => {
+  useEffect( () => {
     if (business[0]) {
       setOptionBusines(optionSelect(business));
     } else {
       dispatch(allBusiness());
       setOptionBusines([]);
     }
-    if (technicals[0]) {
-      setOptionTechnical(optionSelectTechnical(technicals));
+    if (tickets) {
+        setOptionClas(selectClasification(tickets));
+    }else{
+      if(input.business)
+     dispatch(allTicektConfig(input.business));
     }
-  }, [input.business]);
+  }, [input.business, tickets]);
 
-  useEffect(() => {
-    if (departament[0]) {
-      setoptionDepartament(selectDepartBusiness(departament, allDepartaments));
-    } else {
-      dispatch(allDepartament());
-    }
-  }, [input.business, departament[0]]);
+  //   useEffect(() => {
+  //     if (departament[0]) {
+  //       setoptionDepartament(selectDepartBusiness(departament, allDepartaments));
+  //     } else {
+  //       dispatch(allDepartament());
+  //     }
+  //   }, [input.business, departament[0]]);
 
   const handleChange = (e) => {
     setInput({
@@ -98,10 +103,17 @@ export default function BusinessEdit() {
     });
     setErrors("");
   };
-
+  
+  console.log(classification)
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const data = {
+      business: input.business,
+      classification: input.classification,
+    };
+    const code = await dispatch(createTicektConfig(data))
+    alert("Clasificafión creada con exitos!")
     // const { business, departament } = validateInput(input);
     // if (departament || business) {
     //   setErrors((old) => ({
@@ -130,81 +142,94 @@ export default function BusinessEdit() {
     //   }
     // }
   };
-  console.log(input);
+//   console.log(tickets);
+  //   console.log(optionTechnical);
 
   const handleDelete = async (e) => {
-    // e.preventDefault();
-    const update = {
-      id: input.id,
-      name: input.business,
-      departament: e,
-    };
-    const code = await dispatch(deleteDepartamentBusiness(update));
 
-    alert("Eliminar");
+    const data = {
+        business: input.business,
+        clasDelete:e,
+    };
+    const code = await dispatch(createTicektConfig(data))
+    alert("Clasificafión eliminada con exitos!")
+    
+    // const code = await dispatch(deleteDepartamentBusiness(update));
+    // alert("Eliminar");
   };
 
-  console.log(optionTechnical);
+  const handleSelectDefault = async (e) => {
+    setInput((old) => ({
+        ...old,
+        classification_default: e.value,
+        
+      }));
+  }
+
   const handleSelectBusiness = async (e) => {
     setInput((old) => ({
       ...old,
       business: e.value.name,
       id: e.value._id,
-      assignedTechnical: e.value.assignedTechnical,
-      technicals: e.value.technicals,
     }));
-    setDepartamen(e.value.departament);
-    selectDepartBusiness(departament, e.value.departament);
-    await dispatch(departamentBusiness(e.value.name));
-    await dispatch(technicalsBusiness(e.value._id));
-    setErrors({
-      business: "",
-      last_name: "",
-      email: "",
-      business: "",
-    });
+    await dispatch(allTicektConfig(e.value.name));
+
+    // setDepartamen(e.value.departament);
+    // selectDepartBusiness(departament, e.value.departament);
+    // await dispatch(departamentBusiness(e.value.name));
+    // await dispatch(technicalsBusiness(e.value._id));
+    // setErrors({
+    //   business: "",
+    //   last_name: "",
+    //   email: "",
+    //   business: "",
+    // });
   };
 
-  const handleSelectDepartament = async (e) => {
-    setInput((old) => ({
-      ...old,
-      departament: e.map((option) => option.value),
-    }));
-    setErrors({
-      business: "",
-      departament: "",
-    });
-  };
+//   const handleSelectDepartament = async (e) => {
+//     setInput((old) => ({
+//       ...old,
+//       departament: e.map((option) => option.value),
+//     }));
+//     setErrors({
+//       business: "",
+//       departament: "",
+//     });
+//   };
 
-  const handleSelectTechnical = async (e) => {
-    setInput((old) => ({ ...old, technical: e.value }));
-    setErrors({
-      business: "",
-      departament: "",
-    });
-  };
+//   const handleSelectTechnical = async (e) => {
+//     setInput((old) => ({ ...old, technical: e.value }));
+//     setErrors({
+//       business: "",
+//       departament: "",
+//     });
+//   };
 
-  const handleSubmitTechnical = async (e) => {
+  const handleSubmitDefault = async (e) => {
     e.preventDefault();
+
     const data = {
-      idBusiness: input.id,
-      idTechnical: parseInt(input.technical),
+      business: input.business,
+      classification_default: input.classification_default,
     };
-    console.log(data);
-    await dispatch(technicalAssignedBusiness(data));
+    const code = await dispatch(createTicektConfig(data))
+    console.log(code)
+
+    // await dispatch(technicalAssignedBusiness(data));
 
     alert("tecnico asignado con exitos!");
   };
 
-  const handleDeleteTechnical = async (e)=>{
-    const data = {
-      idBusiness: input.id,
-      idTechnical: e._id,
-    };
-    console.log(data)
-    await dispatch(deleteTechnicalBusiness(data))
-    alert("Delete succssesfullt")
-  }
+  const handleDeleteTechnical = async (e) => {
+    // const data = {
+    //   idBusiness: input.id,
+    //   idTechnical: e._id,
+    // };
+    // console.log(data)
+    // await dispatch(deleteTechnicalBusiness(data))
+    alert("Delete succssesfullt");
+  };
+
   return (
     <div className={style.container}>
       <form onSubmit={(e) => handleSubmit(e)}>
@@ -223,15 +248,45 @@ export default function BusinessEdit() {
             />
           </label>
         </label>
+
         {input.business != "" ? (
           <div>
             <label>
-              <h5>Departamentos de la empresa:</h5>
-              {allDepartaments[0] ? (
-                allDepartaments.map((e, i) => {
+              <h5>Configuración Ticket:</h5>
+              <div
+                className={`${style.inputGroup} ${
+                  errors.name ? style.error : ""
+                } `}
+              >
+                <input
+                  type="text"
+                  value={input.classification}
+                  name="classification"
+                  onChange={(e) => handleChange(e)}
+                  placeholder="Clasificación ticket..."
+                  autoComplete="off"
+                />
+              </div>
+              <div className={style.buttonContainer}>
+                <button type="submit">Agregar</button>
+              </div>
+            </label>
+
+            <div>
+              {errors.name ? (
+                <span className={style.errorSpan}>{errors.name}</span>
+              ) : (
+                ""
+              )}
+            </div>
+
+            <label>
+              <h5>Tipos de ticket:</h5>
+              {tickets ? (
+                tickets.map((e, i) => {
                   return (
                     <div key={i} className={style.inputGroup}>
-                      <input value={e.toUpperCase()} business="business" />
+                      <input value={e.toUpperCase()}  />
                       <TiDeleteOutline
                         className={style.icon}
                         title="Eliminar Categoria"
@@ -241,22 +296,22 @@ export default function BusinessEdit() {
                   );
                 })
               ) : (
-                <div>No hay departamentos cargados</div>
+                <div className={style.inputGroup}>
+                <input value="No hay ticket para esta empresa" />
+              </div>
               )}
             </label>
 
             <label>
-              <h5>Agregar nuevos departamento:</h5>
+              <h5>Agregar tipo de ticket default:</h5>
               <label className={style.wrapper}>
                 <Select
                   className={`${style.wrapper} ${
                     errors.departament ? style.errorSelect : ""
                   }`}
-                  onChange={(e) => handleSelectDepartament(e)}
-                  options={optionDepartament}
-                  placeholder="Departamento..."
-                  isMulti
-                  dropdownIndicator
+                  onChange={(e) => handleSelectDefault(e)}
+                  options={optionClas}
+                  placeholder="Elegir tipo de ticket..."
                 />
               </label>
             </label>
@@ -268,12 +323,12 @@ export default function BusinessEdit() {
               )}
             </div>
             <div className={style.buttonContainer}>
-              <button type="submit">Agregar Departamento</button>
+              <button type="submit" onClick={handleSubmitDefault} >Seleccionar Tipo</button>
             </div>
-            <label>
+            {/* <label>
               <h5>Técnicos Disponibles:</h5>
-              {technicals[0] ? (
-                technicals.map((e, i) => {
+              {tickets? (
+                tickets.map((e, i) => {
                   return (
                     <div key={i} className={style.inputGroup}>
                       <input
@@ -292,27 +347,27 @@ export default function BusinessEdit() {
                   <input value="No tiene técnicos asociados" />
                 </div>
               )}
-            </label>
-            <div>
+            </label> */}
+            {/* <div>
               {errors.departament ? (
                 <span className={style.errorSpan}>{errors.departament}</span>
               ) : (
                 ""
               )}
-            </div>
+            </div> */}
             <label>
-              <h5>Técnico asignado para los Ticket:</h5>
+              <h5>Tipo de ticket default:</h5>
               <div className={style.inputGroup}>
-                {input.assignedTechnical ? (
+                {classification ? (
                   <input
-                    value={`${input.assignedTechnical.name.toUpperCase()} ${input.assignedTechnical.last_name.toUpperCase()}`}
+                    value={classification.toUpperCase()} 
                   />
                 ) : (
-                  <input value="No hay tecnico asignado" />
+                  <input value="No hay tipo de ticket asignado" />
                 )}
               </div>
             </label>
-            <label>
+            {/* <label>
               <h5>Asignar Técnico a la empresa:</h5>
               <label className={style.wrapper}>
                 <Select
@@ -337,7 +392,7 @@ export default function BusinessEdit() {
               ) : (
                 ""
               )}
-            </div>
+            </div> */}
 
             <div>
               {errors.code ? (

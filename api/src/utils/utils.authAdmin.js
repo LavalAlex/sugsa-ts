@@ -11,14 +11,17 @@ const  transporter  = require("../Conf/Mailer");
 const User = require("../schemas/User");
 const { EMAIL_USER } = process.env;
 
-const createAdmin = async (name, email, password) => {
-  password = bcrypt.hashSync(password, saltRounds);
-  const admin = await Admin.findOne({ email });
-  if (admin) return { error: "Error, Este usuario ya pose una cuenta!" };
-  let newAdmin = new Admin({
-    name,
-    email,
+const createAdmin = async () => {
+  password = bcrypt.hashSync("123456", saltRounds);
+  const technical = await Technical.findOne({email: "admin@gmail.com"})
+  if (technical) return { error: "Error, ya esta creada la cuenta del admin!" };
+  let newAdmin = new Technical({
+    name: "admin",
+    last_name:"admin",
+    email:  "admin@gmail.com",
+    business: "sugsa",
     password,
+    is_enabled:false
   });
   newAdmin.save();
   return { msg: "Create Successfully" };
@@ -121,6 +124,7 @@ const newRandomPass = () => {
 
   return password;
 };
+
 
 module.exports = {
   createAdmin,

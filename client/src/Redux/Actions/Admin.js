@@ -104,10 +104,11 @@ export function deleteTicketAdmin(id, token) {
   }
 }
 
-export function allTechnicals(token) {
+export function allTechnicals(token, email) {
+  console.log(token, email)
   return async (dispatch) => {
     try {
-      const response = await axios.get(URL_ALL_TECHNICALS, {
+      const response = await axios.get(`${URL_ALL_TECHNICALS}/${email}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       dispatch({ type: ALL_TECHNICALS, payload: response });

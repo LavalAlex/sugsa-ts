@@ -2,6 +2,7 @@ const { Router } = require("express");
 const jwt = require("jsonwebtoken");
 const transporter = require("../Conf/Mailer");
 const Ticket = require("../schemas/Ticket");
+const TicketConfig = require("../schemas/TicketConfig");
 const { JWT_SECRET, JWT_EXPIRE_TIME, JWT_COOKIE_EXPIRE } = process.env;
 
 const {
@@ -11,6 +12,7 @@ const {
   orderTickets,
   feedbackTicketUser,
 } = require("../utils/utils.ticket.admin");
+const { createTicketConfig } = require("../utils/utils.ticketConfig.admin");
 const { verifyToken } = require("../utils/verifyToken");
 
 const router = Router();
@@ -103,4 +105,28 @@ router.put("/ticket/feedback/:id", async (req, res) => {
   }
 });
 
+router.get("/ticket/ticketconfig/:name", async (req, res) => {
+  try {
+    const name = req.params.name
+    if(!name)  res.status(404).send({ msg: "No hay tickets-config cargados" });
+    const tickets = await TicketConfig.findOne({business:name});
+    if (!tickets)
+      res.status(200).send([{ msg: "No hay tickets-config cargados" }]);
+    else res.status(200).send(tickets);
+  } catch (e) {
+    console.log("Error al buscar ticket-config", e);
+    res.status(200).send({ error: "Error al buscar ticket-config" });
+  }
+});
+
+router.put("/ticket/createTicketConfig", async (req, res) => {
+  try{
+    const newTicket = await createTicketConfig(req.body)
+    if(newTicket.error) res.status(500).send(newTicket)
+    else res.status(200).send(newTicket)
+  }catch(e){
+    console.log("Error al crear ticket-config", e);
+    res.status(200).send({ error: "Error al crear ticket-config" });
+  }
+})
 module.exports = router;
