@@ -1,5 +1,5 @@
 import axios from "axios";
-import { URL_CREATE_DEPARTAMENT, CREATE_DEPARTAMENT, URL_ALL_DEPARTAMENT, ALL_DEPARTAMENT } from "./ActionsTypes";
+import { URL_CREATE_DEPARTAMENT, CREATE_DEPARTAMENT, URL_ALL_DEPARTAMENT, ALL_DEPARTAMENT, URL_UPDATE_DEPARTAMENT, UPDATE_DEPARTAMENT } from "./ActionsTypes";
 
 export const createDepartament = (name) => {
   return  async (dispatch)=> {
@@ -23,4 +23,16 @@ export const allDepartament =   ()=>{
             return e.response.data
         }
     }
+}
+
+export const updateDepartamentAdmin = (data)=>{
+  return async (dispatch) => {
+    try{
+      const response = await axios.put(URL_UPDATE_DEPARTAMENT, data)
+      dispatch({type: UPDATE_DEPARTAMENT, payload: response})
+    }catch(e){
+      console.log(e)
+      return e.response.data
+    }
+  }
 }

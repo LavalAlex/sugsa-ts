@@ -10,9 +10,10 @@ import { useState } from "react";
 import Departament from "./Departament/Departament";
 import BusinessAdd from "./Business/BusinessAdd";
 import Technicals from "./Technicals/Technicals"
-import User from "./User/User"
+import User from "./User/UserAdd"
 import BusinessEdit from "./Business/BusinessEdit";
 import TicketConfig from "./TIcket/TicketConfig";
+import UserEdit from "./User/UserEdit";
 
 
 
@@ -33,6 +34,7 @@ export default function Tools() {
       {selectLink.technical? <Technicals/>: ""}
       {selectLink.user? <User setSelectLink={setSelectLink}/>:""}
       {selectLink.ticket? <TicketConfig/> :""}
+      {selectLink.userEdit ? <UserEdit  setSelectLink={setSelectLink}/> : ""}
     </div>
   );
 }

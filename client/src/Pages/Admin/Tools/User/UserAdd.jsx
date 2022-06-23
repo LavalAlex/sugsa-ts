@@ -20,7 +20,7 @@ import {
 import { allDepartament } from "../../../../Redux/Actions/Departament";
 import { createUserAdmin } from "../../../../Redux/Actions/Admin";
 
-export default function User({ setSelectLink }) {
+export default function UserAdd({ setSelectLink }) {
   const dispatch = useDispatch();
   const path = useLocation().pathname;
   const navitage = useNavigate();
@@ -97,7 +97,7 @@ export default function User({ setSelectLink }) {
         const code = await dispatch(createUserAdmin(input));
         if (!code) {
         alert('Usuario creado con éxito!')
-        setSelectLink({business:"business"})
+        setSelectLink({businessAdd:"businessAdd"})
         } else {
           setErrors((old) => ({
             ...old,

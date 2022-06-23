@@ -20,6 +20,7 @@ import {
 
 import { optionSelectTechnical } from "../../../../Utils/optionTechnical";
 import {
+  addDepartamentBusiness,
   allBusiness,
   createBusiness,
   deleteDepartamentBusiness,
@@ -100,40 +101,42 @@ export default function BusinessEdit() {
   };
 
   const handleSubmit = async (e) => {
+    
     e.preventDefault();
-
     // const { business, departament } = validateInput(input);
-    // if (departament || business) {
-    //   setErrors((old) => ({
-    //     ...old,
-    //     business: business ? business : "",
-    //     departament: departament ? departament : "",
-    //   }));
-    // } else {
-    //   var conf = window.confirm("Esta seguro que quiere crear la empresa?");
-    //   if(conf){
-    //     const code = await dispatch(createBusiness(input));
-    //     if (!code) {
-    //       alert("Empresa creada con éxitos!");
-    //       setoptionDepartament([])
-    //       setInput((old)=>({...old, departament: "" }));
-    //       // navitage('/admin/tool')
-    //     } else {
-    //       setErrors((old) => ({
-    //         ...old,
-    //         code: code.error,
-    //       }));
-    //     }
-    //   }else{
-    //     alert("La empresa NO se creo!")
-    //     // navitage('/admin/tool')
-    //   }
-    // }
-  };
-  console.log(input);
+    if (!input.departament) {
+      setErrors((old) => ({
+        ...old,
+        departament: "Error, debe seleccionar un departamento!",
+      }));
+    } else {
+      var conf = window.confirm("Esta seguro que quiere agregar el departamento?");
+      if(conf){
+        const data ={
+          departament: input.departament,
+          business:input.business
+        }
+        const code = await dispatch(addDepartamentBusiness(data));
+        if (!code) {
+          alert("Departamento agregado con éxitos!");
+          setoptionDepartament([])
+          setInput((old)=>({...old, departament: "" }));
+          // navitage('/admin/tool')
+        } else {
+          setErrors((old) => ({
+            ...old,
+            code: code.error,
+          }));
+        }
+      }else{
+        alert("El departamento NO SE AGREGO!")
+        // navitage('/admin/tool')
+      }
+    }
+  }
 
   const handleDelete = async (e) => {
-    // e.preventDefault();
+
     const update = {
       id: input.id,
       name: input.business,
@@ -144,7 +147,7 @@ export default function BusinessEdit() {
     alert("Eliminar");
   };
 
-  console.log(optionTechnical);
+ 
   const handleSelectBusiness = async (e) => {
     setInput((old) => ({
       ...old,
@@ -190,9 +193,7 @@ export default function BusinessEdit() {
       idBusiness: input.id,
       idTechnical: parseInt(input.technical),
     };
-    console.log(data);
     await dispatch(technicalAssignedBusiness(data));
-
     alert("tecnico asignado con exitos!");
   };
 
@@ -201,13 +202,13 @@ export default function BusinessEdit() {
       idBusiness: input.id,
       idTechnical: e._id,
     };
-    console.log(data)
+
     await dispatch(deleteTechnicalBusiness(data))
     alert("Delete succssesfullt")
   }
   return (
     <div className={style.container}>
-      <form onSubmit={(e) => handleSubmit(e)}>
+      <form >
         <h1>- EMPRESA -</h1>
         <label>
           <h5>Empresa:</h5>
@@ -268,7 +269,7 @@ export default function BusinessEdit() {
               )}
             </div>
             <div className={style.buttonContainer}>
-              <button type="submit">Agregar Departamento</button>
+              <button type="submit" onClick={(e) => handleSubmit(e)}>Agregar Departamento</button>
             </div>
             <label>
               <h5>Técnicos Disponibles:</h5>
@@ -327,7 +328,7 @@ export default function BusinessEdit() {
               </label>
             </label>
             <div className={style.buttonContainer}>
-              <button type="submit" onClick={handleSubmitTechnical}>
+              <button type="submit"  onClick={handleSubmitTechnical}>
                 Asignar Técnico
               </button>
             </div>

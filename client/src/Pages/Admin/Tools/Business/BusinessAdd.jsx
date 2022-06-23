@@ -11,7 +11,10 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { allDepartament } from "../../../../Redux/Actions/Departament";
 
 import { selectDepartament } from "../../../../Utils/optionBusiness";
-import { allBusiness, createBusiness } from "../../../../Redux/Actions/Business";
+import {
+  allBusiness,
+  createBusiness,
+} from "../../../../Redux/Actions/Business";
 import { allTicektConfig } from "../../../../Redux/Actions/Ticket";
 
 export default function BusinessAdd() {
@@ -37,7 +40,7 @@ export default function BusinessAdd() {
   useEffect(() => {
     dispatch(allDepartament());
     dispatch(allBusiness());
-    dispatch(allTicektConfig())
+    dispatch(allTicektConfig());
   }, [input.name]);
 
   useEffect(() => {
@@ -67,12 +70,12 @@ export default function BusinessAdd() {
       }));
     } else {
       var conf = window.confirm("Esta seguro que quiere crear la empresa?");
-      if(conf){
+      if (conf) {
         const code = await dispatch(createBusiness(input));
         if (!code) {
           alert("Empresa creada con éxitos!");
-          setoptionDepartament([])
-          setInput((old)=>({...old, departament: "" }));
+          setoptionDepartament([]);
+          setInput((old) => ({ ...old, departament: "" }));
           // navitage('/admin/tool')
         } else {
           setErrors((old) => ({
@@ -80,10 +83,14 @@ export default function BusinessAdd() {
             code: code.error,
           }));
         }
-      }else{
-        alert("La empresa NO se creo!")
+      } else {
+        alert("La empresa NO se creo!");
         // navitage('/admin/tool')
       }
+      setInput({ name: "", departament: "" });
+      dispatch(allDepartament());
+      dispatch(allBusiness());
+      dispatch(allTicektConfig());
     }
   };
 
