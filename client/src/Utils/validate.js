@@ -107,6 +107,8 @@ const validateTechnical = ({name,email,business,last_name,}) => {
 
   return {};
 };
+
+
 module.exports = {
   validateNewPassword,
   validateLogin,

@@ -34,6 +34,7 @@ export default function Technicals({ isAuth }) {
   const departament = useSelector((state) => state.business.departament);
   const [optionDepartament, setoptionDepartament] = useState([]);
 
+  const[submit, setSubmit] = useState(0)
   const [errors, setErrors] = useState({
     name: "",
     last_name: "",
@@ -71,34 +72,40 @@ export default function Technicals({ isAuth }) {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const { name, email, business, last_name } = validateTechnical(input);
-    if (email || business || name || last_name) {
-      setErrors((old) => ({
-        ...old,
-        name: name ? name : "",
-        last_name: last_name ? last_name : "",
-        email: email ? email : "",
-        business: business ? business : "",
-      }));
-    } else {
-      var conf = window.confirm("Esta seguro que quiere crear el Técnico?");
-      if (conf) {
-        const code = await dispatch(createTechnical(input));
-        if (!code) {
-          alert("Técnico creado con éxitos!");
-          setInput({ name: "", last_name: "", email: "", business: "" });
-        } else {
-          setErrors((old) => ({
-            ...old,
-            code: code.error,
-          }));
-        }
+    setSubmit((old) => old+1)
+    if(submit<1){
+
+      e.preventDefault();
+      const { name, email, business, last_name } = validateTechnical(input);
+      if (email || business || name || last_name) {
+        setErrors((old) => ({
+          ...old,
+          name: name ? name : "",
+          last_name: last_name ? last_name : "",
+          email: email ? email : "",
+          business: business ? business : "",
+        }));
       } else {
+        var conf = window.confirm("Esta seguro que quiere crear el Técnico?");
+        if (conf) {
+          const code = await dispatch(createTechnical(input));
+          if (!code) {
+            alert("Técnico creado con éxitos!");
+            setInput({ name: "", last_name: "", email: "", business: "" });
+          } else {
+            setErrors((old) => ({
+              ...old,
+              code: code.error,
+            }));
+          }
+        } else {
         alert("Técnico NO FUE creado!");
         setInput({ name: "", last_name: "", email: "", business: "" });
       }
     }
+  }else{
+    alert("Datos enviados, aguarde un segundo!")
+  }
   };
 
   const handleSelectBusiness = async (e) => {

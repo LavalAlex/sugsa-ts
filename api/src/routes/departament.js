@@ -29,15 +29,11 @@ router.post("/create", async (req, res) => {
   }
 });
 
-router.put("/update/:id", async (req, res) => {
+router.put("/update/", async (req, res) => {
   try {
-    const id = req.params.id;
-    const update = req.body;
-    const updateDep = await Departament.findByIdAndUpdate(
-      id,
-      { name: update.toLowerCase() },
-      { new: true }
-    );
+
+    const {_id, name} = req.body;
+    const updateDep = await Departament.findByIdAndDelete(_id);
 
     res.status(200).send({ msg: "Departamento actualizado con éxito!" });
   } catch (e) {

@@ -3,7 +3,7 @@
   background-color: #fff;
   box-shadow: 0.3em 0.25em 0.5em 0em #0005;
   margin-top: 0rem;
-  max-width: 450px;
+  width: 450px;
 }
 
 .container>form {
@@ -148,64 +148,59 @@ form label {
   }
 }
 
-.inputGroupPass {
-  display: flex;
-  align-items: center;
-  font-size: 0.9rem;
-  width: 95%;
-  border: 1px solid #ccc;
-  background-color: #fff;
-  padding: 0 0 0 1em;
-  border-radius: 4px;
-  overflow: hidden;
-}
-
-.inputGroupPass .keyEye {
-  margin-right: 1rem;
-  width: 2rem;
-  cursor: pointer;
-  color: white;
-}
-
-
-.inputGroupPass:focus-within {
-  outline: 2px solid hsl(226deg, 100%, 70%);
-  ;
-}
-
-.inputGroupPass:focus-within .keyEye {
-  color: black;
-}
-
-.inputGroupPass:focus-within .keyEye :hover {
-  color: hsl(226deg, 100%, 70%);
-}
-
-
-.inputGroupPass:focus-within.error {
-  margin-top: 0.2rem;
-  color: #f33;
-  outline: 2px solid red;
-}
-
-.inputGroupPass input {
-  font-family: "Roboto";
-  padding: 0.75em;
-  border: none;
-  width: 100%;
-  font-size: 0.9rem;
-  border: none;
-  resize: none;
-  outline: 0;
-}
-
-.inputGroupPass :focus input {
-  border: none;
-  font-family: "Roboto";
-}
-
 .wrapper .errorSelect {
   margin-top: 0.2rem;
   outline: 2px solid red;
   border-radius: 4px;
+}
+.icon {
+
+  width: 1.5em;
+  height: 1.5em;
+cursor: pointer;
+padding-right: 1rem;
+}
+
+.icon:hover{
+  color: hsl(226deg, 100%, 70%);
+}
+
+.iconDelete{
+  width: 1.5em;
+  height: 1.5em;
+cursor: pointer;
+padding-right: 1rem;
+}
+
+.iconDelete:hover{
+  color: #f33;
+}
+
+
+.buttonContainerDelete {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin: 2em 0 0 0;
+}
+
+
+.buttonContainerDelete button[type="submit"] {
+  border-radius: 5em;
+  border: none;
+  color: #fff;
+  background-color: #f33;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 1em;
+  text-align: center;
+  font-size: 1rem;
+  /* margin: 2em 0 0 0; */
+
+}
+
+.buttonContainerDelete button[type="submit"]:hover {
+  color: black;
+
 }

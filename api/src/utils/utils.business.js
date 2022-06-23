@@ -1,5 +1,7 @@
+// const { default: User } = require("../../../client/src/Pages/Admin/Tools/User/User");
 const Business = require("../schemas/Business");
 const Technical = require("../schemas/Technical");
+const User = require("../schemas/User");
 
 const createBusines = async ({ name, departament }) => {
   if (!name || !departament) {
@@ -112,10 +114,44 @@ const deleteTechnical = async ({ idBusiness, idTechnical }) => {
   }
 };
 
+const findAllBusiness = async (name) => {
+  if (!name) return { error: "Debe proporcionar un nombre de empresa" };
+  else {
+    name = name.toLowerCase();
+    const business = await Business.findOne({ name });
+    if (!business) return { error: "No existe empresa con ese nombre!" };
+    else {
+      const users = await User.find({ business: name });
+      console.log(users);
+      if (!users)
+        return { error: "No existen usuarios registrados para esa empresa!" };
+      else {
+        return users;
+      }
+    }
+  }
+};
+
+const addDepartament = async ({ departament, business }) => {
+  if (!departament || !business) return { error: "Falta de datos!" };
+  const updateBusiness = await Business.findOne({ name: business });
+  const newDepartament = updateBusiness.departament;
+  departament.map((e) => {
+    newDepartament.push(e.name);
+  });
+
+  const newBusi = await Business.findByIdAndUpdate(updateBusiness._id, {
+    departament: newDepartament,
+  });
+  return { msg: "Departamento agregado con éxitos!" };
+};
+
 module.exports = {
   createBusines,
   deleteDepartament,
   findTechnicals,
   technicalAssigned,
   deleteTechnical,
+  findAllBusiness,
+  addDepartament,
 };

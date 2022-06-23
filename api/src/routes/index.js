@@ -9,6 +9,7 @@ const AdminTicket = require("./admin.ticket");
 const Business = require("./business");
 const Technical = require("./technical");
 const Departament = require("./departament");
+const User = require("./user");
 
 const mock = require("./mock.utils");
 
@@ -20,6 +21,7 @@ router.use("/admin", AdminTicket);
 router.use("/business", Business);
 router.use("/technical", Technical);
 router.use("/departament", Departament);
+router.use("/user", User);
 
 router.use("/mock", mock);
 module.exports = router;

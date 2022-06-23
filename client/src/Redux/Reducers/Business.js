@@ -1,9 +1,10 @@
-import { ALL_BUSINESS, DEPARTAMENT_BUSINESS, TECHNICALS_BUSINESS } from "../Actions/ActionsTypes";
+import { ALL_BUSINESS, ALL_USERS_BUSINESS, DEPARTAMENT_BUSINESS, TECHNICALS_BUSINESS } from "../Actions/ActionsTypes";
 
 const initialState = {
   business: [],
   departament: [],
-  technicals:[]
+  technicals:[],
+  users:[]
 };
 
 export default function root(state = initialState, action) {
@@ -24,6 +25,11 @@ export default function root(state = initialState, action) {
       return{
         ...state,
         technicals: action.payload.data
+      }
+    case ALL_USERS_BUSINESS:
+      return{
+        ...state,
+        users: action.payload.data
       }
     default:
       return state;

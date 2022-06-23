@@ -7,8 +7,13 @@ import { BiEditAlt } from "react-icons/bi";
 
 import style from "./Departament.module.css";
 import { useLocation, useNavigate } from "react-router-dom";
-import { allDepartament, createDepartament } from "../../../../Redux/Actions/Departament";
+import {
+  allDepartament,
+  createDepartament,
+  updateDepartamentAdmin,
+} from "../../../../Redux/Actions/Departament";
 import { lowerCaseString } from "../../../../Utils/lowerCase";
+import { TiDeleteOutline } from "react-icons/ti";
 
 export default function Departament() {
   const dispatch = useDispatch();
@@ -39,22 +44,32 @@ export default function Departament() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if(input.name === ""){
+    if (input.name === "") {
       setErrors((old) => ({
-        ...old, name:"Debe colocar un nombre de departamento!" 
-      }))
-    }else{
-      var conf = window.confirm("Esta seguro que quiere crear el departamento?");
-      if(conf){
-        dispatch(createDepartament(input.name))
-        alert("Departamento creado con éxitos!")
-        setInput({name:""})
-      }else{
-        alert("El departamento NO se creo!")
-        setInput({name:""})
+        ...old,
+        name: "Debe colocar un nombre de departamento!",
+      }));
+    } else {
+      var conf = window.confirm(
+        "Esta seguro que quiere crear el departamento?"
+      );
+      if (conf) {
+        dispatch(createDepartament(input.name));
+        alert("Departamento creado con éxitos!");
+        setInput({ name: "" });
+      } else {
+        alert("El departamento NO se creo!");
+        setInput({ name: "" });
       }
     }
-    dispatch(allDepartament())
+    dispatch(allDepartament());
+  };
+
+  const handleDelete = async (e) => {
+    const code = await dispatch(updateDepartamentAdmin(e));
+    console.log(code)
+    dispatch(allDepartament());
+
   };
 
   return (
@@ -91,27 +106,26 @@ export default function Departament() {
         <label>
           <h5>Departamentos:</h5>
           {allDepartaments ? (
-            allDepartaments.map((e,i) =>  { return(
-              <div
-              key={i}
-                className={`${style.inputGroup} ${
-                  errors.last_name ? style.error : ""
-                } `}
-              >
-                <input
-           
-                  value={e.name.toUpperCase()}
-                  name="last_name"
-                  onChange={(e) => handleChange(e)}
-          
-                />
-                <BiEditAlt
-                  style={{
-                    width: "1.5em",
-                    height: "1.5em",
-                  }}
-                />
-              </div>)
+            allDepartaments.map((e, i) => {
+              return (
+                <div
+                  key={i}
+                  className={`${style.inputGroup} ${
+                    errors.last_name ? style.error : ""
+                  } `}
+                >
+                  <input
+                    value={e.name.toUpperCase()}
+                    name="last_name"
+                    onChange={(e) => handleChange(e)}
+                  />
+                  <TiDeleteOutline
+                    className={style.icon}
+                    title="Eliminar Departamento"
+                    onClick={() => handleDelete(e)}
+                  />
+                </div>
+              );
             })
           ) : (
             <div>No hay departamentos cargados</div>
